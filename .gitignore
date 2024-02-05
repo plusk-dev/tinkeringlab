@@ -1,0 +1,8 @@
+./venv
+./database.db
+./.cph
+./.idea
+./__pycache__
+./.flake8
+./credentials.json
+./frontend/node_modules
