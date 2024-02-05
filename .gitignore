@@ -1,6 +1,9 @@
-./backend/credentials.json
+credentials.json
+backend/database.db
+frontend/node_modules
 .cph/
 .idea/
-.__pycache__/
+__pycache__/
 database.db
 ./venv
+.flake8
