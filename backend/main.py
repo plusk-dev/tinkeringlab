@@ -1,18 +1,19 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from models import session, Admin
-
+from routes import auth_router
+import logging
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",
-        "localhost:3000"
     ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.mount("/auth", auth_router)
 
 
 async def on_startup():
@@ -28,6 +29,7 @@ async def on_startup():
         )
         )
         session.commit()
+    logging.info("APP STARTED")
 
 
 async def on_shutdown():
@@ -40,3 +42,16 @@ app.add_event_handler("shutdown", on_shutdown)
 @app.get("/")
 async def index(name: str):
     return {"status": name}
+
+
+# async def common_paramters(q: str, skip: int, limit: int):
+#     return {
+#         "q": q,
+#         "skip": skip,
+#         "limit": limit
+#     }
+
+
+# @app.get("/testurl")
+# async def testurl(parameters: Annotated[dict, Depends(common_paramters)], more: str):
+#     return more

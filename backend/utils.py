@@ -4,12 +4,24 @@ import smtplib
 import ssl
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-
 import requests
+from fastapi .responses import JSONResponse
+
+
+def raise_error(message: str, status_code: int) -> JSONResponse:
+    return JSONResponse(
+        content={
+            "error": {
+                "message": message,
+                "status_code": status_code
+            }
+        },
+        status_code=status_code
+    )
 
 
 def get_credential(credential_name: str) -> str:
-    data = json.load(open("credentials.json"))
+    data = json.load(open("../credentials.json"))
     if not data.get("production"):
         return data.get("credentials").get(credential_name)
     else:
