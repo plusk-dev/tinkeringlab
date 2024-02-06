@@ -1,13 +1,13 @@
 from fastapi import FastAPI
 from middleware import JWTMiddleware
-from utils import raise_error
+from utils import raise_error, get_credential
 import re
 import jwt
 import datetime
 
 router = FastAPI()
 email_regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
-JWT_SECRET = "lmaoxd"
+JWT_SECRET = get_credential("JWT_SECRET")
 router.add_middleware(JWTMiddleware)
 
 
