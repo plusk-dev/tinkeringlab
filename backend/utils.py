@@ -5,19 +5,16 @@ import ssl
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import requests
-from fastapi .responses import JSONResponse
+from sqlalchemy import inspect
+
+context = ssl.create_default_context()
 
 
-def raise_error(message: str, status_code: int) -> JSONResponse:
-    return JSONResponse(
-        content={
-            "error": {
-                "message": message,
-                "status_code": status_code
-            }
-        },
-        status_code=status_code
-    )
+def object_as_dict(obj):
+    return {
+        c.key: getattr(obj, c.key)
+        for c in inspect(obj).mapper.column_attrs
+    }
 
 
 def get_credential(credential_name: str) -> str:
@@ -26,9 +23,6 @@ def get_credential(credential_name: str) -> str:
         return data.get("credentials").get(credential_name)
     else:
         return os.environ[credential_name]
-
-
-context = ssl.create_default_context()
 
 
 def generate_email():
