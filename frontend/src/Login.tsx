@@ -4,6 +4,7 @@ import * as React from 'react';
 import { Button } from "./components/ui/button";
 import logo from './assets/logo.svg'
 import { Toaster,toast } from "sonner"
+import { LeafyGreen } from "lucide-react";
 
 
 
@@ -18,7 +19,7 @@ export default function Login() {
       <div className="flex h-1/2 justify-center  bg-zinc-800" >
        
         <div className="flex flex-col text-center pt-10">
-        <Toaster className="bg-black"/>  
+        <Toaster/>  
           <GoogleLogin 
               
                 onSuccess={credentialResponse => {
@@ -26,11 +27,18 @@ export default function Login() {
                     const details:any=jwtDecode(credentialResponse.credential);
                     let info:string[]=details.email.split('@');
                     if(info[1]==="iitjammu.ac.in"){
-                      toast("Logged in successfully.")
+                      toast.success("Logged in successfully.",{
+                        style:{
+                          background:"Chartreuse"
+                        }
+                      })
                     }
                     else{
-                      toast("Uh-oh",{
-                        description:"Please login with the valid email id"
+                      toast.error("Uh-oh",{
+                        description:"Please login with the valid email id",
+                        style:{
+                          background:"red"
+                        }
                       })
                      
                     }
