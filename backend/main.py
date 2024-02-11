@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from models import session, Admin, User
 from fastapi.responses import JSONResponse
 from routes import auth_router
-from utils import get_credential
+from utils import get_credential, object_as_dict
 import re
 import jwt
 import logging
@@ -16,7 +16,7 @@ app.mount("/auth", auth_router)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:3000",
+        "http://localhost:5173",
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -25,7 +25,8 @@ app.add_middleware(
 
 
 async def on_startup():
-    admin = session.query(Admin).filter_by(email="2023uma0224@iitjammu.ac.in").first()
+    admin = session.query(Admin).filter_by(
+        email="2023uma0224@iitjammu.ac.in").first()
     if admin is None:
         session.add(Admin(
             email="2023uma0224@iitjammu.ac.in",
@@ -42,8 +43,8 @@ async def on_startup():
             name="Abhay Punia",
             created_at=datetime.datetime.now()
         ))
+        print("APP STARTED")
         session.commit()
-    logging.info("APP STARTED")
 
 
 async def on_shutdown():
@@ -58,6 +59,25 @@ async def index(name: str):
     return {"status": name}
 
 
+@app.get("/get_level")
+async def get_level(email: str):
+    user = session.query(User).filter_by(email=email).first()
+    if user is None:
+        admin = session.query(Admin).filter_by(email=email).first()
+        if admin is None:
+            return JSONResponse(content={
+                "error": "user with the provided email does not exist."
+            })
+        return {
+            "level": "admin",
+            "admin": object_as_dict(admin)
+        }
+    return {
+        "level": "user",
+        "user": object_as_dict(user)
+    }
+
+
 @app.post("/get_new_token")
 async def get_new_token(email: str):
     if re.fullmatch(email_regex, email):
@@ -65,6 +85,10 @@ async def get_new_token(email: str):
             "email": email,
             "iat": datetime.datetime.utcnow()
         }, key=JWT_SECRET)
-        return token
+        return {
+            "token": token
+        }
     else:
-        return JSONResponse(message="email provided is not a valid email", status_code=400)
+        return JSONResponse(content={
+            "error": "email provided is not a valid email"
+        }, status_code=400)
