@@ -1,11 +1,3 @@
-<!-- Step1-Set virtual environment 
-
-cd to tinkering_lab
-cd venv\Scripts
-activate
-
-uvicorn main:app --port 5000 --reload(in tinkering lab) -->
-
 ## Setup instructions
 - Run `pip install -r requirements.txt`
 this installs all the required  required to run the backend.
