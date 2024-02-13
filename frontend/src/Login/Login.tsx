@@ -4,7 +4,7 @@ import * as React from 'react';
 import { Button } from "@/components/ui/button";
 import logo from './assets/logo.svg'
 import { useToast } from "@/components/ui/use-toast"
-import { getTokenFromStorage, getUrl, postUrl, setToken } from "./utils";
+import { getTokenFromStorage, getUrl, postUrl, setToken } from "../utils";
 import { useState, useEffect } from "react";
 import { Navigate } from "react-router-dom";
 

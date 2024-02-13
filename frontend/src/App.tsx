@@ -1,11 +1,11 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import Login from './Login';
+import Login from "./Login/Login"
 import { Toaster } from "@/components/ui/toaster"
 import Dashboard from './Dashboard';
 import Booking from './Booking';
-
+import './assets/geist.otf';
 
 function App() {
   return (
@@ -19,5 +19,4 @@ function App() {
     </>
   );
 }
-
 export default App;
