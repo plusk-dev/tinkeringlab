@@ -1,9 +1,10 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import './assets/geist.otf';
 import Login from './Login';
 import { Toaster } from "@/components/ui/toaster"
+import Dashboard from './Dashboard';
+import Booking from './Booking';
 
 
 function App() {
@@ -12,6 +13,8 @@ function App() {
       <Toaster />
       <Routes>
         <Route path='/login' element={<Login />} />
+        <Route path='/dashboard' element={<Dashboard />} />
+        <Route path='/dashboard/booking' element={<Booking />} />
       </Routes>
     </>
   );
