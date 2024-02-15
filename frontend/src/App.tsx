@@ -1,10 +1,10 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
-import './assets/geist.otf';
 import Login from './Login/Login';
 import { Toaster } from "@/components/ui/toaster"
-import {LandingPage} from "./Landing_Page/LandingPage";
+import Dashboard from './Dashboard';
+import Booking from './Booking';
 
 
 function App() {
@@ -12,8 +12,9 @@ function App() {
     <>
       <Toaster />
       <Routes>
-        <Route path='/' element={<LandingPage />}/>
         <Route path='/login' element={<Login />} />
+        <Route path='/dashboard' element={<Dashboard />} />
+        <Route path='/dashboard/booking' element={<Booking />} />
       </Routes>
     </>
   );

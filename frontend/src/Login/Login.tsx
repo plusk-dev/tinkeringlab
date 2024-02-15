@@ -30,61 +30,61 @@ export default function Login() {
   if (!redirect) {
     return <>
       <div className="flex h-screen flex-col">
-        <div className="h-1/2 bg-zinc-950 text-center m-auto">
-          <img src={logo} className="h-1/2 w-screen mt-28" />
+        <div className="h-1/2 text-center m-auto">
+          <img src={logo} className="h-1/2 w-screen" />
           <h1 className="text-4xl">Sign In</h1>
-        </div>
-        <div className="flex h-1/2 justify-center bg-zinc-950" >
-          <div className="flex flex-col text-center pt-4">
-            <GoogleLogin
-              onSuccess={credentialResponse => {
-                if (credentialResponse.credential) {
-                  const details: any = jwtDecode(credentialResponse.credential);
-                  let info: string[] = details.email.split('@');
-                  if (info[1] === "iitjammu.ac.in") {
-                    getUrl("/get_level", {
-                      email: details.email
-                    }).then(response => {
-                      let userDetails = response.data;
-                      postUrl("/get_new_token", {
+          <div className="flex h-1/2 justify-center" >
+            <div className="flex flex-col text-center pt-4">
+              <GoogleLogin
+                onSuccess={credentialResponse => {
+                  if (credentialResponse.credential) {
+                    const details: any = jwtDecode(credentialResponse.credential);
+                    let info: string[] = details.email.split('@');
+                    if (info[1] === "iitjammu.ac.in") {
+                      getUrl("/get_level", {
                         email: details.email
                       }).then(response => {
-                        console.log(response.data);
-                        if (response.status == 400) {
-                          toast({
-                            title: "Invalid Email Provided",
-                            variant: "destructive"
-                          })
-                        } else {
-                          setToken(response.data.token);
-                          toast({
-                            title: "Login Successful",
-                            variant: "success"
-                          })
-                          setRedirect(true);
-                          if (userDetails.level == "admin") {
-                            setLevel("/admin/dashboard");
-                          } else if (userDetails.level == "user") {
-                            setLevel("/dashboard");
+                        let userDetails = response.data;
+                        postUrl("/get_new_token", {
+                          email: details.email
+                        }).then(response => {
+                          console.log(response.data);
+                          if (response.status == 400) {
+                            toast({
+                              title: "Invalid Email Provided",
+                              variant: "destructive"
+                            })
+                          } else {
+                            setToken(response.data.token);
+                            toast({
+                              title: "Login Successful",
+                              variant: "success"
+                            })
+                            setRedirect(true);
+                            if (userDetails.level == "admin") {
+                              setLevel("/admin/dashboard");
+                            } else if (userDetails.level == "user") {
+                              setLevel("/dashboard");
+                            }
                           }
-                        }
+                        })
                       })
-                    })
+                    }
+                    else {
+                      toast({
+                        title: "Login Unsuccessful",
+                        description: "Login requires an IIT Jammu Email.",
+                        variant: "destructive"
+                      })
+                    }
                   }
-                  else {
-                    toast({
-                      title: "Login Unsuccessful",
-                      description: "Login requires an IIT Jammu Email.",
-                      variant: "destructive"
-                    })
-                  }
-                }
-              }}
-              onError={() => {
-                console.log('Login Failed');
-              }}
-            />
-            <Button className="mt-3">View as guest</Button>
+                }}
+                onError={() => {
+                  console.log('Login Failed');
+                }}
+              />
+              <Button className="mt-3">View as guest</Button>
+            </div>
           </div>
         </div>
       </div>

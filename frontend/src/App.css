@@ -2,12 +2,35 @@
 
 * {
     font-family: "Inter";
-    color: black;
+    color: rgba(0, 0, 0, 0.767)
+}
+
+.parent {
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 body {
-    background: rgb(186, 54, 184);
-    background: radial-gradient(circle, rgba(186, 54, 184, 0.16523105824360995) 0%, rgba(6, 83, 170, 0.21004898541447825) 48%, rgba(54, 160, 186, 0.207247864966299) 70%, rgba(246, 194, 171, 0.22685570810355393) 89%);
-    /* overflow: hidden; */
+    background: rgb(54, 160, 186);
+    background: radial-gradient(circle, rgba(54, 160, 186, 0.19091386554621848) 15%, rgba(6, 83, 170, 0.21004898541447825) 48%, rgba(54, 160, 186, 0.207247864966299) 70%);
+    overflow: hidden;
 }
 
+.info-card {
+    background: rgba(255, 255, 255, 0.45);
+    /* box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 ); */
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-radius: 10px;
+    border: 1px solid rgb(255, 255, 255);
+}
+
+.navbar {
+    /* background: rgba( 255, 255, 255, 0.45 ); */
+    background-color: transparent;
+    /* box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 ); */
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-radius: 10px;
+    border: 1px solid rgb(255, 255, 255);
+}
