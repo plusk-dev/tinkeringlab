@@ -2,7 +2,7 @@ import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import * as React from 'react';
 import { Button } from "@/components/ui/button";
-import logo from './assets/logo.svg'
+import logo from '../assets/logo.svg'
 import { useToast } from "@/components/ui/use-toast"
 import { getTokenFromStorage, getUrl, postUrl, setToken } from "../utils";
 import { useState, useEffect } from "react";

@@ -12,7 +12,7 @@ function App() {
     <>
       <Toaster />
       <Routes>
-        <Route path='/' element={<LandingPage/>}/>
+        <Route path='/' element={<LandingPage />}/>
         <Route path='/login' element={<Login />} />
       </Routes>
     </>
