@@ -5,6 +5,7 @@ import Login from './Login/Login';
 import { Toaster } from "@/components/ui/toaster"
 import Dashboard from './Dashboard';
 import Booking from './Booking';
+import { LandingPage } from './Landing_Page/LandingPage';
 
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
     <>
       <Toaster />
       <Routes>
+        <Route path='/' element={<LandingPage/>}/>
         <Route path='/login' element={<Login />} />
         <Route path='/dashboard' element={<Dashboard />} />
         <Route path='/dashboard/booking' element={<Booking />} />

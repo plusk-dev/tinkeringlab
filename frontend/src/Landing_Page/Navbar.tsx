@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 
 import { useState } from "react";
 import {useEffect} from "react";
+import mainLogo from '../images/tinker.png'
+import { View } from "lucide-react";
 
 export function Navbar(){
   const navigate=useNavigate();
@@ -35,8 +37,10 @@ export function Navbar(){
   <header className={`sticky border-b-[1px] border-t-[1px] border-black top-0 w-full bg-white" transition-transform transform ${scrolling ? '-translate-y-full' : ''}`}>    
     <NavigationMenu className="max-w-none">
       <NavigationMenuList className="container h-14 px-2 w-screen flex justify-between">
-        <NavigationMenuItem>
-          <div>Tinkering Lab Logo</div>
+        <NavigationMenuItem className="flex">
+          <div>
+            Tinkering Lab Logo
+          </div>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <Button onClick={()=>{navigate("/login")}}>
