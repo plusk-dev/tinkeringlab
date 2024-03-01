@@ -34,16 +34,15 @@ export function Navbar(){
   
 
   return <>
-  <header className={`sticky border-b-[1px] border-t-[1px] border-black top-0 w-full bg-white" transition-transform transform ${scrolling ? '-translate-y-full' : ''}`}>    
+  <header className={`sticky bg-[] border-black top-0 w-full bg-white" transition-transform transform ${scrolling ? '-translate-y-full' : ''}`}>    
     <NavigationMenu className="max-w-none">
-      <NavigationMenuList className="container h-14 px-2 w-screen flex justify-between">
-        <NavigationMenuItem className="flex">
-          <div>
-            Tinkering Lab Logo
-          </div>
+      <NavigationMenuList className="h-14 px-2 w-screen flex justify-between">
+        <NavigationMenuItem className="flex ml-3">
+          <img src={mainLogo} className="w-[45px] h-[45px]"></img>
+          <div className="flex items-center px-1 font-bold font-white">TINKERERS' LAB</div>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Button onClick={()=>{navigate("/login")}}>
+          <Button className="mr-5 bg-[#003f87]"onClick={()=>{navigate("/login")}}>
             Login
           </Button>
         </NavigationMenuItem>

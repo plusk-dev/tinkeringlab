@@ -16,6 +16,8 @@ import {
 } from "@/components/ui/table"
 import { useState, useEffect } from "react";
 export default function Dashboard() {
+
+	
 	const [isSmall, setisSmall] = useState(false);
 	window.addEventListener("resize", (_) => {
 		setisSmall(window.innerWidth <= 1000);
@@ -23,6 +25,8 @@ export default function Dashboard() {
 	useEffect(() => {
 		setisSmall(window.innerWidth <= 1000);
 	}, [])
+
+
 	return (
 		<div className="h-screen parent">
 			<Navbar />
