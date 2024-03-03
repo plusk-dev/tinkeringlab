@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import {useEffect} from "react";
 import mainLogo from '../images/tinker.png'
-import { View } from "lucide-react";
+
 
 export function Navbar(){
   const navigate=useNavigate();

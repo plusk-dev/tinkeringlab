@@ -2,7 +2,7 @@ import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import * as React from 'react';
 import { Button } from "@/components/ui/button";
-import logo from '../assets/logo.svg'
+import mainLogo from '../images/tinker.png'
 import { useToast } from "@/components/ui/use-toast"
 import { getTokenFromStorage, getUrl, postUrl, setToken } from "../utils";
 import { useState, useEffect } from "react";
@@ -30,8 +30,8 @@ export default function Login() {
   if (!redirect) {
     return <>
       <div className="flex h-screen flex-col">
-        <div className="h-1/2 text-center m-auto">
-          <img src={logo} className="h-1/2 w-screen" />
+        <div className="h-1/2 flex flex-col items-center text-center m-auto">
+          <img src={mainLogo} className="h-1/2" />
           <h1 className="text-4xl">Sign In</h1>
           <div className="flex h-1/2 justify-center" >
             <div className="flex flex-col text-center pt-4">

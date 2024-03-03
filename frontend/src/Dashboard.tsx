@@ -15,6 +15,10 @@ import {
 	TableRow,
 } from "@/components/ui/table"
 import { useState, useEffect } from "react";
+import mainLogo from "./images/tinker.png"
+
+
+
 export default function Dashboard() {
 
 	
@@ -31,8 +35,8 @@ export default function Dashboard() {
 		<div className="h-screen parent">
 			<Navbar />
 			<div className="p-4 pt-6 h-5/6">
-				<h1 className="text-4xl tracking-tight">
-					Good Morning, Ronaldo</h1>
+				<h1 className="text-4xl tracking-tight font-medium ">
+					Welcome!</h1>
 				<div className={isSmall ? "pt-6 gap-4 header-cards" : "pt-6 gap-4 header-cards flex h-full"}>
 					<Card className={isSmall ? "p-4 mt-2 drop-shadow-xl info-card max-h-1/2" : "drop-shadow-xl w-screen p-4 info-card"}>
 						<CardTitle>Components Available</CardTitle>

@@ -5,6 +5,7 @@ let BASE_URL = "http://127.0.0.1:5000";
 async function getUrl(url: string, params: any): Promise<AxiosResponse> {
   try {
     const response = await axios.get(BASE_URL + url, { params });
+    console.log("HI"+ response)
     return response;
   } catch (error: any) {
     throw new Error(`Error fetching data: ${error.message}`);

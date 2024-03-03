@@ -1,6 +1,6 @@
 import React from "react";
-import "./App.css";
-import Navbar from "./components/ui/Navbar";
+import "../App.css";
+import Navbar from "../components/ui/Navbar";
 import { format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
 
@@ -22,7 +22,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select"
-export default function Booking() {
+export default function Component() {
 	const [date, setDate] = React.useState<Date>()
 	const [isSmall, setisSmall] = React.useState(false);
 	window.addEventListener("resize", (_) => {
@@ -38,7 +38,7 @@ export default function Booking() {
 				<h1 className="text-3xl">Issue a component</h1>
 				<br />
 				<div className={isSmall ? "" : "flex gap-2"}>
-					<div className=" w-full">
+					<div className="w-full">
 						Select a component
 						<Select>
 							<SelectTrigger>
