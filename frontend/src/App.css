@@ -34,3 +34,12 @@ body {
     border-radius: 10px;
     border: 1px solid rgb(255, 255, 255);
 }
+.diamond-shape {
+    margin-right: 15px;
+    border-radius: 7px;
+    background-image: url("https://i.pinimg.com/236x/03/4b/de/034bde783ea726b922100c86547831e8.jpg");
+    text-align: center;
+    background-size: contain;
+    transform:rotate(45deg);
+    border: 1px solid black;
+}

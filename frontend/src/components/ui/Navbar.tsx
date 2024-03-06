@@ -23,7 +23,7 @@ export default function Navbar() {
 				</Link>
 				<Button variant="ghost" className={!isSmall ? "hidden" : ""} onClick={() => setHidden(!hidden)}><GiHamburgerMenu /></Button>
 			</div>
-			<div className={isSmall ? "flex-col flex hidden" + (!hidden ? "hidden" : "") : "flex items-center justify-end"}>
+			<div className={isSmall ? "flex-col flex" + (!hidden ? "hidden" : "") : "flex items-center justify-end"}>
 				<Link to="/login" className="p-3 hover:bg-zinc-300 hover:rounded-lg">My Bookings</Link>
 				<Link to="/dashboard/machine" className="p-3 hover:bg-zinc-300 hover:rounded-lg">Book a machine</Link>
 				<Link to="/dashboard/booking" className="p-3 hover:bg-zinc-300 hover:rounded-lg">Issue a component</Link>
