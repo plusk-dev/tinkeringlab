@@ -2,17 +2,16 @@ from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from models import session, Admin, User
 from fastapi.responses import JSONResponse
-from routes import auth_router
+from routes import bookings_router
 from utils import get_credential, object_as_dict
 import re
 import jwt
-import logging
 import datetime
 
 email_regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
 JWT_SECRET = get_credential("JWT_SECRET")
 app = FastAPI()
-app.mount("/auth", auth_router)
+app.mount("/bookings", bookings_router)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
