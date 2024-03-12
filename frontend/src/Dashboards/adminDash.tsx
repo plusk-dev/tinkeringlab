@@ -38,8 +38,7 @@ export default function AdminDashboard() {
             {/*req handling*/}
 
             <ReqHandler></ReqHandler>
-
-
+    
             <Card className="min-h-full info-card m-1 flex-1 p-4">
               <CardTitle className="p-1">
                 Resources in use
