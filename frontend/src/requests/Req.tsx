@@ -12,7 +12,7 @@ interface Data {
 const Req: React.FC<Data> = (props) => {
   return (
     <>
-      <Card className="info-card">
+      <Card className="info-card mt-2">
         <CardContent className="flex justify-between flex-1 mt-5">
           <h2 className="font-medium">{props.name}</h2>
           <h2>{props.type}</h2>

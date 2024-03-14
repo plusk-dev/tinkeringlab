@@ -1,9 +1,10 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Card, CardTitle } from "@/components/ui/card";
 import Req from "./Req";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectItem } from "../components/ui/select";
 import saaman from "./testData";
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { Input } from "@/components/ui/input"
 
 interface Data {
   name: string;
@@ -19,6 +20,15 @@ export default function ReqHandler() {
   const [loading, setLoading] = useState(false);
   const searchTimeout = useRef<NodeJS.Timeout | null>(null);
 
+  const [isSmall, setisSmall] = useState(false);
+  window.addEventListener("resize", (_) => {
+    setisSmall(window.innerWidth <= 1000);
+  })
+  useEffect(() => {
+    setisSmall(window.innerWidth <= 1000);
+  }, [])
+
+
   const fetchMoreData = () => {
     if (items.length >= saaman.length) {
       setHasMore(false);
@@ -32,11 +42,8 @@ export default function ReqHandler() {
   };
 
   const handleChange = (value: string) => {
-    if(value === "None") {
-      setResultArray(saaman);
-      return;
-    }
-    const filteredArray = saaman.filter((item) => item.type === value);
+
+    const filteredArray = saaman.filter((item) => item.type === value || value === "None");
     setResultArray(filteredArray);
     setItems(filteredArray.slice(0, 10)); // Reset items to the first page of filtered data
     setHasMore(filteredArray.length > 10); // Update hasMore based on filtered data length
@@ -45,11 +52,11 @@ export default function ReqHandler() {
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newSearchQuery = event.target.value;
     setSearchQuery(newSearchQuery);
-  
+
     if (searchTimeout.current) {
       clearTimeout(searchTimeout.current);
     }
-  
+
     searchTimeout.current = setTimeout(() => {
       let newArray = saaman.filter(
         (item) => item.name.toLowerCase().includes(newSearchQuery.toLowerCase())
@@ -57,15 +64,15 @@ export default function ReqHandler() {
       setResultArray(newArray);
       setItems(newArray.slice(0, 10)); // Reset items to the first page of filtered data
       setHasMore(newArray.length > 10); // Update hasMore based on filtered data length
-    }, 300); // Debounce time
+    }, 100); // Debounce time
   };
 
   return (
     <>
-      <Card className=" info-card m-1 mb-0 flex-1 p-4 ">
+      <Card className={isSmall ? "hidden" : "info-card m-1 mb-0 flex-1 p-4"}>
         <div className="flex justify-between">
           <CardTitle className="p-1">Requests</CardTitle>
-          <input
+          <Input
             type="search"
             placeholder="Search..."
             value={searchQuery}
@@ -87,14 +94,14 @@ export default function ReqHandler() {
               </SelectContent>
             </Select>
           </div>
-        </div>      
+        </div>
         <InfiniteScroll
-        className="mt-2"
+          className="mt-2"
           dataLength={items.length}
           next={fetchMoreData}
           hasMore={hasMore && !loading}
           loader={<h4>Loading...</h4>}
-          height={675}
+          height={window.innerHeight*0.8}
           endMessage={
             <p style={{ textAlign: "center" }}>
               <b>Yay! You have seen it all</b>
