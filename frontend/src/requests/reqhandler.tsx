@@ -69,6 +69,7 @@ export default function ReqHandler() {
 
   return (
     <>
+
       <Card className={isSmall ? "hidden" : "info-card m-1 mb-0 flex-1 p-4"}>
         <div className="flex justify-between">
           <CardTitle className="p-1">Requests</CardTitle>
@@ -79,6 +80,7 @@ export default function ReqHandler() {
             onChange={handleSearchChange}
             className="p-2 border border-gray-300 rounded mx-2 flex-1"
           />
+
           <div>
             <Select onValueChange={handleChange}>
               <SelectTrigger>
@@ -95,6 +97,7 @@ export default function ReqHandler() {
             </Select>
           </div>
         </div>
+
         <InfiniteScroll
           className="mt-2"
           dataLength={items.length}
