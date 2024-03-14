@@ -24,7 +24,7 @@ export default function AdminDashboard() {
           <h1 className="pl-3 pt-3 text-4xl font-medium">Welcome!</h1>
           <div className={`${isSmall ? "flex flex-col" : "flex"}`}>
 
-            <Card className="flex-1 m-1  danger p-4">
+            <Card className="flex-1 m-1  border-red-500 info-card p-4">
               <CardTitle className="text-xl flex items-center gap-1">
                 <AlertTriangle />
                 Overdue
@@ -63,20 +63,20 @@ export default function AdminDashboard() {
                   </Card>
                 </div>
 
-                <CardTitle className="p-1">Overdue resources</CardTitle>
+                <CardTitle className="p-1 pt-4">Overdue resources</CardTitle>
 
                 <div className="flex-1 flex">
-                  <Card className="flex-1 m-1 danger p-4">
+                  <Card className="flex-1 m-1 border-red-500 info-card p-4">
                     <CardTitle className="text-xl">Components </CardTitle>
                     <CardDescription>Overdue components</CardDescription>
                     <span className="text-4xl">3/</span><span>10</span>
                   </Card>
-                  <Card className="flex-1 m-1 danger p-4">
+                  <Card className="flex-1 m-1 border-red-500 info-card p-4">
                     <CardTitle className="text-xl">Machines </CardTitle>
                     <CardDescription>machines overused</CardDescription>
                     <span className="text-4xl">3/</span><span>10</span>
                   </Card>
-                  <Card className="flex-1 m-1 danger p-4">
+                  <Card className="flex-1 m-1 border-red-500 info-card p-4">
                     <CardTitle className="text-xl">Workstations</CardTitle>
                     <CardDescription>workstations overused</CardDescription>
                     <span className="text-4xl">3/</span><span>10</span>
