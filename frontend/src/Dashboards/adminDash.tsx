@@ -18,25 +18,12 @@ export default function AdminDashboard() {
 
   return (
     <>
-      <div className={`hover:rounded-lg ${isSmall ? "" : "flex"}`}>
+      <div className={`hover:rounded-lg ${isSmall ? "" : "flex"} max-h-screen`}>
         <Sidebar />
-        <div className="flex flex-col w-screen ps-1 pe-1">
+        <div className="flex flex-col w-screen ps-1 pe-1 max-h-screen overflow-auto">
           <h1 className="pl-3 pt-3 text-4xl font-medium">Welcome!</h1>
-          <div className={`${isSmall ? "flex flex-col" : "flex"}`}>
 
-            <Card className="flex-1 m-1  border-red-500 info-card p-4">
-              <CardTitle className="text-xl flex items-center gap-1">
-                <AlertTriangle />
-                Overdue
-              </CardTitle>
-              <CardDescription>Overdue parts</CardDescription>
-              <span className="text-4xl">3</span>
-            </Card>
-          </div>
-
-          <div className={isSmall ? "hidden" : "flex h-full mb-1"}>
-            {/*req handling*/}
-
+          <div className={isSmall ? "" : "flex-1 flex h-full mb-1"}>
             <ReqHandler></ReqHandler>
 
 
@@ -63,20 +50,20 @@ export default function AdminDashboard() {
                   </Card>
                 </div>
 
-                <CardTitle className="p-1 pt-4">Overdue resources</CardTitle>
+                <CardTitle className="p-1">Overdue resources</CardTitle>
 
                 <div className="flex-1 flex">
-                  <Card className="flex-1 m-1 border-red-500 info-card p-4">
+                  <Card className="flex-1 m-1 danger p-4">
                     <CardTitle className="text-xl">Components </CardTitle>
                     <CardDescription>Overdue components</CardDescription>
                     <span className="text-4xl">3/</span><span>10</span>
                   </Card>
-                  <Card className="flex-1 m-1 border-red-500 info-card p-4">
+                  <Card className="flex-1 m-1 danger p-4">
                     <CardTitle className="text-xl">Machines </CardTitle>
                     <CardDescription>machines overused</CardDescription>
                     <span className="text-4xl">3/</span><span>10</span>
                   </Card>
-                  <Card className="flex-1 m-1 border-red-500 info-card p-4">
+                  <Card className="flex-1 m-1 danger p-4">
                     <CardTitle className="text-xl">Workstations</CardTitle>
                     <CardDescription>workstations overused</CardDescription>
                     <span className="text-4xl">3/</span><span>10</span>
