@@ -22,28 +22,23 @@ import {
 } from "@/components/ui/select"
 import { useState } from "react";
 
+
+
+
 export default function Component() {
-
+  
+  const durations:string[]=["1","2","3","4","5"]
   const [selectedDuration, setSelectedDuration] = useState('');
-  const [timeSlots, setTimeSlots] = useState(['Select Duration']);
+  const [startTime, setStartTime] = useState(['Select Duration']);
 
-  const getTimeSlots = (duration:string):string[] => {
-    switch (duration) {
-      case '1':
-        return ['12:00-1:00', '1:00-2:00', '2:00-3:00', '3:00-4:00', '4:00-5:00', '5:00-6:00', '6:00-7:00', '7:00-8:00'];
-      case '2':
-        return ['12-2', '2-4', '4-6','6-8'];
-      case '3':
-        return ['12-3', '3-6', '6-9'];
-      default:
-        return ['Pls select Duration'];
-    }
+  const getstartTime = (duration:string):string[] => {
+      return []
   };
 
   const handleDurationChange = (value:string) => {
     setSelectedDuration(value);
-    const slots:string[] = getTimeSlots(value);
-    setTimeSlots(slots);
+    const slots:string[] = getstartTime(value);
+    setStartTime(slots);
   };
 
 
@@ -115,10 +110,10 @@ export default function Component() {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
-                        <SelectItem value="1">1 hour</SelectItem>
-                        <SelectItem value="2">2 hours</SelectItem>
-                        <SelectItem value="3">3 hours</SelectItem>
-                      </SelectGroup>
+                        {durations.map((items)=>{
+                          return <SelectItem value={items}>{items} hours</SelectItem>
+                        })}
+                        </SelectGroup>
                     </SelectContent>
                 </Select>
             </div>
@@ -130,7 +125,7 @@ export default function Component() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                    {timeSlots.map((slot) => (
+                    {startTime.map((slot) => (
                       <SelectItem key={slot} value={slot}>
                         {slot}
                       </SelectItem>

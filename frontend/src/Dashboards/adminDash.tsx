@@ -21,13 +21,18 @@ export default function AdminDashboard() {
       <div className={`hover:rounded-lg ${isSmall ? "" : "flex"} max-h-screen`}>
         <Sidebar />
         <div className="flex flex-col w-screen ps-1 pe-1 max-h-screen overflow-auto">
-          <h1 className="pl-3 pt-3 text-4xl font-medium">Welcome!</h1>
+        <div className="flex m-1">
+					<Card className="w-full flex info-card">
+						<div className="diamond-shape m-5 h-14 w-14"></div>
+						<h1 className="text-3xl tracking-tight pl-2 font-medium flex items-center">
+							Welcome! Vikas</h1>
+					</Card>
+				</div>
 
           <div className={isSmall ? "" : "flex-1 flex h-full mb-1"}>
             <ReqHandler></ReqHandler>
     
-            <Card className="h-full info-card m-1 flex-1 p-4">
-      
+            <Card className="h-full info-card m-1 flex-1 p-4">    
               <div className={isSmall ? "" : "h-full flex flex-col overflow-y-scroll"}>
                 <div className="flex-1 flex flex-col gap-1">
                   <CardTitle>Components</CardTitle>
@@ -69,9 +74,6 @@ export default function AdminDashboard() {
                       <span className="text-4xl">3/</span><span>10</span>
                     </Card>
                   </div>
-
-                  
-                 
                 </div>
                 
               </div>

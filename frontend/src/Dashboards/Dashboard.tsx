@@ -15,7 +15,7 @@ import {
 	TableRow,
 } from "@/components/ui/table"
 import { useState, useEffect } from "react";
-import mainLogo from "./images/tinker.png"
+
 
 
 
