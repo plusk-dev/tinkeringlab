@@ -18,6 +18,7 @@ class Admin(Base):
 class Component(Base):
     __tablename__ = "Component"
     id = Column(Integer, primary_key=True)
+    name = Column(String, nullable=False)
     total = Column(Integer, nullable=False)
     booked = Column(Integer, nullable=False)
 
@@ -77,7 +78,7 @@ class MachineBooking(Base):
 class Workstation(Base):
     __tablename__ = "Workstation"
     id = Column(Integer, primary_key=True)
-    name = Column(Boolean, nullable=False)
+    name = Column(String, nullable=False)
     booked = Column(Boolean, nullable=False)
 
 
@@ -85,7 +86,8 @@ class WorkstationBooking(Base):
     __tablename__ = "WorkstationBooking"
     id = Column(Integer, primary_key=True)
     description = Column(String, nullable=False)
-    workstation_id = Column(Integer, ForeignKey("Workstation.id"), nullable=False)
+    workstation_id = Column(Integer, ForeignKey(
+        "Workstation.id"), nullable=False)
     user_id = Column(Integer, ForeignKey("User.id"), nullable=False)
     created_at = Column(DateTime, nullable=False)
     start = Column(DateTime, nullable=False)

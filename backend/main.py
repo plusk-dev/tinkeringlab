@@ -33,8 +33,6 @@ async def on_startup():
             name="Yuvraj Motiramani",
             phone="6355291145",
             admin=True,
-            lab_tech=False,
-            tl_head=False
         )
         )
         session.add(User(
