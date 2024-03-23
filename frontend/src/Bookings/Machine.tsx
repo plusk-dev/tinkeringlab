@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../App.css";
 import Navbar from "../components/ui/Navbar";
 import { format } from "date-fns"
@@ -26,7 +26,6 @@ export default function Component() {
 
   const [selectedDuration, setSelectedDuration] = useState('');
   const [timeSlots, setTimeSlots] = useState(['Select Duration']);
-
   const getTimeSlots = (duration:string):string[] => {
     switch (duration) {
       case '1':

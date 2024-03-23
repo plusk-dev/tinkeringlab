@@ -40,3 +40,4 @@ async def create_component_booking(component_id: int, start: datetime.datetime, 
     session.add(booking)
     session.commit()
     return object_as_dict(booking)
+

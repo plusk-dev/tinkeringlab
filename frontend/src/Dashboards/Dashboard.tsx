@@ -14,27 +14,28 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table"
-import { useState, useEffect } from "react";
-import mainLogo from "./images/tinker.png"
-
-
+import { useState, useEffect, useRef } from "react";
 
 export default function Dashboard() {
-
-
 	const [isSmall, setisSmall] = useState(false);
+	const authenticated = useRef(false);
 	window.addEventListener("resize", (_) => {
 		setisSmall(window.innerWidth <= 1000);
 	})
 	useEffect(() => {
 		setisSmall(window.innerWidth <= 1000);
+		if (!authenticated.current) {
+			console.log("authenticating....");
+			authenticated.current = true;
+		} else {
+			console.log("authenticated")
+		}
 	}, [])
-
 
 	return (
 		<div className="h-screen parent">
 			<Navbar />
-			<div className="p-4 pt-6 h-5/6">
+			<div className="p-4 pt-4 h-5/6">
 				<div className="flex">
 					<Card className="w-full flex info-card">
 						<div className="diamond-shape m-5 h-14 w-14"></div>

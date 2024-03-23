@@ -2,8 +2,6 @@ import React from "react"
 import Sidebar from "@/components/ui/Sidebar"
 import { Card, CardDescription, CardTitle } from "@/components/ui/card"
 import { useState, useEffect } from "react";
-import { AlertTriangle } from "lucide-react";
-import { Table, TableRow, TableHeader, TableHead, TableBody, TableCell } from "@/components/ui/table";
 import ReqHandler from "@/requests/reqhandler";
 
 export default function AdminDashboard() {
@@ -25,49 +23,53 @@ export default function AdminDashboard() {
 
           <div className={isSmall ? "" : "flex-1 flex h-full mb-1"}>
             <ReqHandler></ReqHandler>
+    
+            <Card className="h-full info-card m-1 flex-1 p-4">
+      
+              <div className={isSmall ? "" : "h-full flex flex-col overflow-y-scroll"}>
+                <div className="flex-1 flex flex-col gap-1">
+                  <CardTitle>Components</CardTitle>
+                  <div className="flex flex-1">
+                    <Card className="flex-1 m-1 info-card p-4">
+                      <CardTitle className="text-xl">Issued</CardTitle>
+                      <CardDescription>Components being used</CardDescription>
+                      <span className="text-4xl">3/</span><span>10</span>
+                    </Card>
+                    <Card className="flex-1 m-1 danger p-4">
+                      <CardTitle className="text-xl">Overdue </CardTitle>
+                      <CardDescription>Overdue components</CardDescription>
+                      <span className="text-4xl">3/</span><span>10</span>
+                    </Card>
+                  </div>
+                  <CardTitle>Machines</CardTitle>
+                  <div className="flex flex-1">
+                    <Card className="flex-1 m-1 info-card p-4">
+                      <CardTitle className="text-xl">In use</CardTitle>
+                      <CardDescription>all machines in use</CardDescription>
+                      <span className="text-4xl">3/</span><span>10</span>
+                    </Card>
+                    <Card className="flex-1 m-1 danger p-4">
+                      <CardTitle className="text-xl">Overdue</CardTitle>
+                      <CardDescription>machines overused</CardDescription>
+                      <span className="text-4xl">3/</span><span>10</span>
+                    </Card>
+                  </div>
+                  <CardTitle>Workstations</CardTitle>
+                  <div className="flex flex-1">
+                    <Card className="flex-1 m-1 info-card p-4">
+                      <CardTitle className="text-xl">Workstations in use</CardTitle>
+                      <CardDescription>all workstations in use</CardDescription>
+                      <span className="text-4xl">3/</span><span>10</span>
+                    </Card>
+                    <Card className="flex-1 m-1 danger p-4">
+                      <CardTitle className="text-xl">Overdue</CardTitle>
+                      <CardDescription>workstations overused</CardDescription>
+                      <span className="text-4xl">3/</span><span>10</span>
+                    </Card>
+                  </div>
 
-
-            <Card className="min-h-full info-card m-1 flex-1 p-4">
-              <CardTitle className="p-1">
-                Resources in use
-              </CardTitle>
-              <div className={isSmall ? "hidden" : "h-4/5 flex flex-col overflow-y-scroll"}>
-                <div className="flex-1 flex">
-                  <Card className="flex-1 m-1 info-card p-4">
-                    <CardTitle className="text-xl">Components in use</CardTitle>
-                    <CardDescription>Overall qty of all components</CardDescription>
-                    <span className="text-4xl">3/</span><span>10</span>
-                  </Card>
-                  <Card className="flex-1 m-1 info-card p-4">
-                    <CardTitle className="text-xl">Machines in use</CardTitle>
-                    <CardDescription>all machines in use</CardDescription>
-                    <span className="text-4xl">3/</span><span>10</span>
-                  </Card>
-                  <Card className="flex-1 m-1 info-card p-4">
-                    <CardTitle className="text-xl">Workstations in use</CardTitle>
-                    <CardDescription>all workstations in use</CardDescription>
-                    <span className="text-4xl">3/</span><span>10</span>
-                  </Card>
-                </div>
-
-                <CardTitle className="p-1">Overdue resources</CardTitle>
-
-                <div className="flex-1 flex">
-                  <Card className="flex-1 m-1 danger p-4">
-                    <CardTitle className="text-xl">Components </CardTitle>
-                    <CardDescription>Overdue components</CardDescription>
-                    <span className="text-4xl">3/</span><span>10</span>
-                  </Card>
-                  <Card className="flex-1 m-1 danger p-4">
-                    <CardTitle className="text-xl">Machines </CardTitle>
-                    <CardDescription>machines overused</CardDescription>
-                    <span className="text-4xl">3/</span><span>10</span>
-                  </Card>
-                  <Card className="flex-1 m-1 danger p-4">
-                    <CardTitle className="text-xl">Workstations</CardTitle>
-                    <CardDescription>workstations overused</CardDescription>
-                    <span className="text-4xl">3/</span><span>10</span>
-                  </Card>
+                  
+                 
                 </div>
                 
               </div>
