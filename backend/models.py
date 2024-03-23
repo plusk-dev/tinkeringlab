@@ -11,8 +11,8 @@ class Admin(Base):
     email = Column(String, nullable=False, unique=True)
     phone = Column(String, nullable=False, unique=True)
     admin = Column(Boolean, nullable=False)
-    lab_tech = Column(Boolean, nullable=False)
-    tl_head = Column(Boolean, nullable=False)
+    lab_tech = Column(Boolean, nullable=False, default=False)
+    tl_head = Column(Boolean, nullable=False, default=False)
 
 
 class Component(Base):

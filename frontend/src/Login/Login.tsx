@@ -13,12 +13,13 @@ export default function Login() {
   const { toast } = useToast();
   const [redirect, setRedirect] = useState(false);
   const [level, setLevel] = useState("");
-  
+
   useEffect(() => {
     if (getTokenFromStorage() != null) {
       getUrl("/get_level", {
         email: ""
       }).then(response => {
+        console.log(response.data);
         if (response.data.level == "admin") {
           setLevel("/admin/dashboard")
         } else {

@@ -39,7 +39,7 @@ async def on_startup():
             student_id="2023uma0201",
             email="2023uma0201@iitjammu.ac.in",
             name="Abhay Punia",
-            created_at=datetime.datetime.now()
+            created_at=datetime.datetime.now(),
         ))
         print("APP STARTED")
         session.commit()

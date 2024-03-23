@@ -10,14 +10,14 @@ interface Data {
   name: string;
   type: string;
   id: string;
-  status:string
-  desc:string
+  status: string
+  desc: string
   expiryDate: Date
 }
 
 
 export default function ReqHandler() {
-  const [mainData,setMaindata]=useState<Data[]>(saaman)
+  const [mainData, setMaindata] = useState<Data[]>(saaman)
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [items, setItems] = useState(mainData.slice(0, 10)); // Load initial items
   const [hasMore, setHasMore] = useState(true);
@@ -59,7 +59,7 @@ export default function ReqHandler() {
     const filteredArray = mainData.filter((item) => item.type === value || value === "None");
 
     setItems(filteredArray.slice(0, 10));
-    setHasMore(filteredArray.length > 10); 
+    setHasMore(filteredArray.length > 10);
   };
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,8 +74,8 @@ export default function ReqHandler() {
       let newArray = mainData.filter(
         (item) => item.name.toLowerCase().includes(newSearchQuery.toLowerCase())
       );
-     
-      setItems(newArray.slice(0, 10)); 
+
+      setItems(newArray.slice(0, 10));
       setHasMore(newArray.length > 10);
     }, 100); // Debounce time
   };
@@ -117,16 +117,17 @@ export default function ReqHandler() {
           next={fetchMoreData}
           hasMore={hasMore && !loading}
           loader={<h4>Loading...</h4>}
-          height={window.innerHeight*0.8}
+          height={window.innerHeight * 0.8}
           endMessage={
             <p style={{ textAlign: "center" }}>
               <b>Yay! You have seen it all</b>
             </p>
           }
         >
-          {items.map((item) => (
-            <Req key={item.id} data={item} updateStatus={updateStatus} />
-          ))}
+          {items.map((item) => {
+            if (item.status === "unresolved")
+              return <Req key={item.id} data={item} updateStatus={updateStatus} />
+          })}
         </InfiniteScroll>
       </Card>
     </>
