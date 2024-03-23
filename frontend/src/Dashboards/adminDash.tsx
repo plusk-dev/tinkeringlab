@@ -2,8 +2,6 @@ import React from "react"
 import Sidebar from "@/components/ui/Sidebar"
 import { Card, CardDescription, CardTitle } from "@/components/ui/card"
 import { useState, useEffect } from "react";
-import { AlertTriangle } from "lucide-react";
-import { Table, TableRow, TableHeader, TableHead, TableBody, TableCell } from "@/components/ui/table";
 import ReqHandler from "@/requests/reqhandler";
 
 export default function AdminDashboard() {
