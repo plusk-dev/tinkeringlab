@@ -39,7 +39,7 @@ const saaman: Data[] =
   {name:"hello",type:"Component",id:"26",status:"unresolved",desc:"balls",expiryDate:new Date("2024-03-28")},
   {name:"hello",type:"Machine",id:"27",status:"resolved",desc:"balls",expiryDate:new Date("2024-03-28")},
   {name:"hello",type:"Component",id:"28",status:"unresolved",desc:"balls",expiryDate:new Date("2024-03-28")},
-  {name:"hello",type:"Machine",id:"29",status:"unresolved",desc:"balls",expiryDate:new Date("2024-03-28")},
+  {name:"hello",type:"Workstation",id:"29",status:"unresolved",desc:"balls",expiryDate:new Date("2024-03-28")},
   {name:"hello",type:"Component",id:"30",status:"unresolved",desc:"balls",expiryDate:new Date("2024-03-28")},
   {name:"hello",type:"Machine",id:"31",status:"unresolved",desc:"balls",expiryDate:new Date("2024-03-28")},
   {name:"hello",type:"Machine",id:"32",status:"resolved",desc:"balls",expiryDate:new Date("2024-03-28")},
