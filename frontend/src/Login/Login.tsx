@@ -13,6 +13,7 @@ export default function Login() {
   const { toast } = useToast();
   const [redirect, setRedirect] = useState(false);
   const [level, setLevel] = useState("");
+  
   useEffect(() => {
     if (getTokenFromStorage() != null) {
       getUrl("/get_level", {
@@ -27,6 +28,7 @@ export default function Login() {
       })
     }
   })
+
   if (!redirect) {
     return <>
       <div className="flex h-screen flex-col">

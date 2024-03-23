@@ -21,6 +21,10 @@ import {
 	SelectValue,
 } from "@/components/ui/select"
 import { useState } from "react";
+import Timededo from "@/components/ui/timePicker";
+
+
+
 
 export default function Component() {
 
@@ -49,16 +53,6 @@ export default function Component() {
 
 
 	const [date, setDate] = React.useState<Date>()
-	const [isSmall, setisSmall] = React.useState(false);
-	window.addEventListener("resize", (_) => {
-		setisSmall(window.innerWidth <= 1000);
-	})
-	React.useEffect(() => {
-		setisSmall(window.innerWidth <= 1000);
-	}, [])
-
-
-
 	return (
 		<div className="h-screen parent">
 			<Navbar />
@@ -81,8 +75,8 @@ export default function Component() {
 				</div>
 
 
-          <div className={isSmall?"flex flex-col":"flex"}>
-          <div className={`flex-1 my-2 ${isSmall?``:`mr-2`}`}>
+          <div className="flex flex-col">
+          <div className={`my-2 `}>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
@@ -106,38 +100,16 @@ export default function Component() {
                 </PopoverContent>
               </Popover>
             </div>
-
-            <div className={`flex-1 ${isSmall?``:`mr-2 my-2 `}`}>
-              <Select value={selectedDuration} onValueChange={handleDurationChange}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Duration" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectItem value="1">1 hour</SelectItem>
-                        <SelectItem value="2">2 hours</SelectItem>
-                        <SelectItem value="3">3 hours</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                </Select>
-            </div>
-
-            <div className="my-2 flex-1">
-              <Select>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select Time Slot" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                    {timeSlots.map((slot) => (
-                      <SelectItem key={slot} value={slot}>
-                        {slot}
-                      </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-              </Select>
-            </div>
+              Start Time:
+              <div className={`flex flex-col justify-center mb-2`}>
+                  
+                  <Timededo />
+              </div>
+              End Time:
+              <div className="flex items-center mb-2">
+                  <Timededo />
+              </div>
+                         
         </div>
 
 

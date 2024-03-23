@@ -12,6 +12,7 @@ import Workstation from './Bookings/workstation';
 import ReqMach from './requests/machinereq';
 import WorkMech from './requests/workstationreq';
 import Reqcomp from './requests/componentreq';
+import ReqPage from './requests/requestPage';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path='/admin/dashboard/machine' element={<ReqMach/>} />
         <Route path='/admin/dashboard/workstation' element={<WorkMech/>} />
         <Route path='/admin/dashboard/component' element={<Reqcomp/>} />
+        
       </Routes>
     </>
   );

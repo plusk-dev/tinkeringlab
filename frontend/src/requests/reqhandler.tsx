@@ -10,12 +10,16 @@ interface Data {
   name: string;
   type: string;
   id: string;
+  status:string
+  desc:string
+  expiryDate: Date
 }
 
+
 export default function ReqHandler() {
-  const [resultArray, setResultArray] = useState(saaman);
+  const [mainData,setMaindata]=useState<Data[]>(saaman)
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [items, setItems] = useState(saaman.slice(0, 10)); // Load initial items
+  const [items, setItems] = useState(mainData.slice(0, 10)); // Load initial items
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
   const searchTimeout = useRef<NodeJS.Timeout | null>(null);
@@ -28,25 +32,34 @@ export default function ReqHandler() {
     setisSmall(window.innerWidth <= 1000);
   }, [])
 
+  const updateStatus = (requestId: string, newStatus: string) => {
+    const updatedData = items.map(req => {
+      if (req.id === requestId) {
+        return { ...req, status: newStatus };
+      }
+      return req;
+    });
+    setItems(updatedData);
+  };
 
   const fetchMoreData = () => {
-    if (items.length >= saaman.length) {
+    if (items.length >= mainData.length) {
       setHasMore(false);
       return;
     }
     setLoading(true);
     setTimeout(() => {
-      setItems(prevItems => prevItems.concat(saaman.slice(prevItems.length, prevItems.length + 10)));
+      setItems(prevItems => prevItems.concat(mainData.slice(prevItems.length, prevItems.length + 10)));
       setLoading(false);
     }, 500);
   };
 
   const handleChange = (value: string) => {
 
-    const filteredArray = saaman.filter((item) => item.type === value || value === "None");
-    setResultArray(filteredArray);
-    setItems(filteredArray.slice(0, 10)); // Reset items to the first page of filtered data
-    setHasMore(filteredArray.length > 10); // Update hasMore based on filtered data length
+    const filteredArray = mainData.filter((item) => item.type === value || value === "None");
+
+    setItems(filteredArray.slice(0, 10));
+    setHasMore(filteredArray.length > 10); 
   };
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,12 +71,12 @@ export default function ReqHandler() {
     }
 
     searchTimeout.current = setTimeout(() => {
-      let newArray = saaman.filter(
+      let newArray = mainData.filter(
         (item) => item.name.toLowerCase().includes(newSearchQuery.toLowerCase())
       );
-      setResultArray(newArray);
-      setItems(newArray.slice(0, 10)); // Reset items to the first page of filtered data
-      setHasMore(newArray.length > 10); // Update hasMore based on filtered data length
+     
+      setItems(newArray.slice(0, 10)); 
+      setHasMore(newArray.length > 10);
     }, 100); // Debounce time
   };
 
@@ -112,7 +125,7 @@ export default function ReqHandler() {
           }
         >
           {items.map((item) => (
-            <Req key={item.id} {...item} />
+            <Req key={item.id} data={item} updateStatus={updateStatus} />
           ))}
         </InfiniteScroll>
       </Card>
