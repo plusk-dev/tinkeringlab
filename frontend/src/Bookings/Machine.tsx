@@ -20,37 +20,12 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select"
-import { useState } from "react";
 import Timededo from "@/components/ui/timePicker";
 
 
 
 
 export default function Component() {
-
-  const [selectedDuration, setSelectedDuration] = useState('');
-  const [timeSlots, setTimeSlots] = useState(['Select Duration']);
-  const getTimeSlots = (duration:string):string[] => {
-    switch (duration) {
-      case '1':
-        return ['12:00-1:00', '1:00-2:00', '2:00-3:00', '3:00-4:00', '4:00-5:00', '5:00-6:00', '6:00-7:00', '7:00-8:00'];
-      case '2':
-        return ['12-2', '2-4', '4-6','6-8'];
-      case '3':
-        return ['12-3', '3-6', '6-9'];
-      default:
-        return ['Pls select Duration'];
-    }
-  };
-
-  const handleDurationChange = (value:string) => {
-    setSelectedDuration(value);
-    const slots:string[] = getTimeSlots(value);
-    setTimeSlots(slots);
-  };
-
-
-
 
 	const [date, setDate] = React.useState<Date>()
 	return (
@@ -59,7 +34,8 @@ export default function Component() {
 			<div className="container pt-8">
 				<h1 className="text-3xl">Book a Machine</h1>
 				<br />
-        <div className="w-full">
+        <div className="flex gap-2">
+        <div className="flex-1">
 						<Select>
 							<SelectTrigger>
 								<SelectValue placeholder="Select machine" />
@@ -75,8 +51,8 @@ export default function Component() {
 				</div>
 
 
-          <div className="flex flex-col">
-          <div className={`my-2 `}>
+          
+          <div className="flex-1">
             <Popover>
               <PopoverTrigger asChild>
                 <Button
@@ -100,16 +76,14 @@ export default function Component() {
                 </PopoverContent>
               </Popover>
             </div>
-              Start Time:
-              <div className={`flex flex-col justify-center mb-2`}>
-                  
-                  <Timededo />
+
+              <div className={` flex items-center mb-2`}> 
+                  <Timededo text="Start" />
               </div>
-              End Time:
               <div className="flex items-center mb-2">
-                  <Timededo />
+                  <Timededo text="End" />
               </div>
-                         
+          
         </div>
 
 

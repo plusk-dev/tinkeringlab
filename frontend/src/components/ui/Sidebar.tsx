@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { Home } from "lucide-react";
 import { Cog } from "lucide-react";
 import { Button } from "./button";
+import { Package } from "lucide-react";
 import { GiHamburgerMenu } from "react-icons/gi";
 
 export default function Sidebar(){
@@ -65,6 +66,11 @@ export default function Sidebar(){
                 <Bolt className="ml-2"/>
                 <span>Component</span>
             </Link>
+
+            <Link to="/admin/dashboard/inventory" className="p-3 flex gap-2 hover:bg-zinc-300 hover:rounded-lg">
+                <Package className="ml-2"/>
+                <span>Inventory</span>
+            </Link>
            
           </NavigationMenuItem>
         </NavigationMenu>
@@ -81,11 +87,13 @@ export default function Sidebar(){
 				</Link>
 				<Button variant="ghost" className={!isSmall ? "hidden" : ""} onClick={() => setHidden(!hidden)}><GiHamburgerMenu /></Button>
 			</div>
+
 			<div className={`${"flex flex-col" + (hidden? " hidden":"")}`}>
         <Link to="/admin/dashboard"  className="p-3 flex gap-2 hover:bg-zinc-300 hover:rounded-lg"><span>Home</span></Link>
         <Link to="/admin/dashboard/machine" className="p-3 flex gap-2 hover:bg-zinc-300 hover:rounded-lg"> <span>Machine</span></Link>
         <Link to="/admin/dashboard/workstation" className="p-3 flex gap-2 hover:bg-zinc-300 hover:rounded-lg"><span>Workstation</span></Link>
         <Link to="/admin/dashboard/component" className="p-3 flex gap-2 hover:bg-zinc-300 hover:rounded-lg"> <span>Component</span></Link>
+        <Link to="/admin/dashboard/inventory" className="p-3 flex gap-2 hover:bg-zinc-300 hover:rounded-lg"> <span>Inventory</span></Link>
 			</div>
 		</div>
 	</>

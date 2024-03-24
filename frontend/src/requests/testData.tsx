@@ -13,7 +13,7 @@ const saaman: Data[] =
 
   { name: "Satvic", type: "Machine", id: "1",status:"resolved",desc:"balls",expiryDate:new Date("2024-03-28")},
   { name: "Yuv", type: "Component", id: "2" ,status:"resolved",desc:"balls",expiryDate:new Date("2024-03-28")},
-  { name: "Sohit", type: "Component", id:"3" ,status:"unresolved" ,desc:"balls",expiryDate:new Date("2024-03-29")},
+  { name: "gay", type: "Component", id:"3" ,status:"unresolved" ,desc:"balls",expiryDate:new Date("2024-03-29")},
   {name:"hello",type:"Machine",id:"4",status:"unresolved",desc:"balls",expiryDate:new Date("2024-03-28")},
   {name:"hello",type:"Component",id:"5",status:"unresolved",desc:"balls",expiryDate:new Date("2024-03-28")},
   {name:"hello",type:"Machine",id:"6",status:"unresolved",desc:"balls",expiryDate:new Date("2024-03-28")},

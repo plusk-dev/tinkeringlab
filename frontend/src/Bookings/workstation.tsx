@@ -82,11 +82,11 @@ export default function Component() {
               Start Time:
               <div className={`flex flex-col justify-center mb-2`}>
                   
-                  <Timededo />
+                  <Timededo text="Start" />
               </div>
               End Time:
               <div className="flex items-center mb-2">
-                  <Timededo />
+                  <Timededo text="End" />
               </div>
                          
         </div>

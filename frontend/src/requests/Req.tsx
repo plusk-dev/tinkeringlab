@@ -21,12 +21,12 @@ const Req: React.FC<ReqProps> = ({ data, updateStatus }) => {
   
   return (
     <>
-      <Card className="info-card mt-2">
-        <CardContent className="flex justify-between flex-1 mt-5">
+      <Card className="bg-transparent border-0 border-b-2 border-dashed border-black mt-1">
+        <CardContent className="flex justify-between items-center flex-1 p-0 px-2">
           <h2 className="font-medium">{data.name}</h2>
           <h2>{data.type}</h2>
           <Sheet >
-            <SheetTrigger asChild className={data.status==="resolved"?"hidden":""}><Button>Open</Button></SheetTrigger>
+            <SheetTrigger asChild className={data.status==="resolved"?"hidden":""}><Button className="mb-1">Open</Button></SheetTrigger>
             <SheetContent>
               <SheetHeader>
                 <SheetTitle>Request info</SheetTitle>
