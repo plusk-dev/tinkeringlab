@@ -1,9 +1,9 @@
 import React from "react";
+import { useState, useEffect, useRef } from "react";
 import "../App.css";
 import Navbar from "../components/ui/Navbar";
 import { format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
-
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
@@ -22,14 +22,35 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select"
+import { useToast } from "@/components/ui/use-toast"
+import { useNavigate } from "react-router-dom";
+import { getTokenFromStorage, verify_token, deleteTokenFromStorage } from "@/utils";
+
+
 export default function Component() {
-	const [date, setDate] = React.useState<Date>()
-	const [isSmall, setisSmall] = React.useState(false);
+	const [date, setDate] = useState<Date>()
+	const [isSmall, setisSmall] = useState(false);
+	const { toast } = useToast();
+	const navigate = useNavigate()
+	const authenticated = useRef(false);
 	window.addEventListener("resize", (_) => {
 		setisSmall(window.innerWidth <= 1000);
 	})
-	React.useEffect(() => {
+	useEffect(() => {
 		setisSmall(window.innerWidth <= 1000);
+		if (!authenticated.current) {
+			verify_token(getTokenFromStorage()).catch(error => {
+				let toastMessage: String = "";
+				toastMessage = error.response.data.error;
+				toast({
+					title: `${toastMessage}`,
+					variant: "destructive"
+				})
+				navigate("/login");
+				deleteTokenFromStorage();
+			})
+			authenticated.current = true;
+		}
 	}, [])
 	return (
 		<div className="h-screen parent">

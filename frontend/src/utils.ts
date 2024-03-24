@@ -23,7 +23,6 @@ async function postUrl(url: string, params: any): Promise<AxiosResponse> {
 }
 async function verify_token(token: string | null): Promise<AxiosResponse> {
   const headers = {
-    'Content-Type': 'application/json',
     'token': token
   };
 
