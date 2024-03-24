@@ -93,8 +93,9 @@ export default function Login() {
       </div>
     </>
 
+  } else {
+    return (
+      <Navigate replace to={level} />
+    )
   }
-  return (
-    <Navigate replace to={level} />
-  )
 }
