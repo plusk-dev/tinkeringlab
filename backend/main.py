@@ -1,9 +1,9 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from models import session, Admin, User
 from fastapi.responses import JSONResponse
 from routes import bookings_router, inventory_router
-from utils import get_credential, object_as_dict
+from utils import get_credential, object_as_dict, verify_jwt, look_for_emails_to_send
 import re
 import jwt
 import datetime
@@ -15,12 +15,10 @@ app.mount("/bookings", bookings_router)
 app.mount("/inventory", inventory_router)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-    ],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"],
+    allow_headers=["*"]
 )
 
 
@@ -39,6 +37,12 @@ async def on_startup():
             student_id="2023uma0201",
             email="2023uma0201@iitjammu.ac.in",
             name="Abhay Punia",
+            created_at=datetime.datetime.now(),
+        ))
+        session.add(User(
+            student_id="2022ucs0108",
+            email="2022ucs0108@iitjammu.ac.in",
+            name="Satvic Theone",
             created_at=datetime.datetime.now(),
         ))
         print("APP STARTED")
@@ -90,3 +94,8 @@ async def get_new_token(email: str):
         return JSONResponse(content={
             "error": "email provided is not a valid email"
         }, status_code=400)
+
+
+@app.post("/verify_token")
+async def verify(request: Request):
+    return await verify_jwt(request)

@@ -20,7 +20,7 @@ class Component(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
     total = Column(Integer, nullable=False)
-    booked = Column(Integer, nullable=False)
+    booked = Column(Integer, nullable=True, default=0)
 
 
 class Machine(Base):
@@ -28,8 +28,6 @@ class Machine(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
     booked = Column(Boolean, nullable=False)
-    total = Column(Integer, nullable=False)
-    available = Column(Integer, nullable=False)
 
 
 class User(Base):

@@ -7,7 +7,7 @@ import requests
 import datetime
 from fastapi import Request
 from sqlalchemy import inspect
-from models import User, session
+from models import User, session, Admin
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from fastapi.responses import JSONResponse
@@ -30,9 +30,33 @@ def get_credential(credential_name: str) -> str:
         return os.environ[credential_name]
 
 
-def generate_email():
-    # TODO: This func should read a html email template and then return it as string
-    pass
+def generate_email(name: str, components: list, date: str):
+
+    html = f"""
+        <html>
+        <head></head>
+        <body>
+        <p>Dear {name},</p>
+
+        <p>We hope this message finds you well. This is a friendly reminder regarding the components borrowed from the Tinkering Lab. As per our records, the following components are due for return tomorrow:</p>
+
+        <ul>
+        {''.join([f"<li>{component}</li>" for component in components])}
+        </ul>
+
+        <p>Please ensure that these components are returned by {date}. Your prompt attention to this matter is greatly appreciated.</p>
+
+        <p>If you encounter any issues or need assistance, please don't hesitate to contact us at [insert lab email].</p>
+
+        <p>Thank you for your cooperation.</p>
+
+        <p>Best regards,</p>
+        <p>Tinkering Lab, IIT Jammu</p>
+        <pre>This is a system generated email. Please do not reply to this email.</pre>
+        </body>
+        </html>
+        """
+    return html
 
 
 def send_email():
@@ -44,19 +68,13 @@ def send_email():
         server.ehlo()
         server.login(get_credential("SENDER_EMAIL"),
                      get_credential("EMAIL_PASSWORD"))
-        html = """\
-        <html>
-        <body>
-            <h1>LMFAOOOOOO</h1>
-        </body>
-        </html>
-        """
         message = MIMEMultipart("alternative")
-        message["Subject"] = "helo lmao"
+        message["Subject"] = "KAL COMPONENT WAAPIS KAR DENA"
         message["From"] = get_credential("SENDER_EMAIL")
-        message.attach(MIMEText(html, "html"))
+        message.attach(MIMEText(generate_email("Satvic Dhawan", [
+                       "Bottle", "Mouse", "Table", "Cocomelon"], date="25/03/2024"), "html"))
         server.sendmail(get_credential("SENDER_EMAIL"),
-                        "2023uma0201@iitjammu.ac.in", message.as_string())
+                        "2022ucs0108@iitjammu.ac.in", message.as_string())
     except Exception as e:
         raise e
     finally:
@@ -72,16 +90,16 @@ def send_discord_message(content: str) -> None:
     print(response.status_code)
 
 
-JWT_TOKEN_TIMEOUT = datetime.timedelta(days=7)
+JWT_TOKEN_TIMEOUT = datetime.timedelta(days=2)
 JWT_SECRET = get_credential("JWT_SECRET")
 
 
-async def verify_jwt(reqeust: Request) -> dict:
-    token = reqeust.headers.get("token")
+async def verify_jwt(request: Request) -> JSONResponse:
+    token = request.headers.get("token")
     if token == None:
         return JSONResponse(
             content={
-                "error": "jwt not provided"
+                "error": "Not logged in."
             }, status_code=400
         )
     try:
@@ -89,20 +107,20 @@ async def verify_jwt(reqeust: Request) -> dict:
         if datetime.datetime.utcnow() - datetime.datetime.utcfromtimestamp(payload.get("iat")) >= JWT_TOKEN_TIMEOUT:
             return JSONResponse(
                 content={
-                    "error": "jwt expired"
+                    "error": "Session Expired. Please Log In Again"
                 }, status_code=401)
         email = payload.get("email")
         if email is None:
             return JSONResponse(
                 content={
-                    "error": "jwt does not contain email"
+                    "error": "Token does not contain email. Please log in again."
                 }, status_code=400
             )
         user = session.query(User).filter_by(email=email).first()
         if user is None:
             return JSONResponse(
                 content={
-                    "error": "no user with the provied email exists"
+                    "error": "No user with the provied email exists. Please try to log in again."
                 }, status_code=400
             )
         return object_as_dict(user)
@@ -110,3 +128,43 @@ async def verify_jwt(reqeust: Request) -> dict:
         return JSONResponse(content={
             "error": "invalid jwt provided"
         }, status_code=400)
+
+
+async def verify_jwt_admin(request: Request) -> JSONResponse:
+    token = request.headers.get("token")
+    if token == None:
+        return JSONResponse(
+            content={
+                "error": "Not logged in."
+            }, status_code=400
+        )
+    try:
+        payload = jwt.decode(token, JWT_SECRET, algorithms="HS256")
+        if datetime.datetime.utcnow() - datetime.datetime.utcfromtimestamp(payload.get("iat")) >= JWT_TOKEN_TIMEOUT:
+            return JSONResponse(
+                content={
+                    "error": "Session Expired. Please Log In Again"
+                }, status_code=401)
+        email = payload.get("email")
+        if email is None:
+            return JSONResponse(
+                content={
+                    "error": "Token does not contain email. Please log in again."
+                }, status_code=400
+            )
+        user = session.query(Admin).filter_by(email=email).first()
+        if user is None:
+            return JSONResponse(
+                content={
+                    "error": "No user with the provied email exists. Please try to log in again."
+                }, status_code=400
+            )
+        return object_as_dict(user)
+    except jwt.InvalidTokenError:
+        return JSONResponse(content={
+            "error": "invalid jwt provided"
+        }, status_code=400)
+
+
+def look_for_emails_to_send():
+    print("cute debug mesage")

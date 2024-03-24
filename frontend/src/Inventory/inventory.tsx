@@ -3,18 +3,23 @@ import { Accordion, AccordionItem, AccordionTrigger } from "@/components/ui/acco
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Table, TableBody, TableHeader,TableRow,TableHead,TableCell } from "@/components/ui/table";
+import { Table, TableBody, TableHeader, TableRow, TableHead, TableCell } from "@/components/ui/table";
 import { AccordionContent } from "@radix-ui/react-accordion";
-import React, { useEffect, useState } from "react";
-
+import React, { useEffect, useState, useRef } from "react";
+import { getUrl, postUrl } from "../utils";
+import { useToast } from "@/components/ui/use-toast"
 
 
 
 const Inventory: React.FC = () => {
   const [isSmall, setisSmall] = useState<boolean>(false);
-  const [components, setComponents] = useState<{ name: string; quantity: number }[]>([]);
-  const [machine,setMachine]=useState<{name:string}[]>([]);
-  const [work,setWork]=useState<{name:string}[]>([]);
+  const [components, setComponents] = useState<{ id: number, name: string; quantity: number }[]>([]);
+  const [machine, setMachine] = useState<{ name: string }[]>([]);
+  const [work, setWork] = useState<{ name: string }[]>([]);
+  const [nameinput, setNameInput] = useState<{ name: string, qty: number }>({ name: "", qty: 0 })
+  const [edited, setEdited] = useState(false);
+  const fetched = useRef(false);
+  const { toast } = useToast();
 
 
   window.addEventListener("resize", () => {
@@ -23,22 +28,47 @@ const Inventory: React.FC = () => {
 
   useEffect(() => {
     setisSmall(window.innerWidth <= 1000);
+    getUrl("/inventory/components/all", {}).then(response => {
+      if (fetched.current == false) {
+        let newComponents: { id: number, name: string; quantity: number }[] = [];
+
+        response.data.components.forEach((component: any) => {
+          newComponents.push({ id: component.id, name: component.name, quantity: component.total })
+        });
+        setComponents(newComponents);
+        fetched.current = true;
+      }
+    })
   }, []);
 
 
-  const addComponent = () => {
-    setComponents([...components, { name: "", quantity: 0 }]);
+  const addComponent = (name: string, total: number): undefined => {
+    console.log(components)
+    if (name != "") {
+      postUrl("/inventory/components/create", {
+        name: name,
+        total: total
+      })
+    }
+    if (components.length > 0) {
+      if (components[components.length - 1].name != "") {
+        setComponents([...components, { id: components[components.length - 1].id + 1, name: "", quantity: 0 }]);
+      }
+    } else {
+      setComponents([...components, { id: 0, name: "", quantity: 0 }]);
+    }
   };
   const addMachine = () => {
     setMachine([...machine, { name: "" }]);
   };
-  const addWork=()=>{
-    setWork([...work,{name:""}])
+  const addWork = () => {
+    setWork([...work, { name: "" }])
   }
 
-  const removeComponent = (index: number) => {
+  const removeComponent = (index: number, id: number) => {
     const updatedComponents = [...components];
     updatedComponents.splice(index, 1);
+    postUrl('/inventory/components/delete', { id: id })
     setComponents(updatedComponents);
   };
   const removeMachine = (index: number) => {
@@ -67,7 +97,7 @@ const Inventory: React.FC = () => {
     (updatedWork[index] as { [k in keyof typeof components[0]]: string | number })[key] = value;
     setMachine(updatedWork);
   };
-  
+
 
   return (
     <div className={`hover:rounded-lg ${isSmall ? "" : "flex"} max-h-screen`}>
@@ -86,7 +116,7 @@ const Inventory: React.FC = () => {
                 </AccordionTrigger>
                 <AccordionContent>
                   <Table >
-                    
+
                     <TableHeader>
                       <TableRow>
                         <TableHead>Component Name</TableHead>
@@ -94,7 +124,7 @@ const Inventory: React.FC = () => {
                         <TableHead>Action</TableHead>
                       </TableRow>
                     </TableHeader>
-                    
+
                     <TableBody>
                       {components.map((component, index) => (
                         <TableRow key={index}>
@@ -102,44 +132,72 @@ const Inventory: React.FC = () => {
                             <Input
                               type="text"
                               value={component.name}
-                              onChange={(e) => handleEditComponent(index, "name", e.target.value)}
+                              onChange={(e) => {
+                                setEdited(true);
+                                setNameInput({
+                                  name: e.target.value,
+                                  qty: nameinput.qty
+                                }); handleEditComponent(index, "name", e.target.value)
+                              }}
                             />
                           </TableCell>
                           <TableCell>
                             <Input
                               type="number"
                               value={component.quantity}
-                              onChange={(e) => handleEditComponent(index, "quantity", parseInt(e.target.value))}
+                              onChange={(e) => {
+                                setNameInput({
+                                  name: nameinput.name,
+                                  qty: parseInt(e.target.value)
+                                }); handleEditComponent(index, "quantity", parseInt(e.target.value))
+                              }}
                             />
                           </TableCell>
                           <TableCell>
-                            <Button className="bg-red-500" onClick={() => removeComponent(index)}>Remove</Button>
+                            <Button className="bg-red-500" onClick={() => removeComponent(index, components[index].id)}>Remove</Button>
                           </TableCell>
                         </TableRow>
                       ))}
-                      <TableCell><Button className="" onClick={addComponent}>+ Add Component</Button></TableCell>
+                      <TableCell>
+                        <Button className={`bg-blue-400 hover:bg-blue-600 mr-2 ${!edited ? 'hidden' : ''}`} disabled={!edited ? true : false} onClick={() => {
+                          components.forEach(component => {
+                            postUrl("/inventory/components/update", {
+                              id: component.id,
+                              name: component.name,
+                              total: component.quantity
+                            })
+                            toast({
+                              title: "Changes saved successfully",
+                              variant: "success"
+                            })
+                          })
+                        }}>Save Changes</Button>
+                        <Button className="" onClick={() => {
+                          setEdited(true); addComponent(nameinput.name, nameinput.qty)
+                        }}>+ Add Component</Button>
+                      </TableCell>
                     </TableBody>
                   </Table>
-                  
-                </AccordionContent>
-              </AccordionItem>   
-            
 
-            
+                </AccordionContent>
+              </AccordionItem>
+
+
+
               <AccordionItem value="machines">
                 <AccordionTrigger>
                   <CardTitle>Machines</CardTitle>
                 </AccordionTrigger>
                 <AccordionContent>
                   <Table >
-                    
+
                     <TableHeader>
                       <TableRow>
                         <TableHead>Machines Name</TableHead>
                         <TableHead>Action</TableHead>
                       </TableRow>
                     </TableHeader>
-                    
+
                     <TableBody>
                       {machine.map((component, index) => (
                         <TableRow key={index}>
@@ -150,7 +208,7 @@ const Inventory: React.FC = () => {
                               onChange={(e) => handleEditMachine(index, "name", e.target.value)}
                             />
                           </TableCell>
-                          
+
                           <TableCell>
                             <Button className="bg-red-500" onClick={() => removeMachine(index)}>Remove</Button>
                           </TableCell>
@@ -159,26 +217,26 @@ const Inventory: React.FC = () => {
                       <TableCell><Button className="" onClick={addMachine}>+ Add New Machine</Button></TableCell>
                     </TableBody>
                   </Table>
-                  
+
                 </AccordionContent>
               </AccordionItem>
-              
-            
-           
+
+
+
               <AccordionItem value="workstation">
                 <AccordionTrigger>
                   <CardTitle>Workstation</CardTitle>
                 </AccordionTrigger>
                 <AccordionContent>
                   <Table >
-                    
+
                     <TableHeader>
                       <TableRow>
                         <TableHead>Workstation Name</TableHead>
                         <TableHead>Action</TableHead>
                       </TableRow>
                     </TableHeader>
-                    
+
                     <TableBody>
                       {work.map((component, index) => (
                         <TableRow key={index}>
@@ -189,7 +247,7 @@ const Inventory: React.FC = () => {
                               onChange={(e) => handleEditWork(index, "name", e.target.value)}
                             />
                           </TableCell>
-                          
+
                           <TableCell>
                             <Button className="bg-red-500" onClick={() => removeWork(index)}>Remove</Button>
                           </TableCell>
@@ -198,12 +256,12 @@ const Inventory: React.FC = () => {
                       <TableCell><Button className="" onClick={addWork}>+ Add New Workstation</Button></TableCell>
                     </TableBody>
                   </Table>
-                  
+
                 </AccordionContent>
               </AccordionItem>
-              </Accordion>
-            
-            
+            </Accordion>
+
+
           </CardContent>
         </Card>
       </div>
