@@ -177,7 +177,7 @@ export default function Reqcomp() {
               placeholder="Search..."
               value={searchQuery}
               onChange={handleSearchChange}
-              className={!isSmall ? "border-gray-300 rounded mx-2 w-full" : "hidden"}
+              className={ !isSmall ? "border-gray-300 rounded mx-2 w-full" : "hidden"}
             />
             <Button onClick={() => {
               setItems(
@@ -185,7 +185,7 @@ export default function Reqcomp() {
                   compArray.slice(items.length, items.length + 10)
                 )
               )
-            }} className="bg-transparent hover:bg-zinc-300"><ArrowUpDown /></Button>
+            }} className="w-full">Load More</Button>
           </div>
 
         </Card>
@@ -240,7 +240,7 @@ export default function Reqcomp() {
                   compArray.slice(items.length, items.length + 10)
                 )
               )
-            }} className="bg-transparent hover:bg-zinc-300"><ArrowUpDown /></Button>
+            }} className="w-full">Load More</Button>
           </div>
         </Card>
       </div>

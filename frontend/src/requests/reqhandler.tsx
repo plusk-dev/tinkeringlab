@@ -118,7 +118,7 @@ export default function ReqHandler() {
                   mainData.slice(items.length, items.length + 10)
                 )
               )
-            }} className="bg-transparent hover:bg-zinc-300"><ArrowUpDown /></Button>
+            }} className="ml-1">Load More</Button>
         </div>
         <InfiniteScroll
           className="mt-2"
