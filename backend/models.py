@@ -27,7 +27,7 @@ class Machine(Base):
     __tablename__ = "Machine"
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
-    booked = Column(Boolean, nullable=False)
+    status = Column(Boolean, nullable=False, default=False)
 
 
 class User(Base):
@@ -46,8 +46,7 @@ class ComponentBooking(Base):
     component_id = Column(Integer, ForeignKey("Component.id"), nullable=False)
     description = Column(String, nullable=False)
     created_at = Column(DateTime, nullable=False)
-    start = Column(DateTime, nullable=False)
-    end = Column(DateTime, nullable=False)
+    returndate = Column(DateTime, nullable=False)
     approved = Column(Boolean, nullable=False)
     approver_id = Column(Integer, ForeignKey("Admin.id"))
 
@@ -77,7 +76,7 @@ class Workstation(Base):
     __tablename__ = "Workstation"
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
-    booked = Column(Boolean, nullable=False)
+    booked = Column(Boolean, nullable=False, default=False)
 
 
 class WorkstationBooking(Base):

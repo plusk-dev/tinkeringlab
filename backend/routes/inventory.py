@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Depends
 from fastapi.responses import JSONResponse
-from models import Component, session, Machine
+from models import Component, session, Machine, Workstation
 from utils import object_as_dict, verify_jwt_admin
 
 inventory_router = FastAPI()
@@ -50,7 +50,7 @@ async def delete_component(id: int):
 @inventory_router.get("/machines/all")
 async def get_all_machines():
     return {
-        "components": [object_as_dict(machine) for machine in session.query(Machine).all()]
+        "machines": [object_as_dict(machine) for machine in session.query(Machine).all()]
     }
 
 
@@ -63,7 +63,7 @@ async def create_machine(name: str):
 
 
 @inventory_router.post("/machines/update")
-async def update_machines(name: str):
+async def update_machines(id: int, name: str):
     machine = session.query(Machine).filter(Machine.id == id).first()
     if machine is None:
         machine = Machine(name=name)
@@ -85,3 +85,45 @@ async def delete_machine(id: int):
         session.commit()
         return {"message": "deleted successfully"}
     return {"message": "machine does not exist in the database"}
+
+
+@inventory_router.get("/workstations/all")
+async def get_all_workstations():
+    return {
+        "workstations": [object_as_dict(workstation) for workstation in session.query(Workstation).all()]
+    }
+
+
+@inventory_router.post("/workstations/create")
+async def create_workstation(name: str):
+    workstation = Workstation(name=name)
+    session.add(workstation)
+    session.commit()
+    return object_as_dict(workstation)
+
+
+@inventory_router.post("/workstations/update")
+async def update_workstations(id: int, name: str):
+    print("nigga")
+    workstation = session.query(Workstation).filter(
+        Workstation.id == id).first()
+    if workstation is None:
+        workstation = Workstation(name=name)
+        session.add(workstation)
+        session.commit()
+    else:
+        workstation.name = name
+        session.commit()
+    return JSONResponse(content={
+        "message": "workstation updated successfully"
+    }, status_code=200)
+
+
+@inventory_router.post("/workstations/delete")
+async def delete_workstation(id: int):
+    c = session.query(Workstation).filter(Workstation.id == id).first()
+    if c != None:
+        session.delete(c)
+        session.commit()
+        return {"message": "deleted successfully"}
+    return {"message": "workstation does not exist in the database"}

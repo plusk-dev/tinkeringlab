@@ -55,7 +55,8 @@ export default function Component() {
       authenticated.current = true;
     }
     getUrl("/inventory/workstations/all", {}).then(response => {
-      console.log(response)
+      console.log(response);
+
       if (fetchedWorkstations.current == false) {
         let newWorkstations: { id: number, name: string }[] = [];
 
@@ -121,7 +122,7 @@ export default function Component() {
             <div className={`relative w-full`}>
               <input
                 onChange={(e) => {
-                  setStart(e.target.value); 
+                  setStart(e.target.value);
                 }}
                 type="time"
                 className={`w-full h-10 rounded-lg pl-12`}
@@ -138,7 +139,7 @@ export default function Component() {
             <div className={`relative w-full`}>
               <input
                 onChange={(e) => {
-                  setEnd(e.target.value); 
+                  setEnd(e.target.value);
                 }}
                 type="time"
                 className={`w-full h-10 rounded-lg pl-12`}
@@ -157,8 +158,8 @@ export default function Component() {
 
         <Textarea onChange={(e) => { setDesc(e.target.value) }} placeholder="Purpose of issue..." className="mb-2" />
 
-        
-        <Button className="w-full"  onClick={(e: any) => {
+
+        <Button className="w-full" onClick={(e: any) => {
           if (getTokenFromStorage()) {
             let newstart: Date | undefined = date;
             newstart?.setHours(parseInt(String(start).split(":")[0]));
@@ -168,26 +169,25 @@ export default function Component() {
             newend?.setHours(parseInt(String(end).split(":")[0]));
             newend?.setMinutes(parseInt(String(end).split(":")[1]));
             setEnd(JSON.stringify(newend?.toISOString()));
-           
-              postUrl("/bookings/workstation/create", {
-                email: (jwtDecode(JSON.stringify(getTokenFromStorage())) as { email: string, iat: number }).email,
-                workstation_id: Mach,
-                start: newstart?.toISOString(),
-                end: newend?.toISOString(),
-                description: desc,
-              }).then(response => {
-                if (response.status == 200) {
-                  toast({
-                    title: "Request successfully sent",
-                    variant: "success"
-                  })
-                }
+            postUrl("/bookings/workstation/create", {
+              email: (jwtDecode(JSON.stringify(getTokenFromStorage())) as { email: string, iat: number }).email,
+              workstation_id: Mach,
+              start: newstart?.toISOString(),
+              end: newend?.toISOString(),
+              description: desc,
+            }).then(response => {
+              if (response.status == 200) {
+                toast({
+                  title: "Request successfully sent",
+                  variant: "success"
+                })
               }
-              )
-            } 
+            }
+            )
+          }
 
 
-          
+
 
         }}>Submit</Button>
       </div>
