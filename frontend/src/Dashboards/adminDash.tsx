@@ -59,7 +59,17 @@ export default function AdminDashboard() {
             <ReqHandler />
             <Card className="h-full info-card m-1 flex-1 p-4">
               <div className={isSmall ? "" : "h-full flex flex-col overflow-y-scroll"}>
-                <div className="flex-1 flex flex-col gap-1">
+                  <div className="flex-1 flex flex-col gap-1">
+                    <CardTitle>Stats</CardTitle>
+                    <div className={`${isSmall ? 'block' : 'flex'} flex-1`}>
+                      <Card className="flex-1 m-1 info-card p-4">
+                        <Doughnut data={data} />
+                      </Card>
+                      <Card className="flex-1 m-1 info-card p-4">
+                        <Doughnut data={data} />
+
+                      </Card>
+                    </div>
                   <CardTitle>Components</CardTitle>
                   <div className="flex flex-1">
                     <Card className="flex-1 m-1 info-card p-4">
@@ -99,16 +109,7 @@ export default function AdminDashboard() {
                       <span className="text-4xl">3/</span><span>10</span>
                     </Card>
                   </div>
-                  <CardTitle>Stats</CardTitle>
-                  <div className="flex flex-1">
-                    <Card className="flex-1 m-1 info-card p-4">
-                      <Doughnut data={data} />
-                    </Card>
-                    <Card className="flex-1 m-1 p-4">
-                      <Doughnut data={data} />
-
-                    </Card>
-                  </div>
+                  
 
                 </div>
               </div>
