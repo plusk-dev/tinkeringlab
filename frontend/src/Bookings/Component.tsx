@@ -24,10 +24,15 @@ import {
 } from "@/components/ui/select"
 import { useToast } from "@/components/ui/use-toast"
 import { useNavigate } from "react-router-dom";
-import { getTokenFromStorage, verify_token, deleteTokenFromStorage } from "@/utils";
+import { getTokenFromStorage, verify_token, deleteTokenFromStorage, getUrl, postUrl } from "@/utils";
+import { jwtDecode } from "jwt-decode";
 
 
 export default function Component() {
+	const fetchedComponents = useRef(false);
+	const [components, setComponents] = useState<{ id: number, name: string; quantity: number }[]>([]);
+	const [selectedComp, setSelectedComp] = useState<Number>()
+	const [desc, setDesc] = useState<String>("")
 	const [date, setDate] = useState<Date>()
 	const [isSmall, setisSmall] = useState(false);
 	const { toast } = useToast();
@@ -51,7 +56,19 @@ export default function Component() {
 			})
 			authenticated.current = true;
 		}
+		getUrl("/inventory/components/all", {}).then(response => {
+			if (fetchedComponents.current == false) {
+				let newComponents: { id: number, name: string; quantity: number }[] = [];
+
+				response.data.components.forEach((component: any) => {
+					newComponents.push({ id: component.id, name: component.name, quantity: component.total })
+				});
+				setComponents(newComponents);
+				fetchedComponents.current = true;
+			}
+		})
 	}, [])
+
 	return (
 		<div className="h-screen parent">
 			<Navbar />
@@ -61,25 +78,25 @@ export default function Component() {
 				<div className={isSmall ? "" : "flex gap-2"}>
 					<div className="w-full">
 						Select a component
-						<Select>
+						<Select onValueChange={(e) => {
+							setSelectedComp(parseInt(e));
+						}}>
 							<SelectTrigger>
 								<SelectValue placeholder="Select a component" />
 							</SelectTrigger>
 							<SelectContent>
 								<SelectGroup>
-									<SelectLabel>Fruits</SelectLabel>
-									<SelectItem value="apple">Apple</SelectItem>
-									<SelectItem value="banana">Banana</SelectItem>
-									<SelectItem value="blueberry">Blueberry</SelectItem>
-									<SelectItem value="grapes">Grapes</SelectItem>
-									<SelectItem value="pineapple">Pineapple</SelectItem>
+									<SelectLabel>Components</SelectLabel>
+									{components.map(item => {
+										return <SelectItem value={JSON.stringify(item.id)}>{item.name}</SelectItem>
+									})}
 								</SelectGroup>
 							</SelectContent>
 						</Select>
 					</div>
 					<div className="w-1/2">
 						Date of return <br />
-						<Popover>
+						<Popover >
 							<PopoverTrigger asChild>
 								<Button
 									variant={"outline"}
@@ -104,8 +121,19 @@ export default function Component() {
 					</div>
 				</div>
 				Purpose of issue:
-				<Textarea placeholder="Purpose of issue..." className="mb-2" />
-				<Button className="w-full">Submit</Button>
+				<Textarea onChange={(e) => setDesc(e.target.value)} placeholder="Purpose of issue..." className="mb-2" />
+				<Button className="w-full" onClick={() => {
+					console.log(jwtDecode(JSON.stringify(getTokenFromStorage())))
+					if (getTokenFromStorage()) {
+						postUrl("/bookings/component/create", {
+							email: (jwtDecode(JSON.stringify(getTokenFromStorage())) as { email: string, iat: number }).email,
+							component_id: selectedComp,
+							returndate: date,
+							approved: false,
+							description: desc,
+						})
+					}
+				}}>Submit</Button>
 			</div>
 		</div>
 	)

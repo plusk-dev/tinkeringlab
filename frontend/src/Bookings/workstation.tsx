@@ -20,18 +20,23 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import Timededo from "@/components/ui/timePicker";
 import { useToast } from "@/components/ui/use-toast"
 import { useNavigate } from "react-router-dom";
-import { getTokenFromStorage, verify_token, deleteTokenFromStorage } from "@/utils";
-
+import { getTokenFromStorage, verify_token, deleteTokenFromStorage, getUrl } from "@/utils";
+import { postUrl } from "@/utils";
+import { jwtDecode } from "jwt-decode";
 
 
 
 export default function Component() {
-
-
+  const [start, setStart] = useState<string>();
+  const [end, setEnd] = useState<string>();
+  const fetchedWorkstations = useRef(false);
+  const [workstations, setWorkstations] = useState<{ id: number, name: string }[]>([])
   const [date, setDate] = useState<Date>()
+  const [Mach, setWork] = useState<Number>()
+  const [desc, setDesc] = useState<String>()
+  const [disabled, setDisabled] = useState<Boolean>(true);
   const { toast } = useToast();
   const navigate = useNavigate()
   const authenticated = useRef(false);
@@ -49,33 +54,45 @@ export default function Component() {
       })
       authenticated.current = true;
     }
+    getUrl("/inventory/workstations/all", {}).then(response => {
+      console.log(response)
+      if (fetchedWorkstations.current == false) {
+        let newWorkstations: { id: number, name: string }[] = [];
+
+        response.data.workstations.forEach((workstation: any) => {
+          newWorkstations.push({ id: workstation.id, name: workstation.name })
+        });
+        setWorkstations(newWorkstations);
+        fetchedWorkstations.current = true;
+      }
+    })
   }, [])
-
-
   return (
     <div className="h-screen parent">
       <Navbar />
       <div className="container pt-8">
         <h1 className="text-3xl">Book a Workstation</h1>
         <br />
-        <div className="w-full">
-          <Select>
-            <SelectTrigger>
-              <SelectValue placeholder="Select machine" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectItem value="3dp">3-d Printer</SelectItem>
-                <SelectItem value="megatron">Megatron</SelectItem>
-                <SelectItem value="compuper">Compuper</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </div>
+        <div className="flex gap-2">
+          <div className="flex-1">
+            <Select onValueChange={(e) => { setWork(parseInt(e)); }}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select workstation" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  {workstations.map((item) => {
+                    return <SelectItem value={JSON.stringify(item.id)}>{item.name}</SelectItem>
+                  }
+                  )}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
 
 
-        <div className="flex flex-col">
-          <div className={`my-2 `}>
+
+          <div className="flex-1">
             <Popover>
               <PopoverTrigger asChild>
                 <Button
@@ -99,21 +116,80 @@ export default function Component() {
               </PopoverContent>
             </Popover>
           </div>
-          Start Time:
-          <div className={`flex flex-col justify-center mb-2`}>
 
-            <Timededo text="Start" />
+          <div className={` flex items-center mb-2`}>
+            <div className={`relative w-full`}>
+              <input
+                onChange={(e) => {
+                  setStart(e.target.value); 
+                }}
+                type="time"
+                className={`w-full h-10 rounded-lg pl-12`}
+              />
+              <span
+                className={`absolute inset-y-0 left-0 flex items-center pl-2 text-gray-500`}
+                style={{ zIndex: 10 }}
+              >
+                Start
+              </span>
+            </div>
           </div>
-          End Time:
           <div className="flex items-center mb-2">
-            <Timededo text="End" />
+            <div className={`relative w-full`}>
+              <input
+                onChange={(e) => {
+                  setEnd(e.target.value); 
+                }}
+                type="time"
+                className={`w-full h-10 rounded-lg pl-12`}
+              />
+              <span
+                className={`absolute inset-y-0 left-0 flex items-center pl-2 text-gray-500`}
+                style={{ zIndex: 10 }}
+              >
+                End
+              </span>
+            </div>
           </div>
 
         </div>
 
 
-        <Textarea placeholder="Purpose of issue..." className="mb-2" />
-        <Button className="w-full">Submit</Button>
+        <Textarea onChange={(e) => { setDesc(e.target.value) }} placeholder="Purpose of issue..." className="mb-2" />
+
+        
+        <Button className="w-full"  onClick={(e: any) => {
+          if (getTokenFromStorage()) {
+            let newstart: Date | undefined = date;
+            newstart?.setHours(parseInt(String(start).split(":")[0]));
+            newstart?.setMinutes(parseInt(String(start).split(":")[1]));
+            setStart(JSON.stringify(newstart?.toISOString()));
+            let newend: Date | undefined = date;
+            newend?.setHours(parseInt(String(end).split(":")[0]));
+            newend?.setMinutes(parseInt(String(end).split(":")[1]));
+            setEnd(JSON.stringify(newend?.toISOString()));
+           
+              postUrl("/bookings/workstation/create", {
+                email: (jwtDecode(JSON.stringify(getTokenFromStorage())) as { email: string, iat: number }).email,
+                workstation_id: Mach,
+                start: newstart?.toISOString(),
+                end: newend?.toISOString(),
+                description: desc,
+              }).then(response => {
+                if (response.status == 200) {
+                  toast({
+                    title: "Request successfully sent",
+                    variant: "success"
+                  })
+                }
+              }
+              )
+            } 
+
+
+          
+
+        }}>Submit</Button>
       </div>
     </div>
   )

@@ -199,10 +199,10 @@ const Inventory: React.FC = () => {
                               name: component.name,
                               total: component.quantity
                             })
-                            toast({
-                              title: "Changes saved successfully",
-                              variant: "success"
-                            })
+                          })
+                          toast({
+                            title: "Changes saved successfully",
+                            variant: "success"
                           })
                         }}>Save Changes</Button>
                         <Button className="" onClick={() => {

@@ -20,17 +20,22 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select"
-import Timededo from "@/components/ui/timePicker";
 import { useToast } from "@/components/ui/use-toast"
 import { useNavigate } from "react-router-dom";
-import { getTokenFromStorage, verify_token, deleteTokenFromStorage } from "@/utils";
-
+import { getTokenFromStorage, verify_token, deleteTokenFromStorage, getUrl } from "@/utils";
+import { postUrl } from "@/utils";
+import { jwtDecode } from "jwt-decode";
 
 
 
 export default function Component() {
-
+	const [start, setStart] = useState<string>("");
+	const [end, setEnd] = useState<string>("");
+	const fetchedMachines = useRef(false);
+	const [machines, setMachines] = useState<{ id: number, name: string }[]>([])
 	const [date, setDate] = useState<Date>()
+	const [Mach, setMach] = useState<Number>()
+	const [desc, setDesc] = useState<String>("")
 	const { toast } = useToast();
 	const navigate = useNavigate()
 	const authenticated = useRef(false);
@@ -48,6 +53,18 @@ export default function Component() {
 			})
 			authenticated.current = true;
 		}
+		getUrl("/inventory/machines/all", {}).then(response => {
+			console.log(response)
+			if (fetchedMachines.current == false) {
+				let newMachines: { id: number, name: string }[] = [];
+
+				response.data.machines.forEach((machine: any) => {
+					newMachines.push({ id: machine.id, name: machine.name })
+				});
+				setMachines(newMachines);
+				fetchedMachines.current = true;
+			}
+		})
 	}, [])
 	return (
 		<div className="h-screen parent">
@@ -57,15 +74,16 @@ export default function Component() {
 				<br />
 				<div className="flex gap-2">
 					<div className="flex-1">
-						<Select>
+						<Select onValueChange={(e) => { setMach(parseInt(e)) }}>
 							<SelectTrigger>
 								<SelectValue placeholder="Select machine" />
 							</SelectTrigger>
 							<SelectContent>
 								<SelectGroup>
-									<SelectItem value="3dp">3-d Printer</SelectItem>
-									<SelectItem value="megatron">Megatron</SelectItem>
-									<SelectItem value="compuper">Compuper</SelectItem>
+									{machines.map((item) => {
+										return <SelectItem value={JSON.stringify(item.id)}>{item.name}</SelectItem>
+									}
+									)}
 								</SelectGroup>
 							</SelectContent>
 						</Select>
@@ -99,17 +117,75 @@ export default function Component() {
 					</div>
 
 					<div className={` flex items-center mb-2`}>
-						<Timededo text="Start" />
+						<div className={`relative w-full`}>
+							<input
+								onChange={(e) => {
+									setStart(e.target.value)
+								}}
+								type="time"
+								className={`w-full h-10 rounded-lg pl-12`}
+							/>
+							<span
+								className={`absolute inset-y-0 left-0 flex items-center pl-2 text-gray-500`}
+								style={{ zIndex: 10 }}
+							>
+								Start
+							</span>
+						</div>
 					</div>
 					<div className="flex items-center mb-2">
-						<Timededo text="End" />
+						<div className={`relative w-full`}>
+							<input
+								onChange={(e) => {
+									setEnd(e.target.value)
+								}}
+								type="time"
+								className={`w-full h-10 rounded-lg pl-12`}
+							/>
+							<span
+								className={`absolute inset-y-0 left-0 flex items-center pl-2 text-gray-500`}
+								style={{ zIndex: 10 }}
+							>
+								End
+							</span>
+						</div>
 					</div>
 
 				</div>
 
 
-				<Textarea placeholder="Purpose of issue..." className="mb-2" />
-				<Button className="w-full">Submit</Button>
+				<Textarea onChange={(e) => { setDesc(e.target.value) }} placeholder="Purpose of issue..." className="mb-2" />
+				<Button className="w-full" onClick={(e: any) => {
+					e.target.disabled = true;
+					if (getTokenFromStorage()) {
+						console.log(date)
+						let newstart: Date | undefined = date;
+						newstart?.setHours(parseInt(start.split(":")[0]));
+						newstart?.setMinutes(parseInt(start.split(":")[1]));
+						setStart(JSON.stringify(newstart?.toISOString()));
+						let newend: Date | undefined = date;
+						newend?.setHours(parseInt(end.split(":")[0]));
+						newend?.setMinutes(parseInt(end.split(":")[1]));
+						setEnd(JSON.stringify(newend?.toISOString()));
+
+						postUrl("/bookings/machine/create", {
+							email: (jwtDecode(JSON.stringify(getTokenFromStorage())) as { email: string, iat: number }).email,
+							machine_id: Mach,
+							start: newstart?.toISOString(),
+							end: newend?.toISOString(),
+							description: desc,
+						}).then(response => {
+							if (response.status == 200) {
+								toast({
+									title: "Request successfully sent",
+									variant: "success"
+								})
+							}
+						}
+						)
+					}
+
+				}}>Submit</Button>
 			</div>
 		</div>
 	)
