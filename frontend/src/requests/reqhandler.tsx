@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Card, CardTitle } from "@/components/ui/card";
+import { Card, CardTitle, CardContent } from "@/components/ui/card";
 import Req from "./Req";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectItem } from "../components/ui/select";
 import saaman from "./testData";
@@ -85,6 +85,7 @@ export default function ReqHandler() {
 
       <Card className={isSmall ? "hidden" : "info-card m-1 mb-0 flex-1 p-4"}>
         <div className="flex justify-between">
+
           <CardTitle className="p-1">Requests</CardTitle>
           <Input
             type="search"
@@ -110,7 +111,6 @@ export default function ReqHandler() {
             </Select>
           </div>
         </div>
-
         <InfiniteScroll
           className="mt-2"
           dataLength={items.length}
