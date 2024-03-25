@@ -106,6 +106,17 @@ export default function AdminDashboard() {
                       <span className="text-4xl">3/</span><span>10</span>
                     </Card>
                   </div>
+                  <CardTitle>Stats</CardTitle>
+                  <div className="flex flex-1">
+                    <Card className="flex-1 m-1 info-card p-4">
+                      <Doughnut data={data} />
+                    </Card>
+                    <Card className="flex-1 m-1 p-4">
+                      <Doughnut data={data} />
+
+                    </Card>
+                  </div>
+
                 </div>
               </div>
             </Card>
