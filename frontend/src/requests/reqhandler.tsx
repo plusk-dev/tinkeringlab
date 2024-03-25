@@ -5,6 +5,8 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectI
 import saaman from "./testData";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button";
+import { ArrowUpDown } from "lucide-react";
 
 interface Data {
   name: string;
@@ -110,6 +112,13 @@ export default function ReqHandler() {
               </SelectContent>
             </Select>
           </div>
+          <Button onClick={() => {
+              setItems(
+                items.concat(
+                  mainData.slice(items.length, items.length + 10)
+                )
+              )
+            }} className="bg-transparent hover:bg-zinc-300"><ArrowUpDown /></Button>
         </div>
         <InfiniteScroll
           className="mt-2"
