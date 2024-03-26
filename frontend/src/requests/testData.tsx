@@ -13,7 +13,6 @@ const saaman: Data[] =
 
   { name: "Satvic", type: "Machine", id: "1",status:"resolved",desc:"balls",expiryDate:new Date("2024-03-28")},
   { name: "Yuv", type: "Component", id: "2" ,status:"resolved",desc:"balls",expiryDate:new Date("2024-03-28")},
-  { name: "gay", type: "Component", id:"3" ,status:"unresolved" ,desc:"balls",expiryDate:new Date("2024-03-29")},
   {name:"hello",type:"Machine",id:"4",status:"unresolved",desc:"balls",expiryDate:new Date("2024-03-28")},
   {name:"hello",type:"Component",id:"5",status:"unresolved",desc:"balls",expiryDate:new Date("2024-03-28")},
   {name:"hello",type:"Machine",id:"6",status:"unresolved",desc:"balls",expiryDate:new Date("2024-03-28")},
@@ -47,9 +46,6 @@ const saaman: Data[] =
   {name:"hello",type:"Machine",id:"34",status:"unresolved",desc:"balls",expiryDate:new Date("2024-03-28")},
   {name:"hello",type:"Component",id:"35",status:"unresolved",desc:"balls",expiryDate:new Date("2024-03-28")},
   {name:"hello",type:"Machine",id:"36",status:"unresolved",desc:"balls",expiryDate:new Date("2024-03-28")},
-
-  
- 
 ];
 
 export default saaman

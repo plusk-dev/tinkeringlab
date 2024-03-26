@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from models import session, Admin, User
 from fastapi.responses import JSONResponse
 from routes import bookings_router, inventory_router
-from utils import get_credential, object_as_dict, verify_jwt, look_for_emails_to_send
+from utils import get_credential, object_as_dict, verify_jwt, verify_jwt_admin
 import re
 import jwt
 import datetime
@@ -99,3 +99,8 @@ async def get_new_token(email: str):
 @app.post("/verify_token")
 async def verify(request: Request):
     return await verify_jwt(request)
+
+
+@app.post("/verify_token_admin")
+async def verify_admin(request: Request):
+    return await verify_jwt_admin(request)

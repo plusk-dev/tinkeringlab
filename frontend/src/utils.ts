@@ -11,6 +11,17 @@ async function getUrl(url: string, params: any): Promise<AxiosResponse> {
   }
 }
 
+async function getVerifiedUrl(url: string, params: any): Promise<AxiosResponse> {
+  try {
+    const response = await axios.get(BASE_URL + url, { params, headers: {
+      token: getTokenFromStorage()
+    } });
+    return response;
+  } catch (error: any) {
+    throw new Error(`Error fetching data: ${error.message}`);
+  }
+}
+
 async function postUrl(url: string, params: any): Promise<AxiosResponse> {
   try {
     const response = await axios.post(BASE_URL + url, null, {
@@ -27,6 +38,14 @@ async function verify_token(token: string | null): Promise<AxiosResponse> {
   };
 
   const response = await axios.post("http://127.0.0.1:5000/verify_token", {}, { headers });
+  return response;
+}
+async function verify_admin_token(token: string | null): Promise<AxiosResponse> {
+  const headers = {
+    'token': token
+  };
+
+  const response = await axios.post("http://127.0.0.1:5000/verify_token_admin", {}, { headers });
   return response;
 }
 
@@ -47,5 +66,5 @@ export {
   getUrl,
   postUrl,
   getTokenFromStorage,
-  setToken, verify_token, deleteTokenFromStorage
+  setToken, verify_token, deleteTokenFromStorage, verify_admin_token, getVerifiedUrl
 };

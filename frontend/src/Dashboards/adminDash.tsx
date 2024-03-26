@@ -1,10 +1,13 @@
 import React from "react"
 import Sidebar from "@/components/ui/Sidebar"
 import { Card, CardDescription, CardTitle, CardContent } from "@/components/ui/card"
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import ReqHandler from "@/requests/reqhandler";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
+import { useToast } from "@/components/ui/use-toast"
+import { useNavigate } from "react-router-dom";
+import { getTokenFromStorage, verify_admin_token, deleteTokenFromStorage } from "@/utils"
 
 export default function AdminDashboard() {
 
@@ -14,6 +17,34 @@ export default function AdminDashboard() {
   })
   useEffect(() => {
     setisSmall(window.innerWidth <= 1000);
+  }, [])
+  const { toast } = useToast();
+  const navigate = useNavigate()
+  const authenticated = useRef(false);
+
+  useEffect(() => {
+    if (!authenticated.current) {
+      verify_admin_token(getTokenFromStorage()).then(response => {
+        if (response.data.admin != true) {
+          toast({
+            title: "You are not an admin",
+            variant: "destructive"
+          })
+          navigate("/login");
+          deleteTokenFromStorage();
+        }
+      }).catch(error => {
+        let toastMessage: String = "";
+        toastMessage = error.response.data.error;
+        toast({
+          title: `${toastMessage}`,
+          variant: "destructive"
+        })
+        navigate("/login");
+        deleteTokenFromStorage();
+      })
+      authenticated.current = true;
+    }
   }, [])
   ChartJS.register(ArcElement, Tooltip, Legend);
   const data = {
@@ -46,7 +77,7 @@ export default function AdminDashboard() {
             <Card className="w-full flex info-card">
               <div className="diamond-shape m-5 h-14 w-14"></div>
               <h1 className="text-3xl tracking-tight pl-2 font-medium flex items-center">
-                Welcome! Vikas</h1>
+                Welcome! User</h1>
             </Card>
           </div>
 

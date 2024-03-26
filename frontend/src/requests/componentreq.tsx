@@ -7,7 +7,9 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
-import { ArrowUpDown } from "lucide-react";
+import { getTokenFromStorage, verify_admin_token, deleteTokenFromStorage } from "@/utils"
+import { useNavigate } from "react-router-dom";
+import { useToast } from "@/components/ui/use-toast"
 
 interface Data {
   name: string;
@@ -30,7 +32,34 @@ export default function Reqcomp() {
   const [loading, setLoading] = useState(false);
   const searchTimeout = useRef<NodeJS.Timeout | null>(null);
   const [overdueItems, setOverdueItems] = useState<Data[]>([]);
+  const { toast } = useToast();
+  const navigate = useNavigate()
+  const authenticated = useRef(false);
 
+  useEffect(() => {
+    if (!authenticated.current) {
+      verify_admin_token(getTokenFromStorage()).then(response => {
+        if (response.data.admin != true) {
+          toast({
+            title: "You are not an admin",
+            variant: "destructive"
+          })
+          navigate("/login");
+          deleteTokenFromStorage();
+        }
+      }).catch(error => {
+        let toastMessage: String = "";
+        toastMessage = error.response.data.error;
+        toast({
+          title: `${toastMessage}`,
+          variant: "destructive"
+        })
+        navigate("/login");
+        deleteTokenFromStorage();
+      })
+      authenticated.current = true;
+    }
+  }, [])
   useEffect(() => {
     const beebop = saaman.filter(item => item.type === "Component");
     setCompArray(beebop);
@@ -177,7 +206,7 @@ export default function Reqcomp() {
               placeholder="Search..."
               value={searchQuery}
               onChange={handleSearchChange}
-              className={ !isSmall ? "border-gray-300 rounded mx-2 w-full" : "hidden"}
+              className={!isSmall ? "border-gray-300 rounded mx-2 w-full" : "hidden"}
             />
             <Button onClick={() => {
               setItems(

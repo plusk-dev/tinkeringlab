@@ -25,6 +25,8 @@ export default function Dashboard() {
 	const navigate = useNavigate()
 	const [isSmall, setisSmall] = useState(false);
 	const authenticated = useRef(false);
+
+
 	window.addEventListener("resize", (_) => {
 		setisSmall(window.innerWidth <= 1000);
 	})
@@ -53,7 +55,7 @@ export default function Dashboard() {
 					<Card className="w-full flex info-card">
 						<div className="diamond-shape m-5 h-14 w-14"></div>
 						<h1 className="text-3xl tracking-tight pl-2 font-medium flex items-center">
-							Welcome! Vikas</h1>
+							Welcome! User</h1>
 					</Card>
 				</div>
 				<div className={isSmall ? "gap-4 header-cards" : "pt-4 gap-4 header-cards flex h-full"}>
@@ -61,7 +63,7 @@ export default function Dashboard() {
 						<CardTitle>Components Available</CardTitle>
 						<CardDescription className="mt-2">Number of components available at the Tinkering Lab right now.</CardDescription>
 						<span className="text-4xl">45/</span><span>70</span>
-						<div className={isSmall ? "hidden" : "h-4/5 overflow-y-scroll"}>
+						<div className={isSmall ? "" : "overflow-y-scroll"}>
 							<Table>
 								<TableHeader>
 									<TableRow>
