@@ -12,7 +12,7 @@ import Workstation from './Bookings/workstation';
 import ReqMach from './requests/machinereq';
 import WorkMech from './requests/workstationreq';
 import Reqcomp from './requests/componentreq';
-import Inventory from './Inventory/inventory';
+import Inventory from './Inventory/inventory2';
 
 function App() {
   return (
