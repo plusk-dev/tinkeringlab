@@ -109,6 +109,14 @@ export default function Sidebar() {
           <Link to="/admin/dashboard/workstation" className="p-3 flex gap-2 hover:bg-zinc-300 hover:rounded-lg"><span>Workstation</span></Link>
           <Link to="/admin/dashboard/component" className="p-3 flex gap-2 hover:bg-zinc-300 hover:rounded-lg"> <span>Component</span></Link>
           <Link to="/admin/dashboard/inventory" className="p-3 flex gap-2 hover:bg-zinc-300 hover:rounded-lg"> <span>Inventory</span></Link>
+          <Button className="p-3 flex gap-2 hover:bg-zinc-300 hover:rounded-lg" onClick={() => {
+              deleteTokenFromStorage();
+              navigate("/login");
+              toast({
+                title: "Logged out",
+                variant: "success"
+              })
+            }}>Logout</Button>
         </div>
       </div>
     </>
