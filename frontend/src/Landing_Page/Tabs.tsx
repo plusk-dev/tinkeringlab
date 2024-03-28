@@ -14,17 +14,17 @@ import {
 
 export function About() {
   return (
-    <Tabs defaultValue="account" className="w-full" >
+    <Tabs defaultValue="account" className="w-full md:px-32" >
       
-      <TabsList className="grid grid-cols-3 text-[#003f87] ">
-        <TabsTrigger className="font-semibold " value="account">About Us</TabsTrigger>
-        <TabsTrigger className="font-semibold" value="wsua">What sets us apart ?</TabsTrigger>
+      <TabsList className="grid grid-cols-3 text-[#003f87] info-card ">
+        <TabsTrigger className="font-semibold" value="account">About Us</TabsTrigger>
+        <TabsTrigger className="font-semibold" value="wsua">Why are we different?</TabsTrigger>
         <TabsTrigger className="font-semibold" value="jttm">Join us</TabsTrigger>
       </TabsList>
       
 
       <TabsContent value="account">
-        <Card>
+        <Card className="info-card">
           <CardHeader>
             <CardTitle className="text-[#003f87] text-center">Welcome to Tinkerers' Lab</CardTitle>
           </CardHeader>
@@ -41,7 +41,7 @@ export function About() {
         </Card>
       </TabsContent>
       <TabsContent value="wsua">
-        <Card>
+        <Card className="info-card">
             <CardHeader>
               <CardTitle className="text-[#003f87] text-center">State of the art facilities</CardTitle>
             </CardHeader>
@@ -57,7 +57,7 @@ export function About() {
       </TabsContent>
 
       <TabsContent value="jttm">
-        <Card>
+        <Card className="info-card">
             <CardHeader>
               <CardTitle className="text-[#003f87] text-center">Join the Tinkerers' movement</CardTitle>
             </CardHeader>

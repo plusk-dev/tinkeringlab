@@ -1,4 +1,4 @@
-import { Bolt, ChevronFirst, ChevronLast, Dumbbell, Layers2 } from "lucide-react"
+import { Bolt, ChevronFirst, ChevronLast, Dumbbell, Layers2, Pen } from "lucide-react"
 import React, { useState, useEffect } from "react"
 import mainLogo from "./tinker.png"
 import { NavigationMenu, NavigationMenuItem } from "@radix-ui/react-navigation-menu";
@@ -19,11 +19,11 @@ export default function Sidebar() {
   const { toast } = useToast();
 
   window.addEventListener("resize", (_) => {
-    setisSmall(window.innerWidth <= 1000);
+    setisSmall(window.innerWidth <= 1024);
   })
 
   useEffect(() => {
-    setisSmall(window.innerWidth <= 1000);
+    setisSmall(window.innerWidth <= 1024);
   }, [])
 
 
@@ -79,6 +79,12 @@ export default function Sidebar() {
               <Layers2 className="ml-2" />
               <span>Requests</span>
             </Link>
+            <Link to="/admin/dashboard/Landing_Page" className="p-3 flex gap-2 hover:bg-zinc-300 hover:rounded-lg">
+              <Pen className="ml-2" />
+              <span>Landing Page</span>
+            </Link>
+
+
             <Button className="p-3 flex gap-2 hover:bg-zinc-300 hover:rounded-lg" onClick={() => {
               deleteTokenFromStorage();
               navigate("/login");

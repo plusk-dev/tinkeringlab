@@ -14,6 +14,7 @@ import WorkMech from './requests/workstationreq';
 import Reqcomp from './requests/componentreq';
 import Inventory from './Inventory/inventory2';
 import Allreqs from './requests/Allreqs';
+import Land from './requests/Event_edit';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         <Route path='/admin/dashboard/component' element={<Reqcomp/>} />
         <Route path='/admin/dashboard/inventory' element={<Inventory/>}/>
         <Route path='/admin/dashboard/allreqs' element={<Allreqs/>}/>
+        <Route path='/admin/dashboard/Landing_page' element={<Land/>}/>
       </Routes>
     </>
   );

@@ -6,7 +6,6 @@ import {
 } from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-
 import { useState } from "react";
 import {useEffect} from "react";
 import mainLogo from '../images/tinker.png'
@@ -14,8 +13,6 @@ import mainLogo from '../images/tinker.png'
 
 export function Navbar(){
   const navigate=useNavigate();
-  
-
     const [scrolling, setScrolling] = useState(false);
     const [scrollTop, setScrollTop] = useState(0);
   
