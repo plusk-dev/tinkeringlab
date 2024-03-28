@@ -72,7 +72,7 @@ export default function AdminDashboard() {
     <>
       <div className={`hover:rounded-lg ${isSmall ? "" : "flex"} max-h-screen`}>
         <Sidebar />
-        <div className="flex flex-col w-screen ps-1 pe-1 overflow-hidden" style={{ maxHeight: '98vh' }}>
+        <div className="flex flex-col w-screen ps-1 pe-1 overflow-auto" style={{ maxHeight: '98vh' }}>
           <div className="flex m-1">
             <Card className="w-full flex info-card">
               <div className="diamond-shape m-5 h-14 w-14"></div>
@@ -87,7 +87,7 @@ export default function AdminDashboard() {
               <div className={isSmall ? "" : "flex flex-col overflow-y-scroll h-5/6"}>
                 <div className="flex-1 flex flex-col gap-1">
                   <CardTitle>Request success rate</CardTitle>
-                  <div className="flex">
+                  <div className="flex flex-col md:flex-row">
                     <Card className="flex-1 m-1 p-4 info-card">
                       <CardTitle className="text-xl">Last Month</CardTitle>
                       <Doughnut data={data} />

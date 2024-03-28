@@ -1,13 +1,17 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Button } from "./button";
 import { GiHamburgerMenu } from "react-icons/gi";
 import tink from "./tinker.png"
+import { deleteTokenFromStorage } from "@/utils";
+import { useToast } from "./use-toast";
 
 export default function Navbar() {
 	const [isSmall, setisSmall] = useState(false);
 	const [hidden, setHidden] = useState(true);
+	const { toast } = useToast();
+	const navigate = useNavigate()
 	window.addEventListener("resize", (_) => {
 		setisSmall(window.innerWidth <= 1000);
 	})
@@ -28,6 +32,14 @@ export default function Navbar() {
 				<Link to="/dashboard/machine" className="p-3 hover:bg-zinc-300 hover:rounded-lg">Book a machine</Link>
 				<Link to="/dashboard/booking" className="p-3 hover:bg-zinc-300 hover:rounded-lg">Issue a component</Link>
 				<Link to="/dashboard/workstation" className="p-3 hover:bg-zinc-300 hover:rounded-lg">Book a workstation</Link>
+				<Button className="p-3 flex gap-2 hover:bg-zinc-300 hover:rounded-lg" onClick={() => {
+					deleteTokenFromStorage();
+					navigate("/login");
+					toast({
+						title: "Logged out",
+						variant: "success"
+					})
+				}}>Logout</Button>
 			</div>
 		</div>
 	</>

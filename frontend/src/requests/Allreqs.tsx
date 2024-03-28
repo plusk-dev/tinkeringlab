@@ -5,17 +5,17 @@ import React, { useEffect, useState } from "react";
 import Req from "./Req";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-function compareFn(a:any,b:any){
-    if(a.created_at<b.created_at){
+function compareFn(a: any, b: any) {
+    if (a.created_at < b.created_at) {
         return -1;
     }
-    if(a.created_at<b.created_at){
+    if (a.created_at < b.created_at) {
         return 1;
     }
     return 0;
 }
 
-const fetchMoreData=()=>{
+const fetchMoreData = () => {
 
 }
 
@@ -49,7 +49,7 @@ export default function Allreqs() {
                 <CardDescription className="ml-2">A List of all requests</CardDescription>
             </Card>
             <CardContent>
-                
+
             </CardContent>
         </div>
     </>)
