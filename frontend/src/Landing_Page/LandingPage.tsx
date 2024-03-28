@@ -2,7 +2,6 @@ import  React from 'react';
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { Navbar } from './Navbar';
-import { Person } from './person';
 import { useEffect} from 'react';
 import { useState } from 'react';
 import './LandingPage.css';
@@ -29,25 +28,19 @@ export function LandingPage(){
     })
   },[])
 
-  return (<>
-    <Navbar />
+  return (<>  
+ 
 
-    <div className="land">
-        <div  className="h-screen flex">
-          <div className="pl-5 w-1/2 font-bold text-6xl flex-grow flex items-center justify-center">
-            <h1 className="text-center bg-gradient-to-r from-blue-700 via-[#528efd] to-blue-700 inline-block text-transparent bg-clip-text">Welcome to the official page of Tinkerers' Lab,<br></br><span className="text-[#003f87]">IIT Jammu</span></h1>
-          </div>
+        <div className='overflow-x-hidden scrollbar'>
+        <div  className=" overflow-y-hidden h-screen flex bg-no-repeat bg-cover w-full" style={{backgroundImage:'url("src/images/image.webp")'}}>
+          <Navbar />
+        </div>
+        <h1 className=' px-4 font-bold flex justify-center text-center text-[50px] bg-transparent relative top-[-500px] h-8 text-white'>Welcome to the official page of Tinkerer's Lab<br/> IIT Jammu</h1>
+        <About/>
+        <Members/>
+
         </div>
 
-      <About/>
-      <Members/>
-      
-
-
-
-
-    </div>
-  
  
   </>);
 }

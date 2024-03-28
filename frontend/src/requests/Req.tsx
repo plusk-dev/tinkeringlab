@@ -8,7 +8,7 @@ interface Data {
   type: string;
   id: string;
   status: string
-  desc: string
+  description: string
   expiryDate: Date
 }
 
@@ -21,12 +21,12 @@ const Req: React.FC<ReqProps> = ({ data, updateStatus }) => {
 
   return (
     <>
-      <Card className="mt-1 bg-blue-200 border-blue-700	border-[1px] border-dashed">
+      <Card className={`mt-1 ${data.status==="resolved"?"bg-pink-400":"bg-blue-200"} border-blue-700	border-[1px] border-dashed`}>
         <CardContent className="flex justify-between items-center flex-1 p-0 px-1 mt-1">
           <h3 className="pb-1">{data.name}</h3>
           <h3 className="pb-1">{data.type}</h3>
           <Sheet >
-            <SheetTrigger asChild className={data.status === "resolved" ? "hidden" : ""}><Button className="mb-1">Open</Button></SheetTrigger>
+            <SheetTrigger asChild ><Button className="mb-1">Open</Button></SheetTrigger>
             <SheetContent>
               <SheetHeader>
                 <SheetTitle>Request info</SheetTitle>
@@ -35,13 +35,13 @@ const Req: React.FC<ReqProps> = ({ data, updateStatus }) => {
                 <h3 className="font-bold">Name: <span className="font-normal">{data.name}</span></h3>
                 <h3 className="font-bold">Request for:<span className="font-normal">{data.type}</span></h3>
                 <h3 className="font-bold">Desc:</h3>
-                <p className="border-zinc-500 min-h-10">{data.desc}</p>
+                <p className="border-zinc-500 min-h-10">{data.description}</p>
 
               </div>
               <SheetFooter>
                 <div className="flex w-full gap-1">
-                  <Button className="flex-1" onClick={() => updateStatus(data.id, "resolved")}>Accept</Button>
-                  <Button className="flex-1">Reject</Button>
+                  <Button className={data.status === "resolved" ? "hidden" : "flex-1"} onClick={() => updateStatus(data.id, "resolved")}>Accept</Button>
+                  <Button className={data.status === "resolved" ? "hidden" : "flex-1"}>Reject</Button>
                 </div>
 
               </SheetFooter>

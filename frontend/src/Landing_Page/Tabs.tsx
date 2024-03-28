@@ -14,9 +14,9 @@ import {
 
 export function About() {
   return (
-    <Tabs defaultValue="account" className="w-full">
+    <Tabs defaultValue="account" className="w-full" >
       
-      <TabsList className="grid w-full grid-cols-3 text-[#003f87]">
+      <TabsList className="grid grid-cols-3 text-[#003f87] ">
         <TabsTrigger className="font-semibold " value="account">About Us</TabsTrigger>
         <TabsTrigger className="font-semibold" value="wsua">What sets us apart ?</TabsTrigger>
         <TabsTrigger className="font-semibold" value="jttm">Join us</TabsTrigger>

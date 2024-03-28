@@ -20,7 +20,7 @@ export function Members(){
 	}, [])
   return (
     <>
-      <Card>
+      <Card className="">
         <CardHeader>
           <CardTitle className="text-[#003f87] text-center">Meet our Members</CardTitle>
         </CardHeader>

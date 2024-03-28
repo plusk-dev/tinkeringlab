@@ -33,6 +33,13 @@ async def on_startup():
             admin=True,
         )
         )
+        session.add(Admin(
+            email="2022ucs0108@iitjammu.ac.in",
+            name="Satvic Dhawan",
+            phone="7011690148",
+            admin=True,
+        )
+        )
         session.add(User(
             student_id="2023uma0201",
             email="2023uma0201@iitjammu.ac.in",
