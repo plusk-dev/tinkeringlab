@@ -15,6 +15,7 @@ import Reqcomp from './requests/componentreq';
 import Inventory from './Inventory/inventory2';
 import Allreqs from './requests/Allreqs';
 import Land from './requests/Event_edit';
+import EAP from './Landing_Page/Events&projects';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         <Route path='/admin/dashboard/inventory' element={<Inventory/>}/>
         <Route path='/admin/dashboard/allreqs' element={<Allreqs/>}/>
         <Route path='/admin/dashboard/Landing_page' element={<Land/>}/>
+        <Route path='/admin/dashboard/eap' element={<EAP/>}/>
       </Routes>
     </>
   );
