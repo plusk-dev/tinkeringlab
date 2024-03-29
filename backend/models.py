@@ -97,6 +97,17 @@ class WorkstationBooking(Base):
     approver = relationship("Admin", backref="approved_workstation_bookings")
 
 
+class Event(Base):
+    __tablename__ = "Event"
+    id = Column(Integer, primary_key=True)
+    title = Column(String, nullable=False)
+    description = Column(String, nullable=True)
+    created_at = Column(DateTime, nullable=False)
+    event_date = Column(DateTime, nullable=False)
+    img_name = Column(String, nullable=True)
+    on_landing_page = Column(Boolean, nullable=False)
+
+
 engine = create_engine("sqlite:///database.db", echo=False)
 Base.metadata.create_all(bind=engine)
 

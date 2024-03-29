@@ -2,8 +2,9 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from models import session, Admin, User
 from fastapi.responses import JSONResponse
-from routes import bookings_router, inventory_router
+from routes import bookings_router, inventory_router, landing_router
 from utils import get_credential, object_as_dict, verify_jwt, verify_jwt_admin
+from fastapi.staticfiles import StaticFiles
 import re
 import jwt
 import datetime
@@ -11,8 +12,10 @@ import datetime
 email_regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
 JWT_SECRET = get_credential("JWT_SECRET")
 app = FastAPI()
+app.mount("/static", StaticFiles(directory="static"), name="static")
 app.mount("/bookings", bookings_router)
 app.mount("/inventory", inventory_router)
+app.mount("/landing", landing_router)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -52,8 +55,8 @@ async def on_startup():
             name="Satvic Theone",
             created_at=datetime.datetime.now(),
         ))
-        print("APP STARTED")
         session.commit()
+    print("APP STARTED")
 
 
 async def on_shutdown():

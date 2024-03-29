@@ -4,7 +4,11 @@ let BASE_URL = "http://127.0.0.1:5000";
 
 async function getUrl(url: string, params: any): Promise<AxiosResponse> {
   try {
-    const response = await axios.get(BASE_URL + url, { params });
+    const response = await axios.get(BASE_URL + url, {
+      params, headers: {
+        token: getTokenFromStorage()
+      }
+    });
     return response;
   } catch (error: any) {
     throw new Error(`Error fetching data: ${error.message}`);
@@ -13,9 +17,11 @@ async function getUrl(url: string, params: any): Promise<AxiosResponse> {
 
 async function getVerifiedUrl(url: string, params: any): Promise<AxiosResponse> {
   try {
-    const response = await axios.get(BASE_URL + url, { params, headers: {
-      token: getTokenFromStorage()
-    } });
+    const response = await axios.get(BASE_URL + url, {
+      params, headers: {
+        token: getTokenFromStorage()
+      }
+    });
     return response;
   } catch (error: any) {
     throw new Error(`Error fetching data: ${error.message}`);
@@ -25,7 +31,10 @@ async function getVerifiedUrl(url: string, params: any): Promise<AxiosResponse> 
 async function postUrl(url: string, params: any): Promise<AxiosResponse> {
   try {
     const response = await axios.post(BASE_URL + url, null, {
-      params
+      params,
+      headers: {
+        token: getTokenFromStorage(),
+      }
     });
     return response;
   } catch (error: any) {
@@ -57,7 +66,7 @@ function setToken(token: string): undefined {
   localStorage.setItem("token", token);
 }
 
-function deleteTokenFromStorage() : undefined {
+function deleteTokenFromStorage(): undefined {
   localStorage.removeItem("token");
 }
 

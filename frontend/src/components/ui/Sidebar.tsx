@@ -12,7 +12,7 @@ import { deleteTokenFromStorage } from "@/utils";
 import { useToast } from "@/components/ui/use-toast"
 
 export default function Sidebar() {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(true);
   const [hidden, setHidden] = useState(true);
   const [isSmall, setisSmall] = useState(false);
   const navigate = useNavigate()

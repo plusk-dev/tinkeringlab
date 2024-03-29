@@ -11,6 +11,7 @@ from models import User, session, Admin
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from fastapi.responses import JSONResponse
+from fastapi.exceptions import HTTPException
 
 context = ssl.create_default_context()
 
@@ -97,73 +98,53 @@ JWT_SECRET = get_credential("JWT_SECRET")
 async def verify_jwt(request: Request) -> JSONResponse:
     token = request.headers.get("token")
     if token == None:
-        return JSONResponse(
-            content={
-                "error": "Not logged in."
-            }, status_code=400
+        raise HTTPException(
+            detail="Not logged in", status_code=401
         )
     try:
         payload = jwt.decode(token, JWT_SECRET, algorithms="HS256")
         if datetime.datetime.utcnow() - datetime.datetime.utcfromtimestamp(payload.get("iat")) >= JWT_TOKEN_TIMEOUT:
-            return JSONResponse(
-                content={
-                    "error": "Session Expired. Please Log In Again"
-                }, status_code=401)
+            raise HTTPException(
+                detail="Session Expired. Please Log In Again", status_code=401)
         email = payload.get("email")
         if email is None:
-            return JSONResponse(
-                content={
-                    "error": "Token does not contain email. Please log in again."
-                }, status_code=400
+            raise HTTPException(
+                detail="Token does not contain email. Please log in again.", status_code=400
             )
         user = session.query(User).filter_by(email=email).first()
         if user is None:
-            return JSONResponse(
-                content={
-                    "error": "No user with the provied email exists. Please try to log in again."
-                }, status_code=400
+            raise HTTPException(
+                detail="No user with the provied email exists. Please try to log in again.", status_code=400
             )
         return object_as_dict(user)
     except jwt.InvalidTokenError:
-        return JSONResponse(content={
-            "error": "invalid jwt provided"
-        }, status_code=400)
+        raise HTTPException(detail="invalid jwt provided", status_code=400)
 
 
 async def verify_jwt_admin(request: Request) -> JSONResponse:
     token = request.headers.get("token")
     if token == None:
-        return JSONResponse(
-            content={
-                "error": "Not logged in."
-            }, status_code=400
+        raise HTTPException(
+            detail="Not logged in", status_code=401
         )
     try:
         payload = jwt.decode(token, JWT_SECRET, algorithms="HS256")
         if datetime.datetime.utcnow() - datetime.datetime.utcfromtimestamp(payload.get("iat")) >= JWT_TOKEN_TIMEOUT:
-            return JSONResponse(
-                content={
-                    "error": "Session Expired. Please Log In Again"
-                }, status_code=401)
+            raise HTTPException(
+                detail="Session Expired. Please Log In Again", status_code=401)
         email = payload.get("email")
         if email is None:
-            return JSONResponse(
-                content={
-                    "error": "Token does not contain email. Please log in again."
-                }, status_code=400
+            raise HTTPException(
+                detail="Token does not contain email. Please log in again.", status_code=400
             )
         user = session.query(Admin).filter_by(email=email).first()
         if user is None:
-            return JSONResponse(
-                content={
-                    "error": "No user with the provied email exists. Please try to log in again."
-                }, status_code=400
+            raise HTTPException(
+                detail="No user with the provied email exists. Please try to log in again.", status_code=400
             )
         return object_as_dict(user)
     except jwt.InvalidTokenError:
-        return JSONResponse(content={
-            "error": "invalid jwt provided"
-        }, status_code=400)
+        raise HTTPException(detail="invalid jwt provided", status_code=400)
 
 
 def look_for_emails_to_send():

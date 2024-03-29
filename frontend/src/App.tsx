@@ -28,12 +28,12 @@ function App() {
         <Route path='/dashboard/booking' element={<Component />} />
         <Route path='/dashboard/machine' element={<Machine />} />
         <Route path='/dashboard/workstation' element={<Workstation />} />
-        <Route path='/admin/dashboard/machine' element={<ReqMach/>} />
-        <Route path='/admin/dashboard/workstation' element={<WorkMech/>} />
-        <Route path='/admin/dashboard/component' element={<Reqcomp/>} />
-        <Route path='/admin/dashboard/inventory' element={<Inventory/>}/>
-        <Route path='/admin/dashboard/allreqs' element={<Allreqs/>}/>
-        <Route path='/admin/dashboard/Landing_page' element={<Land/>}/>
+        <Route path='/admin/dashboard/machine' element={<ReqMach />} />
+        <Route path='/admin/dashboard/workstation' element={<WorkMech />} />
+        <Route path='/admin/dashboard/component' element={<Reqcomp />} />
+        <Route path='/admin/dashboard/inventory' element={<Inventory />} />
+        <Route path='/admin/dashboard/allreqs' element={<Allreqs />} />
+        <Route path='/admin/dashboard/Landing_page' element={<Land />} />
       </Routes>
     </>
   );

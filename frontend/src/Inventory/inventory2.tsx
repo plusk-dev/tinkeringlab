@@ -202,14 +202,27 @@ export default function Inventory() {
                                                 <TableCell className="flex gap-1"><Button onClick={() => { setSaveComponent(false); addComponent() }}>+Add New</Button>
                                                     <Button className="bg-blue-500" onClick={() => {
                                                         setSaveComponent(true)
+                                                        let success: boolean = true;
                                                         components.forEach(component => {
                                                             postUrl("/inventory/components/update", {
                                                                 id: component.id,
                                                                 name: component.name,
                                                                 total: component.total
-                                                            })
+                                                            }).then(response => success = success && (response.status == 200))
+
                                                         }
                                                         )
+                                                        if (success) {
+                                                            toast({
+                                                                title: "Changes saved successfully",
+                                                                variant: "success"
+                                                            })
+                                                        } else {
+                                                            toast({
+                                                                title: "Changes not saved",
+                                                                variant: "destructive"
+                                                            })
+                                                        }
 
                                                     }} >Save</Button>
 
@@ -265,11 +278,23 @@ export default function Inventory() {
                                                     <Button className={`bg-blue-500 ${editingMach ? "" : "hidden"}`} onClick={() => {
                                                         setSaveMachine(true);
                                                         machines.forEach(machine => {
+                                                            let success: boolean = true;
                                                             postUrl("/inventory/machines/update", {
                                                                 id: machine.id,
                                                                 name: machine.name,
 
-                                                            })
+                                                            }).then(response=>success=success && (response.status===200))
+                                                            if (success) {
+                                                                toast({
+                                                                    title: "Changes saved successfully",
+                                                                    variant: "success"
+                                                                })
+                                                            } else {
+                                                                toast({
+                                                                    title: "Changes not saved",
+                                                                    variant: "destructive"
+                                                                })
+                                                            }
                                                         }
                                                         )
 
@@ -330,11 +355,23 @@ export default function Inventory() {
                                                     <Button className={`bg-blue-500 ${editingWork ? "" : "hidden"}`} onClick={() => {
                                                         setSaveWork(true);
                                                         work.forEach(work => {
+                                                            let success:boolean=true;
                                                             postUrl("/inventory/workstations/update", {
                                                                 id: work.id,
                                                                 name: work.name,
 
-                                                            })
+                                                            }).then(response=>success=success && (response.status===200))
+                                                            if (success) {
+                                                                toast({
+                                                                    title: "Changes saved successfully",
+                                                                    variant: "success"
+                                                                })
+                                                            } else {
+                                                                toast({
+                                                                    title: "Changes not saved",
+                                                                    variant: "destructive"
+                                                                })
+                                                            }
                                                         }
                                                         )
 

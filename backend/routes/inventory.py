@@ -1,13 +1,13 @@
 from fastapi import FastAPI, Depends
 from fastapi.responses import JSONResponse
 from models import Component, session, Machine, Workstation
-from utils import object_as_dict, verify_jwt_admin
+from utils import object_as_dict, verify_jwt_admin, verify_jwt
 
 inventory_router = FastAPI()
 
 
 @inventory_router.get("/components/all")
-async def get_all_components():
+async def get_all_components(user=Depends(verify_jwt_admin)):
     return {
         "components": [object_as_dict(component) for component in session.query(Component).all()]
     }

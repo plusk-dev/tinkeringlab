@@ -16,7 +16,7 @@ interface Data {
   type: string;
   id: string;
   status: string
-  desc: string
+  description: string
   expiryDate: Date
 }
 
