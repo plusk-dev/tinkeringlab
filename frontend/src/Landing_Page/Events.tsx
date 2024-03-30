@@ -14,9 +14,6 @@ interface eventType {
   on_landing_page: boolean;
 }
 
-
-
-
 export function Example() {
   return (
     <Carousel

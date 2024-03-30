@@ -2,7 +2,7 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from models import session, Admin, User
 from fastapi.responses import JSONResponse
-from routes import bookings_router, inventory_router, landing_router
+from routes import bookings_router, inventory_router, landing_router, intern_router
 from utils import get_credential, object_as_dict, verify_jwt, verify_jwt_admin
 from fastapi.staticfiles import StaticFiles
 import re
@@ -16,6 +16,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 app.mount("/bookings", bookings_router)
 app.mount("/inventory", inventory_router)
 app.mount("/landing", landing_router)
+app.mount("/interns", intern_router)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],

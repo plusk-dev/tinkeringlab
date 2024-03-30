@@ -6,6 +6,7 @@ import datetime
 import aiofiles
 import uuid
 import json
+import os
 
 landing_router = FastAPI()
 
@@ -36,10 +37,12 @@ async def change_visibility(id: int):
     session.commit()
     return object_as_dict(event)
 
+
 @landing_router.post("/delete")
 async def delete_workstation(id: int):
     c = session.query(Event).filter(Event.id == id).first()
     if c != None:
+        os.remove("static/"+c.img_name)
         session.delete(c)
         session.commit()
         return {"message": "deleted successfully"}

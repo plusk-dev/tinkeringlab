@@ -108,6 +108,18 @@ class Event(Base):
     on_landing_page = Column(Boolean, nullable=False)
 
 
+class OtherRequest(Base):
+    __tablename__ = "InternRequest"
+    id = Column(Integer, primary_key=True)
+    name = Column(String, nullable=False)
+    email = Column(String, nullable=False, unique=True)
+    remarks = Column(String, nullable=False)
+    professor_name = Column(String, nullable=False)
+    department = Column(String, nullable=True)
+    created_at = Column(DateTime, nullable=False)
+    req_type = Column(String, nullable=False)
+
+
 engine = create_engine("sqlite:///database.db", echo=False)
 Base.metadata.create_all(bind=engine)
 
