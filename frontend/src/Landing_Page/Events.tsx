@@ -38,7 +38,7 @@ export default function Events() {
     })
   }, [])
   return <>
-    <div className="w-full flex flex-col md:flex-row my-10">
+    <div className={`${events.length===0?"hidden":""} w-full flex flex-col md:flex-row mt-10 mb-5`}>
       <Card className=" hidden md:w-1/3 md:block ">
         <CardTitle className=" md:flex md:justify-center md:items-center md:h-full">Events</CardTitle>
       </Card>
