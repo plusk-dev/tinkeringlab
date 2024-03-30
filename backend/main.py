@@ -109,7 +109,7 @@ async def get_new_token(email: str):
         }, status_code=400)
 
 @app.get("/requests/all")
-async def get_all(user=Depends(verify_jwt_admin)):
+async def get_all():
     data = json.dumps({
         "session": [object_as_dict(booking) for booking in session.query(MachineBooking)],
         "component": [object_as_dict(booking) for booking in session.query(ComponentBooking)],

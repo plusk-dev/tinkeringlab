@@ -11,6 +11,7 @@ interface Data {
   status: string
   description: string
   expiryDate: Date
+  
 }
 
 interface ReqProps {
@@ -30,7 +31,6 @@ const Req: React.FC<ReqProps> = ({ data, updateStatus }) => {
       <Card className={`mt-1 ${data.status === "resolved" ? "bg-pink-400" : "bg-blue-200"} border-blue-700	border-[1px] border-dashed`}>
         <CardContent className="flex justify-between items-center p-0 px-1 mt-1">
           <h3 className="pb-1 flex gap-2">{ICONS[data.type]}{data.name}</h3>
-          {/* <h3 className="pb-1">{data.type}</h3> */}
           <Sheet >
             <SheetTrigger asChild ><Button className="mb-1">Open</Button></SheetTrigger>
             <SheetContent>

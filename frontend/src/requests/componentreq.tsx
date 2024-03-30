@@ -1,7 +1,6 @@
 import Sidebar from "@/components/ui/Sidebar";
 import { Card, CardTitle } from "@/components/ui/card";
 import React, { useEffect, useState, useRef } from "react";
-import saaman from "./testData";
 import Req from "./Req";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Input } from "@/components/ui/input";

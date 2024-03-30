@@ -1,4 +1,4 @@
-import { Bolt, ChevronFirst, ChevronLast, Dumbbell, Layers2, Pen } from "lucide-react"
+import { Bolt, ChevronFirst, ChevronLast, Dumbbell, Glasses, Layers2, Pen } from "lucide-react"
 import React, { useState, useEffect } from "react"
 import mainLogo from "./tinker.png"
 import { NavigationMenu, NavigationMenuItem } from "@radix-ui/react-navigation-menu";
@@ -83,6 +83,10 @@ export default function Sidebar() {
               <Pen className="ml-2" />
               <span>Landing Page</span>
             </Link>
+            <Link to="/admin/dashboard/Intern" className="p-3 flex gap-2 hover:bg-zinc-300 hover:rounded-lg">
+              <Glasses className="ml-2" />
+              <span>Interns</span>
+            </Link>
 
 
             <Button className="p-3 flex gap-2 hover:bg-zinc-300 hover:rounded-lg" onClick={() => {
@@ -115,6 +119,7 @@ export default function Sidebar() {
           <Link to="/admin/dashboard/workstation" className="p-3 flex gap-2 hover:bg-zinc-300 hover:rounded-lg"><span>Workstation</span></Link>
           <Link to="/admin/dashboard/component" className="p-3 flex gap-2 hover:bg-zinc-300 hover:rounded-lg"> <span>Component</span></Link>
           <Link to="/admin/dashboard/inventory" className="p-3 flex gap-2 hover:bg-zinc-300 hover:rounded-lg"> <span>Inventory</span></Link>
+          <Link to="/admin/dashboard/Intern" className="p-3 flex gap-2 hover:bg-zinc-300 hover:rounded-lg"><span>Interns</span></Link>
           <Button className="p-3 flex gap-2 hover:bg-zinc-300 hover:rounded-lg" onClick={() => {
               deleteTokenFromStorage();
               navigate("/login");
