@@ -19,7 +19,7 @@ interface ReqProps {
   updateStatus: (id: string, newStatus: string) => void;
 }
 
-const ICONS = {
+const ICONS:any = {
   'Component': <Puzzle />,
   'Machine': <Clock />,
   'Intern': <Glasses />

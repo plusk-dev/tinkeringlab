@@ -111,10 +111,10 @@ async def get_new_token(email: str):
 @app.get("/requests/all")
 async def get_all():
     data = json.dumps({
-        "session": [object_as_dict(booking) for booking in session.query(MachineBooking)],
-        "component": [object_as_dict(booking) for booking in session.query(ComponentBooking)],
-        "workstation": [object_as_dict(booking) for booking in session.query(WorkstationBooking)],
-        "other": [object_as_dict(event) for event in session.query(OtherRequest).all()]
+        "sessions": [{**object_as_dict(booking), "user": object_as_dict(session.query(User).filter(User.id == booking.user_id).first())} for booking in session.query(MachineBooking)],
+        "component": [{**object_as_dict(booking), "user": object_as_dict(session.query(User).filter(User.id == booking.user_id).first())} for booking in session.query(ComponentBooking)],
+        "workstation": [{**object_as_dict(booking), "user": object_as_dict(session.query(User).filter(User.id == booking.user_id).first())} for booking in session.query(WorkstationBooking)],
+        "other": [{**object_as_dict(booking), "user": object_as_dict(session.query(User).filter(User.id == booking.user_id).first())} for booking in session.query(OtherRequest)]
     }, sort_keys=True, default=str)
     return JSONResponse(content=data, status_code=200)
 
