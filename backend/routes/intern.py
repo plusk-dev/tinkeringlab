@@ -9,10 +9,6 @@ import datetime
 intern_router = FastAPI()
 
 
-@intern_router.get("/all")
-async def index():
-    return JSONResponse(content=json.dumps([object_as_dict(event) for event in session.query(OtherRequest).all()], sort_keys=True, default=str), status_code=200)
-
 @intern_router.post("/create")
 async def create_other_request(name: str, email: str, remarks: str, professor_name: str, department: str, req_type: str):
     if session.query(OtherRequest).filter(OtherRequest.email == email).first() is None:

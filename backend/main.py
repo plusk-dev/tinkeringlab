@@ -1,13 +1,15 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from models import session, Admin, User
 from fastapi.responses import JSONResponse
 from routes import bookings_router, inventory_router, landing_router, intern_router
 from utils import get_credential, object_as_dict, verify_jwt, verify_jwt_admin
 from fastapi.staticfiles import StaticFiles
+from models import MachineBooking, WorkstationBooking, OtherRequest, ComponentBooking
 import re
 import jwt
 import datetime
+import json
 
 email_regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
 JWT_SECRET = get_credential("JWT_SECRET")
@@ -105,6 +107,16 @@ async def get_new_token(email: str):
         return JSONResponse(content={
             "error": "email provided is not a valid email"
         }, status_code=400)
+
+@app.get("/requests/all")
+async def get_all(user=Depends(verify_jwt_admin)):
+    data = json.dumps({
+        "session": [object_as_dict(booking) for booking in session.query(MachineBooking)],
+        "component": [object_as_dict(booking) for booking in session.query(ComponentBooking)],
+        "workstation": [object_as_dict(booking) for booking in session.query(WorkstationBooking)],
+        "other": [object_as_dict(event) for event in session.query(OtherRequest).all()]
+    }, sort_keys=True, default=str)
+    return JSONResponse(content=data, status_code=200)
 
 
 @app.post("/verify_token")

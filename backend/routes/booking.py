@@ -3,19 +3,8 @@ from fastapi.responses import JSONResponse
 from utils import object_as_dict, verify_jwt_admin
 from models import MachineBooking, ComponentBooking, WorkstationBooking, session, User
 import datetime
-import json
 
 bookings_router = FastAPI()
-
-
-@bookings_router.get("/all")
-async def get_all(user=Depends(verify_jwt_admin)):
-    data = json.dumps({
-        "machine_bookings": [object_as_dict(booking) for booking in session.query(MachineBooking)],
-        "component_bookings": [object_as_dict(booking) for booking in session.query(ComponentBooking)],
-        "workstation_bookings": [object_as_dict(booking) for booking in session.query(WorkstationBooking)]
-    }, sort_keys=True, default=str)
-    return JSONResponse(content=data, status_code=200)
 
 
 @bookings_router.post("/machine/create")
