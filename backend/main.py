@@ -110,12 +110,8 @@ async def get_new_token(email: str):
 
 @app.get("/requests/all")
 async def get_all():
-    data = json.dumps({
-        "sessions": [{**object_as_dict(booking), "user": object_as_dict(session.query(User).filter(User.id == booking.user_id).first())} for booking in session.query(MachineBooking)],
-        "component": [{**object_as_dict(booking), "user": object_as_dict(session.query(User).filter(User.id == booking.user_id).first())} for booking in session.query(ComponentBooking)],
-        "workstation": [{**object_as_dict(booking), "user": object_as_dict(session.query(User).filter(User.id == booking.user_id).first())} for booking in session.query(WorkstationBooking)],
-        "other": [{**object_as_dict(booking), "user": object_as_dict(session.query(User).filter(User.id == booking.user_id).first())} for booking in session.query(OtherRequest)]
-    }, sort_keys=True, default=str)
+    data = [{**object_as_dict(booking), "user": object_as_dict(session.query(User).filter(User.id == booking.user_id).first()), "type": "session"} for booking in session.query(MachineBooking)]+[{**object_as_dict(booking), "user": object_as_dict(session.query(User).filter(User.id == booking.user_id).first()), "type": "component"} for booking in session.query(ComponentBooking)]+[{**object_as_dict(booking), "user": object_as_dict(session.query(User).filter(User.id == booking.user_id).first()), "type": "workstation"} for booking in session.query(WorkstationBooking)]+[{**object_as_dict(booking), "user": object_as_dict(session.query(User).filter(User.id == booking.user_id).first()), "type": "other"} for booking in session.query(OtherRequest)]
+    data = json.dumps(sorted(data, key=lambda x: x['created_at']), default=str)
     return JSONResponse(content=data, status_code=200)
 
 
