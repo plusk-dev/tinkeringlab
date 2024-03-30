@@ -15,6 +15,7 @@ import Reqcomp from './requests/componentreq';
 import Inventory from './Inventory/inventory2';
 import Allreqs from './requests/Allreqs';
 import Land from './requests/Event_edit';
+import Signup from './Login/Signup';
 import EAP from './Landing_Page/Events&projects';
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
       <Routes>
         <Route path='/' element={<LandingPage />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/signup' element={<Signup />} />
         <Route path='/dashboard' element={<Dashboard />} />
         <Route path='/admin/dashboard' element={<AdminDashboard />} />
         <Route path='/dashboard/booking' element={<Component />} />

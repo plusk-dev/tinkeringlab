@@ -20,7 +20,7 @@ export function Members(){
 	}, [])
   return (
     <>
-      <Card className="">
+      <Card className="mt-5">
         <CardHeader>
           <CardTitle className="text-[#003f87] text-center">Meet our Members</CardTitle>
         </CardHeader>
@@ -32,7 +32,7 @@ export function Members(){
               <Person image={ATHARVA} name={"Atharva"} post={"post"} />
               <Person image={Tanisha} name={"Tanisha"} post={"post"} /> 
               <Person image={khushboo} name={"Khushboo"} post={"post"} />
-              <Person image={Shaurya_gupta} name={"Shaurya"} post={"post"} />    
+              <Person image={Shaurya_gupta} name={"Shaurya"} post={"post"}/>    
           </div>
 
       </CardContent>
