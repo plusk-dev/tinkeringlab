@@ -241,7 +241,7 @@ export default function Inventory() {
                             <AccordionItem value="machines">
                                 <div className="flex justify-between">
                                     <AccordionTrigger>
-                                        <CardTitle>Machines</CardTitle>
+                                        <CardTitle>Training Session Titles</CardTitle>
                                     </AccordionTrigger>
                                     <div className="flex items-center">
                                         <Button onClick={() => seteditingMach(!editingMach)}>{editingMach ? "Exit Edit Mode" : "Edit Mode"}</Button>

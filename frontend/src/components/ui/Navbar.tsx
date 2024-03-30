@@ -29,7 +29,7 @@ export default function Navbar() {
 			</div>
 			<div className={`${isSmall ? "flex flex-col" + (hidden ? " hidden" : "") : "flex items-center justify-end"}`}>
 				<Link to="/dashboard" className="p-3 hover:bg-zinc-300 hover:rounded-lg">My Bookings</Link>
-				<Link to="/dashboard/machine" className="p-3 hover:bg-zinc-300 hover:rounded-lg">Book a machine</Link>
+				<Link to="/dashboard/machine" className="p-3 hover:bg-zinc-300 hover:rounded-lg">Book a training session</Link>
 				<Link to="/dashboard/booking" className="p-3 hover:bg-zinc-300 hover:rounded-lg">Issue a component</Link>
 				<Link to="/dashboard/workstation" className="p-3 hover:bg-zinc-300 hover:rounded-lg">Book a workstation</Link>
 				<Button className="p-3 flex gap-2 hover:bg-zinc-300 hover:rounded-lg" onClick={() => {

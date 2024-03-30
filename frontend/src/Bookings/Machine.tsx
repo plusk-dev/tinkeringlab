@@ -70,13 +70,13 @@ export default function Component() {
 		<div className="h-screen parent">
 			<Navbar />
 			<div className="container pt-8">
-				<h1 className="text-3xl">Book a Machine</h1>
+				<h1 className="text-3xl">Book a Training Session</h1>
 				<br />
 				<div className="flex gap-2">
 					<div className="flex-1">
 						<Select onValueChange={(e) => { setMach(parseInt(e)) }}>
 							<SelectTrigger>
-								<SelectValue placeholder="Select machine" />
+								<SelectValue placeholder="Select training session" />
 							</SelectTrigger>
 							<SelectContent>
 								<SelectGroup>
