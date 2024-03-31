@@ -30,7 +30,7 @@ export default function Sidebar() {
 
   if (!isSmall) {
     return <>
-      <aside className={`${expanded ? "w-[200px]" : "w-16"} transition-all h-screen`}>
+      <aside className={`${expanded ? "w-[200px]" : "w-16"} transition-all h-screen sticky top-0`}>
         <NavigationMenu className="h-full flex flex-col gap-5 info-card">
           <NavigationMenuItem className="p-4 pb-2 flex justify-between items-center mb-3">
             <div>

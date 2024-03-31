@@ -2,7 +2,7 @@ from fastapi import FastAPI, Request, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from models import session, Admin, User
 from fastapi.responses import JSONResponse
-from routes import bookings_router, inventory_router, landing_router, intern_router
+from routes import bookings_router, inventory_router, landing_router, intern_router, remarks_router
 from utils import get_credential, object_as_dict, verify_jwt, verify_jwt_admin
 from fastapi.staticfiles import StaticFiles
 from models import MachineBooking, WorkstationBooking, OtherRequest, ComponentBooking
@@ -19,6 +19,7 @@ app.mount("/bookings", bookings_router)
 app.mount("/inventory", inventory_router)
 app.mount("/landing", landing_router)
 app.mount("/interns", intern_router)
+app.mount("/remarks", remarks_router)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -56,6 +57,18 @@ async def on_startup():
             student_id="2022ucs0108",
             email="2022ucs0108@iitjammu.ac.in",
             name="Satvic Theone",
+            created_at=datetime.datetime.now(),
+        ))
+        session.add(User(
+            student_id="2023uce0075",
+            email="2023uce0075@iitjammu.ac.in",
+            name="Bikas",
+            created_at=datetime.datetime.now(),
+        ))
+        session.add(User(
+            student_id="2022uee0143",
+            email="2022uee0143@iitjammu.ac.in",
+            name="AWM xXLOLI_SNIPERXx",
             created_at=datetime.datetime.now(),
         ))
         session.commit()
@@ -111,7 +124,7 @@ async def get_new_token(email: str):
 @app.get("/requests/all")
 async def get_all():
     data = [{**object_as_dict(booking), "user": object_as_dict(session.query(User).filter(User.id == booking.user_id).first()), "type": "session"} for booking in session.query(MachineBooking)]+[{**object_as_dict(booking), "user": object_as_dict(session.query(User).filter(User.id == booking.user_id).first()), "type": "component"} for booking in session.query(ComponentBooking)]+[{**object_as_dict(booking), "user": object_as_dict(session.query(User).filter(User.id == booking.user_id).first()), "type": "workstation"} for booking in session.query(WorkstationBooking)]+[{**object_as_dict(booking), "user": object_as_dict(session.query(User).filter(User.id == booking.user_id).first()), "type": "other"} for booking in session.query(OtherRequest)]
-    data = json.dumps(sorted(data, key=lambda x: x['created_at']), default=str)
+    data = json.dumps(sorted(data, key=lambda x: x['created_at'], reverse=True), default=str)
     return JSONResponse(content=data, status_code=200)
 
 

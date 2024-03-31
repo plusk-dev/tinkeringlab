@@ -18,6 +18,7 @@ interface Data {
   description: string
   expiryDate: Date
 }
+const saaman:any[]=[]
 
 export default function Reqcomp() {
   const [searchOver, setSearchOver] = useState<string>('');
