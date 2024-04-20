@@ -1,7 +1,6 @@
 import Sidebar from "@/components/ui/Sidebar";
 import { Card, CardTitle } from "@/components/ui/card";
 import React, { useEffect, useState, useRef } from "react";
-import saaman from "./testData";
 import Req from "./Req";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Input } from "@/components/ui/input";
@@ -19,6 +18,7 @@ interface Data {
   description: string
   expiryDate: Date
 }
+const saaman:any[]=[]
 
 export default function Reqcomp() {
   const [searchOver, setSearchOver] = useState<string>('');

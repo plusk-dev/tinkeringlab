@@ -3,7 +3,6 @@ from fastapi.exceptions import HTTPException
 from fastapi.responses import JSONResponse
 from models import OtherRequest, session
 from utils import object_as_dict
-import json
 import datetime
 
 intern_router = FastAPI()

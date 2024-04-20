@@ -119,6 +119,14 @@ class OtherRequest(Base):
     created_at = Column(DateTime, nullable=False)
     req_type = Column(String, nullable=False)
 
+class Remark(Base):
+    __tablename__ = "Remark"
+    id = Column(Integer, primary_key=True)
+    content = Column(String, nullable=False)
+    writer_id = Column(Integer, nullable=False)
+    request_id = Column(Integer, nullable=False)
+    request_type = Column(String, nullable=False)
+    created_at = Column(DateTime, nullable=False)
 
 engine = create_engine("sqlite:///database.db", echo=False)
 Base.metadata.create_all(bind=engine)

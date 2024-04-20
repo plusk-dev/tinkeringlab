@@ -64,6 +64,9 @@ export default function Inventory() {
             let newWork: { id: number, name: string }[] = [...response.data.workstations];
             setWork(newWork);
         })
+        getUrl("/requests/all",{}).then((response)=>{
+            console.log(JSON.parse(response.data))
+        })
     }, [])
 
     const handleNameChange = (index: number, value: string) => {

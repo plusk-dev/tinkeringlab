@@ -31,17 +31,34 @@ export default function Signup() {
               </SelectContent>
             </Select>
 
-
           </div>
 
         </div>
         <div className="mt-2 flex flex-col gap-2">
+
           <div>
             <CardDescription className=' flex justify-between'>Email
               <GoogleLogin onSuccess={(e: any) => setEmail((jwtDecode(JSON.stringify(e.credential)) as any).email)} size='small' /></CardDescription>
             <Input disabled type='text' placeholder='Organization Email (Filled from Google)' value={email} className='mt-2' />
-
           </div>
+
+            <CardDescription>Department</CardDescription>
+            <Select >
+              <SelectTrigger>
+                <SelectValue></SelectValue>
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Computer Science and Engineering">Computer Science and Engineering</SelectItem>
+                <SelectItem value="Mathematics and Computing">Mathematics and Computing</SelectItem>
+                <SelectItem value="Electrical Engineering">Electrical Engineering</SelectItem>
+                <SelectItem value="Mechanical Engineering">Mechanical Engineering</SelectItem>
+                <SelectItem value="Civil Engineering">Civil Engineering</SelectItem>
+                <SelectItem value="Chemical Engineering">Chemical Engineering</SelectItem>
+                <SelectItem value="Materials Engineering">Materials Engineering</SelectItem>
+                <SelectItem value="Bio-Science">Bio-Science</SelectItem>
+                <SelectItem value="none">None(for non-interns)</SelectItem>
+              </SelectContent>
+            </Select>
           <div>
 
             <CardDescription>Professor in Charge:</CardDescription>
