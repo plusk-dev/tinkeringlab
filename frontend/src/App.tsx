@@ -16,6 +16,7 @@ import Inventory from './Inventory/inventory2';
 import Allreqs from './requests/Allreqs';
 import Land from './requests/Event_edit';
 import Signup from './Login/Signup';
+import Users from './requests/Users';
 import EAP from './Landing_Page/Events&projects';
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
         <Route path='/admin/dashboard/inventory' element={<Inventory />} />
         <Route path='/admin/dashboard/allreqs' element={<Allreqs />} />
         <Route path='/admin/dashboard/Landing_page' element={<Land />} />
+        <Route path='/admin/dashboard/users' element={<Users />} />
       </Routes>
     </>
   );

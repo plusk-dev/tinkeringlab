@@ -7,6 +7,7 @@ import { jwtDecode } from 'jwt-decode'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import mainLogo from '../images/tinker.png'
+import { toast } from '@/components/ui/use-toast'
 
 export default function Signup() {
   const [email, setEmail] = useState()
@@ -52,7 +53,10 @@ export default function Signup() {
           </div>
 
           <Button className='mb-4' onClick={e => {
-
+            toast({
+              variant: "success",
+              title: "Request sent!",
+            })
           }}>Sign Up</Button>
         </div>
       </Card>

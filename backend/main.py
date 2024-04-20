@@ -39,13 +39,6 @@ async def on_startup():
             admin=True,
         )
         )
-        session.add(Admin(
-            email="2022ucs0108@iitjammu.ac.in",
-            name="Satvic Dhawan",
-            phone="7011690148",
-            admin=True,
-        )
-        )
         session.add(User(
             student_id="2023uma0201",
             email="2023uma0201@iitjammu.ac.in",
@@ -108,11 +101,19 @@ async def get_new_token(email: str):
             "error": "email provided is not a valid email"
         }, status_code=400)
 
+
 @app.get("/requests/all")
 async def get_all():
-    data = [{**object_as_dict(booking), "user": object_as_dict(session.query(User).filter(User.id == booking.user_id).first()), "type": "session"} for booking in session.query(MachineBooking)]+[{**object_as_dict(booking), "user": object_as_dict(session.query(User).filter(User.id == booking.user_id).first()), "type": "component"} for booking in session.query(ComponentBooking)]+[{**object_as_dict(booking), "user": object_as_dict(session.query(User).filter(User.id == booking.user_id).first()), "type": "workstation"} for booking in session.query(WorkstationBooking)]+[{**object_as_dict(booking), "user": object_as_dict(session.query(User).filter(User.id == booking.user_id).first()), "type": "other"} for booking in session.query(OtherRequest)]
+    data = [{**object_as_dict(booking), "user": object_as_dict(session.query(User).filter(User.id == booking.user_id).first()), "type": "session"} for booking in session.query(MachineBooking)]+[{**object_as_dict(booking), "user": object_as_dict(session.query(User).filter(User.id == booking.user_id).first()), "type": "component"} for booking in session.query(ComponentBooking)]+[
+        {**object_as_dict(booking), "user": object_as_dict(session.query(User).filter(User.id == booking.user_id).first()), "type": "workstation"} for booking in session.query(WorkstationBooking)]+[{**object_as_dict(booking), "user": object_as_dict(session.query(User).filter(User.id == booking.user_id).first()), "type": "other"} for booking in session.query(OtherRequest)]
     data = json.dumps(sorted(data, key=lambda x: x['created_at']), default=str)
     return JSONResponse(content=data, status_code=200)
+
+
+@app.get("/users/all")
+async def get_all_users():
+    print([object_as_dict(user) for user in session.query(Admin)])
+    return json.dumps([object_as_dict(user) for user in session.query(User)] + [object_as_dict(user) for user in session.query(Admin)], default=str)
 
 
 @app.post("/verify_token")
