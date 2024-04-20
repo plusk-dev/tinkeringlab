@@ -54,9 +54,9 @@ async def on_startup():
             created_at=datetime.datetime.now(),
         ))
         session.add(User(
-            student_id="2022ucs0108",
-            email="2022ucs0108@iitjammu.ac.in",
-            name="Satvic Theone",
+            student_id="2022ucs0112",
+            email="2022ucs0112@iitjammu.ac.in",
+            name="Sohit sex god",
             created_at=datetime.datetime.now(),
         ))
         session.add(User(
