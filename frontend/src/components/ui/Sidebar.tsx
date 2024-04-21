@@ -1,4 +1,4 @@
-import { Bolt, ChevronFirst, ChevronLast, Dumbbell, Glasses, Layers2, Pen } from "lucide-react"
+import { Bolt, ChevronFirst, ChevronLast, Dumbbell, Glasses, Layers2, Pen, SquareStack } from "lucide-react"
 import React, { useState, useEffect } from "react"
 import mainLogo from "./tinker.png"
 import { NavigationMenu, NavigationMenuItem } from "@radix-ui/react-navigation-menu";
@@ -55,9 +55,9 @@ export default function Sidebar() {
               <span>Home</span>
             </Link>
 
-            <Link to="/admin/dashboard/machine" className="p-3 flex gap-2 hover:bg-zinc-300 hover:rounded-lg">
+            <Link to="/admin/dashboard/session" className="p-3 flex gap-2 hover:bg-zinc-300 hover:rounded-lg">
               <Cog className="ml-2" />
-              <span>Machine</span>
+              <span>Session</span>
             </Link>
 
             <Link to="/admin/dashboard/workstation" className="p-3 flex gap-2 hover:bg-zinc-300 hover:rounded-lg">
@@ -86,6 +86,11 @@ export default function Sidebar() {
             <Link to="/admin/dashboard/Intern" className="p-3 flex gap-2 hover:bg-zinc-300 hover:rounded-lg">
               <Glasses className="ml-2" />
               <span>Interns</span>
+            </Link>
+
+            <Link to="/admin/dashboard/hierarchy" className="p-3 flex gap-2 hover:bg-zinc-300 hover:rounded-lg">
+                <SquareStack className="ml-2"/>
+                <span>Hierarchy</span>  
             </Link>
 
 
