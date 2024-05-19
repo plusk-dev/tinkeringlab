@@ -38,32 +38,10 @@ async def on_startup():
             name="Yuvraj Motiramani",
             phone="6355291145",
             admin=True,
+            lab_tech=False,
+            tl_head=False
         )
         )
-        session.add(User(
-            student_id="2023uma0201",
-            email="2023uma0201@iitjammu.ac.in",
-            name="Abhay Punia",
-            created_at=datetime.datetime.now(),
-        ))
-        session.add(User(
-            student_id="2022ucs0112",
-            email="2022ucs0112@iitjammu.ac.in",
-            name="Sohit sex god",
-            created_at=datetime.datetime.now(),
-        ))
-        session.add(User(
-            student_id="2023uce0075",
-            email="2023uce0075@iitjammu.ac.in",
-            name="Bikas",
-            created_at=datetime.datetime.now(),
-        ))
-        session.add(User(
-            student_id="2022uee0143",
-            email="2022uee0143@iitjammu.ac.in",
-            name="AWM xXLOLI_SNIPERXx",
-            created_at=datetime.datetime.now(),
-        ))
         session.commit()
     print("APP STARTED")
 
@@ -81,14 +59,25 @@ async def index(name: str):
 
 
 @app.get("/get_level")
-async def get_level(email: str):
+async def get_level(email: str, name: str):
     user = session.query(User).filter_by(email=email).first()
     if user is None:
+        print("user is none")
         admin = session.query(Admin).filter_by(email=email).first()
         if admin is None:
-            return JSONResponse(content={
-                "error": "user with the provided email does not exist."
-            })
+            print("admin is none")
+            user = User(
+                name=name,
+                student_id=email.split("@")[0].upper(),
+                created_at=datetime.datetime.now(),
+                email=email
+            )
+            session.add(user)
+            session.commit()
+            return {
+                "level": "user",
+                "user": object_as_dict(user)
+            }
         return {
             "level": "admin",
             "admin": object_as_dict(admin)
@@ -115,11 +104,36 @@ async def get_new_token(email: str):
         }, status_code=400)
 
 
+def process(data, type):
+    for i in range(len(data)):
+        data[i]['user'] = object_as_dict(session.query(
+            User).filter(User.id == data[i]['user_id']).first())
+        data[i]['type'] = type
+    return data
+
+
 @app.get("/requests/all")
 async def get_all():
-    data = [{**object_as_dict(booking), "user": object_as_dict(session.query(User).filter(User.id == booking.user_id).first()), "type": "session"} for booking in session.query(MachineBooking)]+[{**object_as_dict(booking), "user": object_as_dict(session.query(User).filter(User.id == booking.user_id).first()), "type": "component"} for booking in session.query(ComponentBooking)]+[{**object_as_dict(booking), "user": object_as_dict(session.query(User).filter(User.id == booking.user_id).first()), "type": "workstation"} for booking in session.query(WorkstationBooking)]+[{**object_as_dict(booking), "user": object_as_dict(session.query(User).filter(User.id == booking.user_id).first()), "type": "other"} for booking in session.query(OtherRequest)]
-    data = json.dumps(sorted(data, key=lambda x: x['created_at'], reverse=True), default=str)
-    return JSONResponse(content=data, status_code=200)
+    try:
+        data = [{**object_as_dict(booking), "user": object_as_dict(session.query(User).filter(User.id == booking.user_id).first()), "type": "session"} for booking in session.query(MachineBooking)]+[{**object_as_dict(booking), "user": object_as_dict(session.query(User).filter(User.id == booking.user_id).first()), "type": "component"} for booking in session.query(ComponentBooking)]+[
+            {**object_as_dict(booking), "user": object_as_dict(session.query(User).filter(User.id == booking.user_id).first()), "type": "workstation"} for booking in session.query(WorkstationBooking)]+[{**object_as_dict(booking), "user": object_as_dict(session.query(User).filter(User.id == booking.user_id).first()), "type": "other"} for booking in session.query(OtherRequest)]
+        data = json.dumps(
+            sorted(data, key=lambda x: x['created_at'], reverse=True), default=str)
+        return JSONResponse(content=data, status_code=200)
+    except:
+        return {}
+    # component_bookings = [object_as_dict(
+    #     booking) for booking in session.query(ComponentBooking).all()]
+    # component_bookings = process(component_bookings, 'component')
+    # machine_bookings = [object_as_dict(
+    #     booking) for booking in session.query(MachineBooking).all()]
+    # machine_bookings = process(machine_bookings, 'machine')
+    # workstation_bookings = [object_as_dict(
+    #     booking) for booking in session.query(WorkstationBooking).all()]
+    # workstation_bookings = process(workstation_bookings, 'workstation')
+    # component_bookings.extend(machine_bookings)
+    # component_bookings.extend(workstation_bookings)
+    # return component_bookings
 
 
 @app.get("/users/all")

@@ -16,8 +16,12 @@ export default function Login() {
   const [level, setLevel] = useState("");
   useEffect(() => {
     if (getTokenFromStorage() != null) {
+      console.log("not logged in")
+      let details = jwtDecode(getTokenFromStorage() as string);
+      console.log(details);
       getUrl("/get_level", {
-        email: ""
+        email: details["email"],
+        name: ""
       }).then(response => {
         console.log(response.data);
         if (response.data.level == "admin") {
@@ -39,16 +43,17 @@ export default function Login() {
           <div className="flex h-1/2 justify-center" >
             <div className="flex flex-col text-center pt-4">
               <GoogleLogin
-              theme="outline"
-              size="large"
+                theme="outline"
+                size="large"
                 onSuccess={credentialResponse => {
-                  
+
                   if (credentialResponse.credential) {
                     const details: any = jwtDecode(credentialResponse.credential);
                     let info: string[] = details.email.split('@');
                     if (info[1] === "iitjammu.ac.in") {
                       getUrl("/get_level", {
-                        email: details.email
+                        email: details.email,
+                        name: details.name
                       }).then(response => {
                         let userDetails = response.data;
                         postUrl("/get_new_token", {
@@ -91,7 +96,7 @@ export default function Login() {
               />
               <Button className="mt-3">View as guest</Button>
 
-              <p className="pt-4">Not an IIT Jammu Student? <br/><u><Link to="/signup" className="text-blue-600  hover:cursor-pointer"><strong className="text-blue-600">Sign Up</strong></Link></u></p>
+              <p className="pt-4">Not an IIT Jammu Student? <br /><u><Link to="/signup" className="text-blue-600  hover:cursor-pointer"><strong className="text-blue-600">Sign Up</strong></Link></u></p>
 
 
             </div>
