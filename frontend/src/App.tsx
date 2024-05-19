@@ -19,6 +19,7 @@ import Signup from './Login/Signup';
 import Users from './requests/Users';
 import Intern from './requests/Intern';
 import EAP from './Landing_Page/Events&projects';
+import Hierarchy from './Inventory/hierarchy';
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
         <Route path='/admin/dashboard/allreqs' element={<Allreqs />} />
         <Route path='/admin/dashboard/Landing_page' element={<Land />} />
         <Route path='/admin/dashboard/Intern' element={<Intern/>}/>
+        <Route path='/admin/dashboard/hierarchy' element={<Hierarchy/>}/>
       </Routes>
     </>
   );
