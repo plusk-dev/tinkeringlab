@@ -2,6 +2,9 @@ import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
+  getPaginationRowModel,
+  ColumnFiltersState,
+  getFilteredRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 import React, { useEffect, useState } from "react";
@@ -30,7 +33,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { jwtDecode } from "jwt-decode";
 import { toast } from "@/components/ui/use-toast";
 import { DataContext } from "./page";
-import { Request } from "./Columns";
+import { Input } from "@/components/ui/input";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -47,18 +50,38 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-  });
   const compList = useContext(DataContext);
   const [remarks, setRemarks] = useState<any>();
   const [showRemarks, setShowRemarks] = useState(false);
   const [fetchedRemarks, setFetchedRemarks] = useState<any[]>();
-
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  );
+  const table = useReactTable({
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    state: {
+      columnFilters,
+    },
+  });
   return (
     <div className="rounded-md border max-w-none">
+      <div className="flex items-center justify-center py-4">
+        <Input
+          placeholder="Filter by name..."
+          value={
+            (table.getColumn("user_name")?.getFilterValue() as string) ?? ""
+          }
+          onChange={(event) =>
+            table.getColumn("user_name")?.setFilterValue(event.target.value)
+          }
+          className="max-w-sm"
+        />
+      </div>
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -235,6 +258,24 @@ export function DataTable<TData, TValue>({
           )}
         </TableBody>
       </Table>
+      <div className="flex items-center justify-center space-x-2 py-4">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+        >
+          Previous
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => table.nextPage()}
+          disabled={!table.getCanNextPage()}
+        >
+          Next
+        </Button>
+      </div>
     </div>
   );
 }

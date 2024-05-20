@@ -1,5 +1,8 @@
 import {
   ColumnDef,
+  ColumnFiltersState,
+  getFilteredRowModel,
+  getPaginationRowModel,
   flexRender,
   getCoreRowModel,
   useReactTable,
@@ -31,6 +34,8 @@ import { jwtDecode } from "jwt-decode";
 import { toast } from "@/components/ui/use-toast";
 import { DataContext } from "./page";
 import { Request } from "./Columns";
+import { Input } from "@/components/ui/input";
+
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -47,18 +52,38 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-  });
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const compList = useContext(DataContext);
   const [remarks, setRemarks] = useState<any>();
   const [showRemarks, setShowRemarks] = useState(false);
   const [fetchedRemarks, setFetchedRemarks] = useState<any[]>();
 
+  const table = useReactTable({
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    state: {
+      columnFilters,
+    },
+  });
+
   return (
     <div className="rounded-md border max-w-none">
+      <div className="flex items-center py-4 w-full justify-center">
+        <Input
+          placeholder="Filter by name..."
+          value={
+            (table.getColumn("user_name")?.getFilterValue() as string) ?? ""
+          }
+          onChange={(event) =>
+            table.getColumn("user_name")?.setFilterValue(event.target.value)
+          }
+          className="max-w-sm"
+        />
+      </div>
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -235,6 +260,24 @@ export function DataTable<TData, TValue>({
           )}
         </TableBody>
       </Table>
+      <div className="flex items-center justify-center space-x-2 py-4">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+        >
+          Previous
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => table.nextPage()}
+          disabled={!table.getCanNextPage()}
+        >
+          Next
+        </Button>
+      </div>
     </div>
   );
 }
