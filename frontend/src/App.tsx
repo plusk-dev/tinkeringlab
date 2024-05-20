@@ -9,7 +9,8 @@ import Component from "./Bookings/Component";
 import { LandingPage } from "./Landing_Page/LandingPage";
 import Machine from "./Bookings/Machine";
 import Workstation from "./Bookings/workstation";
-import ReqMach from "./requests/machinereq";
+import ReqSess from "./requests/session/page";
+import ReqWork from "./requests/workstations/page";
 import WorkMech from "./requests/workstationreq";
 import Reqcomp from "./requests/component/page";
 import Inventory from "./Inventory/inventory2";
@@ -34,8 +35,8 @@ function App() {
         <Route path="/dashboard/booking" element={<Component />} />
         <Route path="/dashboard/machine" element={<Machine />} />
         <Route path="/dashboard/workstation" element={<Workstation />} />
-        <Route path="/admin/dashboard/machine" element={<ReqMach />} />
-        <Route path="/admin/dashboard/workstation" element={<WorkMech />} />
+        <Route path="/admin/dashboard/session" element={<ReqSess />} />
+        <Route path="/admin/dashboard/workstation" element={<ReqWork />} />
         <Route path="/admin/dashboard/component" element={<Reqcomp />} />
         <Route path="/admin/dashboard/inventory" element={<Inventory />} />
         <Route path="/admin/dashboard/allreqs" element={<Allreqs />} />

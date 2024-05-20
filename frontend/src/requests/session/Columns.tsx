@@ -5,10 +5,11 @@ import React from "react";
 export type Request = {
   id: number;
   user_id: number;
-  component_id: number;
+  machine_id: number;
   description: number;
   created_at: string;
-  returndate: string;
+  start: string;
+  end: string;
   approved: boolean;
   approver_id: number | null;
   user: any;
@@ -27,8 +28,8 @@ export const columns: ColumnDef<any>[] = [
     accessorKey: "type",
     header: "Type",
     cell: ({ row }) => {
-      const hello: string = row.getValue("type");
-      return <div>{ICONS[hello]}</div>;
+      const type: string = row.getValue("type");
+      return <div>{ICONS[type]}</div>;
     },
   },
   {
@@ -40,10 +41,10 @@ export const columns: ColumnDef<any>[] = [
     header: "Id",
   },
   {
-    accessorKey: "created_at",
-    header: "Booking",
+    accessorKey: "start",
+    header: "Booking for",
     cell: ({ row }) => {
-      const date: string = row.getValue("created_at");
+      const date: string = row.getValue("start");
       return <div>{date.split(" ")[0].split("-").reverse().join("-")}</div>;
     },
   },
