@@ -14,7 +14,7 @@ import ReqWork from "./requests/workstations/page";
 import WorkMech from "./requests/workstationreq";
 import Reqcomp from "./requests/component/page";
 import Inventory from "./Inventory/inventory2";
-import Allreqs from "./requests/Allreqs";
+import Allreqs from "./requests/Allreqs/page";
 import Land from "./requests/Event_edit";
 import Signup from "./Login/Signup";
 import Users from "./requests/Users";

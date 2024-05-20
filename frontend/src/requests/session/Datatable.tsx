@@ -65,6 +65,11 @@ export function DataTable<TData, TValue>({
     state: {
       columnFilters,
     },
+    initialState: {
+      pagination: {
+        pageSize: 8,
+      },
+    },
   });
   return (
     <div className="rounded-md border max-w-none">
