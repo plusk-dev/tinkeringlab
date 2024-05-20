@@ -6,9 +6,10 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
-import { getTokenFromStorage, verify_admin_token, deleteTokenFromStorage } from "@/utils"
+import { getTokenFromStorage, verify_admin_token, deleteTokenFromStorage, getUrl } from "@/utils"
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast"
+import Req2 from "./Req2";
 
 interface Data {
   name: string;
@@ -18,7 +19,7 @@ interface Data {
   description: string
   expiryDate: Date
 }
-const saaman:any[]=[]
+const saaman: any[] = []
 
 export default function Reqcomp() {
   const [searchOver, setSearchOver] = useState<string>('');
@@ -61,12 +62,16 @@ export default function Reqcomp() {
     }
   }, [])
   useEffect(() => {
-    const beebop = saaman.filter(item => item.type === "Component");
-    setCompArray(beebop);
-    const overdue = compArray.filter((request) => request.expiryDate < new Date());
-    setOverdueItems(overdue);
-  }, [saaman]);
-
+    getUrl("/requests/all", {}).then(response => {
+      let data = JSON.parse(response.data);
+      let componentRequests = data.map((request: { type: any; }) => {
+        if (request.type == "component") {
+          return request;
+        }
+      });
+      setCompArray(componentRequests);
+    })
+  }, [])
 
 
   const updateStatus = (requestId: string, newStatus: string) => {
@@ -181,11 +186,10 @@ export default function Reqcomp() {
 
               (
                 items.map((item) => {
-
                   if (pending && item.status === "unresolved" && item.expiryDate > new Date())
-                    return <Req key={item.id} data={item} updateStatus={updateStatus}></Req>
+                    return <Req2 key={item.id} data={item} updateStatus={updateStatus}></Req2>
                   else if (!pending && item.status === "resolved" && item.expiryDate > new Date()) {
-                    return <Req key={item.id} data={item} updateStatus={updateStatus}></Req>
+                    return <Req2 key={item.id} data={item} updateStatus={updateStatus}></Req2>
                   }
                 })
 

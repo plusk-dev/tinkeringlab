@@ -21,6 +21,7 @@ export default function Req2(item: any) {
   const [remarks, setRemarks] = useState<any>();
   const [showRemarks, setShowRemarks] = useState(false);
   const [fetchedRemarks, setFetchedRemarks] = useState<any[]>()
+  useEffect(() => console.log(item), []);
   return <TableRow>
     <TableCell className="p-1 px-6">{ICONS[item.data.type]}</TableCell>
     <TableCell className="p-1 px-6">{item.data.user.name}</TableCell>
@@ -42,6 +43,8 @@ export default function Req2(item: any) {
           <div className="mt-5">
             <h3 className="font-bold text-lg text-gray-500">Name: <br /></h3><span className="font-normal">{item.data.user.name}</span>
             <h3 className="font-bold text-lg text-gray-500">Request for:<br /></h3><span className="font-normal">{item.data.type}</span>
+            <h3 className="font-bold text-lg text-gray-500">Created at:</h3>
+            <span>{item.data.created_at.split(".")[0]}</span>
             <h3 className="font-bold text-lg text-gray-500">Desc:</h3>
             <p className="border-zinc-500 min-h-10">{item.data.description}</p>
           </div>
@@ -68,7 +71,7 @@ export default function Req2(item: any) {
                 setFetchedRemarks([...fetchedRemarks, response.data]);
                 toast({
                   variant: "success",
-                  title: "Remark send successfully"
+                  title: "Remark sent successfully"
                 })
               })
             }}>+ Add Remark</Button>
@@ -85,4 +88,4 @@ export default function Req2(item: any) {
       </Sheet>
     </TableCell>
   </TableRow>
-} 
+}

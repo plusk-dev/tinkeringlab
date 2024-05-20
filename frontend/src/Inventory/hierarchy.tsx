@@ -43,8 +43,7 @@ export default function Hierarchy(){
     <Sidebar/>
     <div className="flex flex-col w-full">
       <Card className="info-card w-full flex-1">
-        <CardTitle className='p-2'>Hierarchy Management</CardTitle>
-        
+        <CardTitle className='p-2'>Hierarchy Management</CardTitle>       
       </Card>
     </div>
 

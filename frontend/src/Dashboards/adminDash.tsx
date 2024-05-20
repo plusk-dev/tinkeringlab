@@ -48,7 +48,7 @@ export default function AdminDashboard() {
   }, [])
   ChartJS.register(ArcElement, Tooltip, Legend);
   const data = {
-    labels: ['Red', 'Green', 'Yellow'],
+    labels: ['Not received back', 'Received on Time', 'Received Late'],
     datasets: [
       {
         label: '# of Votes',
