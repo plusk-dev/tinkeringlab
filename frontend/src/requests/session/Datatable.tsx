@@ -1,9 +1,9 @@
 import {
   ColumnDef,
+  flexRender,
   ColumnFiltersState,
   getFilteredRowModel,
   getPaginationRowModel,
-  flexRender,
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
@@ -32,10 +32,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { jwtDecode } from "jwt-decode";
 import { toast } from "@/components/ui/use-toast";
-import { DataContext } from "./page";
-import { Request } from "./Columns";
 import { Input } from "@/components/ui/input";
-
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -52,12 +49,12 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const compList = useContext(DataContext);
   const [remarks, setRemarks] = useState<any>();
   const [showRemarks, setShowRemarks] = useState(false);
   const [fetchedRemarks, setFetchedRemarks] = useState<any[]>();
-
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  );
   const table = useReactTable({
     data,
     columns,
@@ -70,14 +67,13 @@ export function DataTable<TData, TValue>({
     },
     initialState: {
       pagination: {
-        pageSize: 6,
+        pageSize: 8,
       },
     },
   });
-
   return (
     <div className="rounded-md border max-w-none">
-      <div className="flex items-center py-4 w-full justify-center">
+      <div className="flex items-center justify-center py-4">
         <Input
           placeholder="Filter by name..."
           value={
