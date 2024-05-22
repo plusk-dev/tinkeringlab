@@ -36,10 +36,8 @@ async def on_startup():
         session.add(Admin(
             email="2023uma0224@iitjammu.ac.in",
             name="Yuvraj Motiramani",
-            phone="6355291145",
             admin=True,
-            lab_tech=False,
-            tl_head=False
+            created_at = datetime.datetime.now()
         )
         )
         session.commit()
@@ -120,21 +118,35 @@ async def get_all():
         data = json.dumps(
             sorted(data, key=lambda x: x['created_at'], reverse=True), default=str)
         return JSONResponse(content=data, status_code=200)
-    except:
+    except Exception as e:
+        print("exception occured", e)
         return {}
-    # component_bookings = [object_as_dict(
-    #     booking) for booking in session.query(ComponentBooking).all()]
-    # component_bookings = process(component_bookings, 'component')
-    # machine_bookings = [object_as_dict(
-    #     booking) for booking in session.query(MachineBooking).all()]
-    # machine_bookings = process(machine_bookings, 'machine')
-    # workstation_bookings = [object_as_dict(
-    #     booking) for booking in session.query(WorkstationBooking).all()]
-    # workstation_bookings = process(workstation_bookings, 'workstation')
-    # component_bookings.extend(machine_bookings)
-    # component_bookings.extend(workstation_bookings)
-    # return component_bookings
-
+@app.post("/change_hierarchy")
+async def change_hierarchy(user_id: int, user_type: str, change_to: str):
+    if user_type == "user":
+        user = session.query(User).filter(User.id == user_id).first()
+        new_admin = Admin(
+            name = user.name,
+            email = user.email,
+            admin = True,
+            created_at = datetime.datetime.now()
+        )
+        session.delete(user)
+        session.add(new_admin)
+        session.commit()
+        return object_as_dict(new_admin)
+    elif user_type == "admin":
+        admin = session.query(Admin).filter(Admin.id == user_id).first()
+        new_user = User(
+            name = admin.name,
+            email = admin.email,
+            created_at = datetime.datetime.now(),
+            student_id = admin.email.split("@")[0].upper()
+        )
+        session.delete(admin)
+        session.add(new_user)
+        session.commit()
+        return object_as_dict(new_user)
 
 @app.get("/users/all")
 async def get_all_users():

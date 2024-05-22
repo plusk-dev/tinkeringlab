@@ -23,7 +23,7 @@ interface Data {
   description: string;
   expiryDate: Date;
 }
-const saaman:any[]=[]
+const saaman: any[] = []
 
 export default function Reqcomp() {
   const [searchOver, setSearchOver] = useState<string>("");
@@ -192,39 +192,39 @@ export default function Reqcomp() {
               />
             </div>
 
-          <InfiniteScroll
-            className="mt-2"
-            dataLength={compArray.length}
-            next={fetchMoreData}
-            hasMore={hasMore && !loading}
-            loader={<h4></h4>}
-            height={window.innerHeight * 0.8}
-            endMessage={
-              <p style={{ textAlign: "center" }}>
-                <b>Yay! You have seen it all</b>
-              </p>
-            }
-          >
+            <InfiniteScroll
+              className="mt-2"
+              dataLength={compArray.length}
+              next={fetchMoreData}
+              hasMore={hasMore && !loading}
+              loader={<h4></h4>}
+              height={window.innerHeight * 0.8}
+              endMessage={
+                <p style={{ textAlign: "center" }}>
+                  <b>Yay! You have seen it all</b>
+                </p>
+              }
+            >
 
-            {
+              {
 
-              (
-                items.map((item) => {
+                (
+                  items.map((item) => {
 
-                  if (pending && item.status === "unresolved" && item.expiryDate > new Date())
-                    return <Req key={item.id} data={item} updateStatus={updateStatus}></Req>
-                  else if (!pending && item.status === "resolved" && item.expiryDate > new Date()) {
-                    return <Req key={item.id} data={item} updateStatus={updateStatus}></Req>
-                  }
-                })
+                    if (pending && item.status === "unresolved" && item.expiryDate > new Date())
+                      return <Req key={item.id} data={item} updateStatus={updateStatus}></Req>
+                    else if (!pending && item.status === "resolved" && item.expiryDate > new Date()) {
+                      return <Req key={item.id} data={item} updateStatus={updateStatus}></Req>
+                    }
+                  })
 
-              )
-
-
-            }
+                )
 
 
-          </InfiniteScroll>
+              }
+
+
+            </InfiniteScroll>
 
 
 

@@ -19,7 +19,7 @@ async def get_all(user=Depends(verify_jwt_admin)):
 @landing_router.post("/create")
 async def create(request: Request):
     data = await request.form()
-    filename = str(uuid.uuid4())+"."+data['in_file'].filename.split(".")[-1]
+    filename = "events/" + str(uuid.uuid4())+"."+data['in_file'].filename.split(".")[-1]
     event = Event(title=data['title'], description=data['description'],
                   event_date=datetime.datetime.strptime(data['event_date'].replace('"', ''), "%Y-%m-%dT%H:%M:%S.%fZ"), created_at=datetime.datetime.now(), on_landing_page=False, img_name=filename)
     async with aiofiles.open(f"static/{filename}.", 'wb') as out_file:

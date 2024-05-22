@@ -9,10 +9,8 @@ class Admin(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
     email = Column(String, nullable=False, unique=True)
-    phone = Column(String, nullable=False, unique=True)
     admin = Column(Boolean, nullable=False)
-    lab_tech = Column(Boolean, nullable=False, default=False)
-    tl_head = Column(Boolean, nullable=False, default=False)
+    created_at = Column(DateTime, nullable=False)
 
 
 class Component(Base):
@@ -49,6 +47,7 @@ class ComponentBooking(Base):
     returndate = Column(DateTime, nullable=False)
     approved = Column(Boolean, nullable=False)
     approver_id = Column(Integer, ForeignKey("Admin.id"))
+    img_name = Column(String, nullable = True)
 
     user = relationship("User", backref="component_bookings")
     component = relationship("Component", backref="component_bookings")
@@ -118,6 +117,10 @@ class OtherRequest(Base):
     department = Column(String, nullable=True)
     created_at = Column(DateTime, nullable=False)
     req_type = Column(String, nullable=False)
+    approved = Column(Boolean, nullable=False, default=False)
+    approver_id = Column(Integer, ForeignKey("Admin.id"))
+
+    approver = relationship("Admin", backref="approved_intern_bookings")
 
 class Remark(Base):
     __tablename__ = "Remark"

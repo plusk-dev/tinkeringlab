@@ -94,9 +94,9 @@ export default function Login() {
                   console.log('Login Failed');
                 }}
               />
-              <Button className="mt-3">View as guest</Button>
+              {/* <Button className="mt-3">View as guest</Button> */}
 
-              <p className="pt-4">Not an IIT Jammu Student? <br /><u><Link to="/signup" className="text-blue-600  hover:cursor-pointer"><strong className="text-blue-600">Sign Up</strong></Link></u></p>
+              {/* <p className="pt-4">Not an IIT Jammu Student? <br /><u><Link to="/signup" className="text-blue-600  hover:cursor-pointer"><strong className="text-blue-600">Sign Up</strong></Link></u></p> */}
 
 
             </div>

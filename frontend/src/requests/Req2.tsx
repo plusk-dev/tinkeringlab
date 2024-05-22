@@ -12,7 +12,7 @@ import {
   SheetFooter,
 } from "@/components/ui/sheet";
 import { Textarea } from "@/components/ui/textarea";
-import { getTokenFromStorage, getUrl, postUrl } from "@/utils";
+import { getTokenFromStorage, getUrl, postUrl, sendDecision } from "@/utils";
 import { jwtDecode } from "jwt-decode";
 import { toast } from "@/components/ui/use-toast";
 
@@ -81,22 +81,22 @@ export default function Req2(item: any) {
             </div>
             {showRemarks && fetchedRemarks != undefined
               ? fetchedRemarks
-                  .reduceRight(
-                    (fetchedRemarks, curr) => [...fetchedRemarks, curr],
-                    []
-                  )
-                  .map((remark: any) => {
-                    return (
-                      <div className="border-solid p-2 mb-2 rounded-lg border-2 border-slate-400">
-                        <b>Remark #{remark.id}</b>{" "}
-                        <span className="text-sm text-slate-400">
-                          {remark.created_at.split(".")[0]}
-                        </span>
-                        <br />
-                        {remark.content}
-                      </div>
-                    );
-                  })
+                .reduceRight(
+                  (fetchedRemarks, curr) => [...fetchedRemarks, curr],
+                  []
+                )
+                .map((remark: any) => {
+                  return (
+                    <div className="border-solid p-2 mb-2 rounded-lg border-2 border-slate-400">
+                      <b>Remark #{remark.id}</b>{" "}
+                      <span className="text-sm text-slate-400">
+                        {remark.created_at.split(".")[0]}
+                      </span>
+                      <br />
+                      {remark.content}
+                    </div>
+                  );
+                })
               : "dont show"}
             <Textarea
               placeholder="Remarks"
@@ -136,15 +136,39 @@ export default function Req2(item: any) {
             <SheetFooter>
               <div className="flex w-full gap-1">
                 <Button
-                  className={item.status === "resolved" ? "hidden" : "flex-1"}
+                  className={
+                    item?.data.approver_id != null ? "hidden"
+                      : "flex-1"
+                  }
+                  onClick={e => sendDecision(true, item.data.type, item.data.id)}
                 >
                   Accept
                 </Button>
                 <Button
-                  className={item.status === "resolved" ? "hidden" : "flex-1"}
+                  className={
+                    item?.data.approver_id != null ? "hidden"
+                      : "flex-1"
+                  }
+                  onClick={e => sendDecision(false, item.data.type, item.data.id)}
                 >
                   Reject
                 </Button>
+                <span
+                  className={
+                    item?.data.approver_id != null && item?.data.approved == true ? "default bg-green-500 text-black p-4 w-full text-center rounded-lg border-solid border-2 border-green-800"
+                      : "hidden"
+                  }
+                >
+                  Accepted
+                </span>
+                <span
+                  className={
+                    item?.data.approver_id != null && item?.data.approved == false ? "default bg-red-500 text-black p-4 w-full text-center rounded-lg border-solid border-2 border-red-800"
+                      : "hidden"
+                  }
+                >
+                  Rejected
+                </span>
               </div>
             </SheetFooter>
           </SheetContent>
