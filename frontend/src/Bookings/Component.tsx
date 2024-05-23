@@ -24,8 +24,9 @@ import {
 } from "@/components/ui/select"
 import { useToast } from "@/components/ui/use-toast"
 import { useNavigate } from "react-router-dom";
-import { getTokenFromStorage, verify_token, deleteTokenFromStorage, getUrl, postUrl } from "@/utils";
+import { getTokenFromStorage, verify_token, deleteTokenFromStorage, getUrl, postUrlWithFile } from "@/utils";
 import { jwtDecode } from "jwt-decode";
+import { Input } from "@/components/ui/input";
 
 
 export default function Component() {
@@ -34,6 +35,7 @@ export default function Component() {
 	const [selectedComp, setSelectedComp] = useState<Number>()
 	const [desc, setDesc] = useState<String>("")
 	const [date, setDate] = useState<Date>()
+	const [file, setFile] = useState<any | null>()
 	const [isSmall, setisSmall] = useState(false);
 	const { toast } = useToast();
 	const navigate = useNavigate()
@@ -94,7 +96,7 @@ export default function Component() {
 							</SelectContent>
 						</Select>
 					</div>
-					<div className="w-1/2">
+					<div className="w-1/3">
 						Date of return <br />
 						<Popover >
 							<PopoverTrigger asChild>
@@ -119,19 +121,24 @@ export default function Component() {
 							</PopoverContent>
 						</Popover>
 					</div>
+					<div className="w-1/3">
+						Image of components taken: <br />
+						<Input type="file" className="max-w-64 cursor-pointer" onChange={e => { console.log(typeof e.target.files?.[0]); setFile(e.target.files?.[0]) }} />
+					</div>
 				</div>
 				Purpose of issue:
 				<Textarea onChange={(e) => setDesc(e.target.value)} placeholder="Purpose of issue..." className="mb-2" />
 				<Button className="w-full" onClick={() => {
 					console.log(jwtDecode(JSON.stringify(getTokenFromStorage())))
 					if (getTokenFromStorage()) {
-						postUrl("/bookings/component/create", {
-							email: (jwtDecode(JSON.stringify(getTokenFromStorage())) as { email: string, iat: number }).email,
-							component_id: selectedComp,
-							returndate: date,
-							approved: false,
-							description: desc,
-						})
+						const formData = new FormData();
+						formData.append('email', (jwtDecode(JSON.stringify(getTokenFromStorage())) as { email: string, iat: number }).email);
+						formData.append('component_id', String(selectedComp));
+						formData.append('returndate', JSON.stringify(date?.toISOString()));
+						formData.append('approved', String(false));
+						formData.append('description', String(desc));
+						formData.append('file', file);
+						postUrlWithFile("/bookings/component/create", formData)
 					}
 				}}>Submit</Button>
 			</div>

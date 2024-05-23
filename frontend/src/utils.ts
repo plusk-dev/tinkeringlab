@@ -41,6 +41,31 @@ async function postUrl(url: string, params: any): Promise<AxiosResponse> {
     throw new Error(`Error fetching data ${error.message}`);
   }
 }
+
+async function postUrlWithFile(url: string, params: any): Promise<AxiosResponse> {
+  try {
+    const response = await axios.post(BASE_URL + url, params, {
+      headers: {
+        token: getTokenFromStorage(),
+        "Content-Type": "multipart/form-data"
+      }
+    });
+    return response;
+  } catch (error: any) {
+    throw new Error(`Error fetching data ${error.message}`);
+  }
+}
+
+
+async function sendDecision(decision: boolean, request_type: string, request_id: number): Promise<number> {
+  return postUrl(`/bookings/${request_type}/decision`, {
+    decision: decision,
+    request_id: request_id
+  }).then(response => {
+    return response.status;
+  })
+}
+
 async function verify_token(token: string | null): Promise<AxiosResponse> {
   const headers = {
     'token': token
@@ -75,5 +100,5 @@ export {
   getUrl,
   postUrl,
   getTokenFromStorage,
-  setToken, verify_token, deleteTokenFromStorage, verify_admin_token, getVerifiedUrl
+  setToken, verify_token, deleteTokenFromStorage, verify_admin_token, getVerifiedUrl, postUrlWithFile, sendDecision
 };

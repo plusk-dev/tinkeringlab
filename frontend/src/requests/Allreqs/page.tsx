@@ -41,9 +41,7 @@ export default function Allreqs() {
                 <CardContent className="p-0 pt-2">
                   <DataTable
                     columns={columns}
-                    data={data.filter((item) => {
-                      return item.approved === false;
-                    })}
+                    data={data}
                   />
                 </CardContent>
               </Card>

@@ -27,7 +27,7 @@ import {
 } from "@/components/ui/sheet";
 import { useContext } from "react";
 import { Clock, Glasses, LampDesk, Puzzle } from "lucide-react";
-import { getTokenFromStorage, getUrl, postUrl } from "@/utils";
+import { getTokenFromStorage, getUrl, postUrl, sendDecision } from "@/utils";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { jwtDecode } from "jwt-decode";
@@ -95,9 +95,9 @@ export function DataTable<TData, TValue>({
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
                   </TableHead>
                 );
               })}
@@ -163,25 +163,25 @@ export function DataTable<TData, TValue>({
                           </div>
                           {showRemarks && fetchedRemarks != undefined
                             ? fetchedRemarks
-                                .reduceRight(
-                                  (fetchedRemarks, curr) => [
-                                    ...fetchedRemarks,
-                                    curr,
-                                  ],
-                                  []
-                                )
-                                .map((remark: any) => {
-                                  return (
-                                    <div className="border-solid p-2 mb-2 rounded-lg border-2 border-slate-400">
-                                      <b>Remark #{remark.id}</b>{" "}
-                                      <span className="text-sm text-slate-400">
-                                        {remark.created_at.split(".")[0]}
-                                      </span>
-                                      <br />
-                                      {remark.content}
-                                    </div>
-                                  );
-                                })
+                              .reduceRight(
+                                (fetchedRemarks, curr) => [
+                                  ...fetchedRemarks,
+                                  curr,
+                                ],
+                                []
+                              )
+                              .map((remark: any) => {
+                                return (
+                                  <div className="border-solid p-2 mb-2 rounded-lg border-2 border-slate-400">
+                                    <b>Remark #{remark.id}</b>{" "}
+                                    <span className="text-sm text-slate-400">
+                                      {remark.created_at.split(".")[0]}
+                                    </span>
+                                    <br />
+                                    {remark.content}
+                                  </div>
+                                );
+                              })
                             : "dont show"}
                           <Textarea
                             placeholder="Remarks"
@@ -227,19 +227,19 @@ export function DataTable<TData, TValue>({
                             <div className="flex w-full gap-1">
                               <Button
                                 className={
-                                  newItem?.approved === true
-                                    ? "hidden"
+                                  newItem?.approver_id != null ? "hidden"
                                     : "flex-1"
                                 }
+                                onClick={e => sendDecision(true, newItem.type, newItem.id)}
                               >
                                 Accept
                               </Button>
                               <Button
                                 className={
-                                  newItem?.approved === false
-                                    ? "hidden"
+                                  newItem?.approver_id != null ? "hidden"
                                     : "flex-1"
                                 }
+                                onClick={e => sendDecision(false, newItem.type, newItem.id)}
                               >
                                 Reject
                               </Button>
