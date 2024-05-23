@@ -1,11 +1,6 @@
 import React from "react";
 import Sidebar from "@/components/ui/Sidebar";
-import {
-  Card,
-  CardDescription,
-  CardTitle,
-  CardContent,
-} from "@/components/ui/card";
+import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { useState, useEffect, useRef } from "react";
 import ReqHandler from "@/requests/reqhandler";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
@@ -20,7 +15,6 @@ import {
 } from "@/utils";
 
 export default function AdminDashboard() {
-  const [dataArray, setDataArray] = useState<any[]>([]);
   const [mainData, setMainData] = useState<any>({ labels: [], datasets: [] });
   const [mainDatathisMo, setMainDatathisMo] = useState<any>({
     labels: [],
