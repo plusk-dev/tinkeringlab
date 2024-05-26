@@ -8,7 +8,8 @@ import "./LandingPage.css";
 import Events from "./Events";
 import { About } from "./Tabs";
 import { Members } from "./Members";
-
+import { Card, CardTitle } from "@/components/ui/card";
+import bg from "../images/eat.jpg";
 export function LandingPage() {
   const [isSmall, setisSmall] = useState(false);
   window.addEventListener("resize", (_) => {
@@ -26,26 +27,25 @@ export function LandingPage() {
 
   return (
     <>
-      <div className="overflow-x-hidden scrollbar">
-        <div
-          className=" overflow-y-hidden h-screen flex bg-no-repeat bg-cover w-full"
-          style={{
-            backgroundImage: 'url("src/images/eat.jpg")',
-          }}
-        >
-          <Navbar />
+      <main className="h-screen mb-5">
+        <Navbar />
+        <div className="h-[100vh] relative rounded-t-none rounded-sm">
+          <Card className="relative brightness-50 h-[100vh]">
+            <img
+              src={bg}
+              className="w-full h-[100vh] rounded-t-none rounded-sm"
+            ></img>
+          </Card>
+          <CardTitle className="absolute top-1/2 left-1/4 text-6xl text-center text-white ">
+            Welcome to the official portal for the
+            <br />{" "}
+            <span className="text-blue-300">Tinkerer's Lab, IIT Jammu</span>
+          </CardTitle>
         </div>
-        <h1 className=" px-4 font-bold flex justify-center text-center text-[50px] relative top-[-600px] lg:top-[-500px] h-8 text-pink">
-          Welcome to the official page of Tinkerer's Lab
-          <br /> IIT Jammu
-        </h1>
-
-        <About />
-
-        <Events />
-
-        <Members />
-      </div>
+      </main>
+      <About />
+      <Events />
+      <Members />
     </>
   );
 }

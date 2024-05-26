@@ -1,23 +1,32 @@
-import React from 'react'
-import { useState } from 'react'
-import { useEffect } from 'react';
+import React from "react";
+import { Card } from "@/components/ui/card";
 
-
-export function Person(props:Record<string,any>){
-  const [isSmall, setisSmall] = useState(false);
-  window.addEventListener("resize", (_) => {
-    setisSmall(window.innerWidth <= 1000);
-  })
-  useEffect(() => {
-    setisSmall(window.innerWidth <= 1000);
-  }, [])
-  return<>
-    	<div className={`overflow-visible  relative max-w-sm mx-auto bg-white shadow-2xl ring-1 ring-black/5 rounded-xl ${isSmall?'flex flex-col my-6':'inline-flex items-center gap-6 w-full my-5'}`}>
-				<img className="absolute -left-6 w-24 h-24 rounded-full shadow-lg" src={props.image} />
-				<div className="flex flex-col py-5 pl-24">
-					<strong className="text-slate-900 text-sm font-medium dark:text-slate-200">{props.name}</strong>
-					<span className="text-slate-500 text-sm font-medium dark:text-slate-400">{props.post}</span>
-				</div>
-			</div>
-  </>
+export default function Person(props: {
+  image: any;
+  name: string;
+  post: string;
+}) {
+  return (
+    <Card className="flex items-center gap-6 p-6 rounded-lg shadow-md  animate-fade-in info-card ">
+      <img
+        alt="John Doe"
+        className="rounded-full"
+        height={64}
+        src={props.image}
+        style={{
+          aspectRatio: "64/64",
+          objectFit: "cover",
+        }}
+        width={64}
+      />
+      <div className="space-y-2">
+        <div className="flex items-center gap-2">
+          <h3 className="text-xl font-bold">{props.name}</h3>
+        </div>
+        <div className="text-gray-500 dark:text-gray-400 animate-fade-in-up">
+          {props.post}
+        </div>
+      </div>
+    </Card>
+  );
 }
