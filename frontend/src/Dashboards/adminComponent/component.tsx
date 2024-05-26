@@ -19,6 +19,7 @@ import { useContext, useEffect, useState } from "react";
 import { compContext } from "../adminDash";
 import React from "react";
 import { getUrl } from "@/utils";
+import { CloudFog } from "lucide-react";
 export default function Component() {
   const [complen, setComplen] = useState();
   const [allreqs, setAllreqs] = useState([]);
@@ -29,16 +30,15 @@ export default function Component() {
     getUrl("/requests/all", {}).then((response) => {
       setAllreqs(JSON.parse(response.data));
     });
-  });
+  }, []);
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="outline">Available components</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[800px]">
-        <DialogHeader>
-          <DialogTitle>Invoices</DialogTitle>
-        </DialogHeader>
+        <DialogHeader>Components</DialogHeader>
+
         <div className="relative w-full overflow-auto">
           <Table>
             <TableHeader>
@@ -49,11 +49,12 @@ export default function Component() {
             </TableHeader>
             <TableBody>
               {comps.map((item) => {
+                console.log(allreqs);
                 return (
                   <>
                     <TableRow>
                       <TableCell>{item.name}</TableCell>
-                      <TableCell></TableCell>
+                      <TableCell>{}</TableCell>
                     </TableRow>
                   </>
                 );
