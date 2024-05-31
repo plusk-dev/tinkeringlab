@@ -31,12 +31,12 @@ app.add_middleware(
 
 async def on_startup():
     admin = session.query(Admin).filter_by(
-        email="2023uma0224@iitjammu.ac.in").first()
+        email="2022ucs0108@iitjammu.ac.in").first()
     if admin is None:
         session.add(Admin(
-            email="2023uma0224@iitjammu.ac.in",
-            name="Yuvraj Motiramani",
-            admin=True,
+            email="2022ucs0108@iitjammu.ac.in",
+            name="Satvic Dhawan",
+            admin=True, 
             created_at = datetime.datetime.now()
         )
         )

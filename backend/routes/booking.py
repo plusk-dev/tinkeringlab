@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Depends, Request
 from fastapi.responses import JSONResponse
 from utils import object_as_dict, verify_jwt_admin, JWT_SECRET
-from models import Admin, MachineBooking, ComponentBooking, OtherRequest, WorkstationBooking, session, User
+from models import Admin, MachineBooking, ComponentBooking, OtherRequest, WorkstationBooking, session, User,Component
 import jwt
 import datetime
 import uuid
@@ -44,9 +44,11 @@ async def create_component_booking(request: Request):
                                user_id=user.id, created_at=datetime.datetime.now(), returndate=datetime.datetime.strptime(data['returndate'].replace('"', ''), "%Y-%m-%dT%H:%M:%S.%fZ"), approved=False, img_name=img_name)
     session.add(booking)
     session.commit()
-    return object_as_dict(booking)
+    response = object_as_dict(booking)
+    response["component"] = object_as_dict(session.query(Component).filter(Component.id == data["component_id"]).first())
+    return response
 
-
+    
 @bookings_router.post("/component/decision")
 async def component_decision(request: Request, decision: bool, request_id: int):
     booking = session.query(ComponentBooking).filter(ComponentBooking.id == request_id).first()
