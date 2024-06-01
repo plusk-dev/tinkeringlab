@@ -1,18 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Card, CardTitle, CardContent } from "@/components/ui/card";
-import Req from "./Req";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-} from "../components/ui/select";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { ArrowUpDown } from "lucide-react";
 import { getUrl } from "@/utils";
 import Req2 from "./Req2";
 interface Data {

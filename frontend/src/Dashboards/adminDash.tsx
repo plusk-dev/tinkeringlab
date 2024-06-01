@@ -1,10 +1,10 @@
 import React from "react";
 import { createContext } from "react";
-import Component from "./adminComponent/component";
+import Component from "./adminCards/component";
 import Sidebar from "@/components/ui/Sidebar";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { useState, useEffect, useRef } from "react";
-import ReqHandler from "@/requests/reqhandler";
+import ReqHandler from "../requests/mainPage/page";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import { useToast } from "@/components/ui/use-toast";
@@ -15,6 +15,8 @@ import {
   deleteTokenFromStorage,
   getUrl,
 } from "@/utils";
+import Session from "./adminCards/session";
+import Workstation from "./adminCards/workstation";
 
 export const compContext = createContext([] as any[]);
 
@@ -171,7 +173,7 @@ export default function AdminDashboard() {
 
             <div className={isSmall ? "" : "flex-1 flex h-full mb-1"}>
               <ReqHandler />
-              <Card className="h-full info-card m-1 flex-1 p-4">
+              <Card className="info-card m-1 flex-1 p-1 ">
                 <div
                   className={
                     isSmall ? "" : "flex flex-col overflow-y-scroll h-5/6"
@@ -193,38 +195,11 @@ export default function AdminDashboard() {
                     <CardTitle>Components</CardTitle>
                     <Component></Component>
 
-                    <CardTitle>Machines</CardTitle>
-                    <div className="flex flex-1">
-                      <Card className="flex-1 m-1 info-card p-4">
-                        <CardTitle className="text-xl">In use</CardTitle>
-                        <CardDescription>all machines in use</CardDescription>
-                      </Card>
-                      <Card className="flex-1 m-1 danger p-4">
-                        <CardTitle className="text-xl">Overdue</CardTitle>
-                        <CardDescription>machines overused</CardDescription>
-                        <span className="text-4xl">3/</span>
-                        <span>10</span>
-                      </Card>
-                    </div>
+                    <CardTitle>Sessions</CardTitle>
+                    <Session></Session>
+
                     <CardTitle>Workstations</CardTitle>
-                    <div className="flex flex-1">
-                      <Card className="flex-1 m-1 info-card p-4">
-                        <CardTitle className="text-xl">
-                          Workstations in use
-                        </CardTitle>
-                        <CardDescription>
-                          all workstations in use
-                        </CardDescription>
-                        <span className="text-4xl">3/</span>
-                        <span>10</span>
-                      </Card>
-                      <Card className="flex-1 m-1 danger p-4">
-                        <CardTitle className="text-xl">Overdue</CardTitle>
-                        <CardDescription>workstations overused</CardDescription>
-                        <span className="text-4xl">3/</span>
-                        <span>10</span>
-                      </Card>
-                    </div>
+                    <Workstation></Workstation>
                   </div>
                 </div>
               </Card>

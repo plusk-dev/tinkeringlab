@@ -1,10 +1,10 @@
 import {
   ColumnDef,
   flexRender,
-  getCoreRowModel,
-  getPaginationRowModel,
   ColumnFiltersState,
   getFilteredRowModel,
+  getPaginationRowModel,
+  getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
 import React, { useEffect, useState } from "react";
@@ -32,7 +32,6 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { jwtDecode } from "jwt-decode";
 import { toast } from "@/components/ui/use-toast";
-import { DataContext } from "./page";
 import { Input } from "@/components/ui/input";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -50,7 +49,6 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
-  const compList = useContext(DataContext);
   const [remarks, setRemarks] = useState<any>();
   const [showRemarks, setShowRemarks] = useState(false);
   const [fetchedRemarks, setFetchedRemarks] = useState<any[]>();
@@ -75,8 +73,7 @@ export function DataTable<TData, TValue>({
   });
   return (
     <div className="rounded-md border max-w-none">
-      <div className="flex items-center justify-center ">
-        {" "}
+      <div className="flex items-center justify-center py-4">
         <Input
           placeholder="Filter by name..."
           value={
@@ -92,9 +89,12 @@ export function DataTable<TData, TValue>({
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
+              {headerGroup.headers.map((header, idx) => {
                 return (
-                  <TableHead key={header.id}>
+                  <TableHead
+                    key={header.id}
+                    className={`${idx == 3 ? "hidden" : ""}`}
+                  >
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -111,15 +111,17 @@ export function DataTable<TData, TValue>({
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => {
               let newItem: any = row.original;
-
               return (
                 <>
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
                   >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
+                    {row.getVisibleCells().map((cell, idx) => (
+                      <TableCell
+                        key={cell.id}
+                        className={`${idx == 3 ? "hidden" : ""}`}
+                      >
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext()
@@ -150,7 +152,7 @@ export function DataTable<TData, TValue>({
                               Name: <br />
                             </h3>
                             <span className="font-normal">
-                              {newItem?.user.name}
+                              {/* {newItem?.user.name} */}
                             </span>
                             <h3 className="font-bold text-lg text-gray-500">
                               Request for:
@@ -252,26 +254,6 @@ export function DataTable<TData, TValue>({
                               >
                                 Reject
                               </Button>
-                              <span
-                                className={
-                                  newItem.approver_id != null &&
-                                  newItem.approved == true
-                                    ? "default bg-green-500 text-black p-4 w-full text-center rounded-lg border-solid border-2 border-green-800"
-                                    : "hidden"
-                                }
-                              >
-                                Accepted
-                              </span>
-                              <span
-                                className={
-                                  newItem.approver_id != null &&
-                                  newItem.approved == false
-                                    ? "default bg-red-500 text-black p-4 w-full text-center rounded-lg border-solid border-2 border-red-800"
-                                    : "hidden"
-                                }
-                              >
-                                Rejected
-                              </span>
                             </div>
                           </SheetFooter>
                         </SheetContent>

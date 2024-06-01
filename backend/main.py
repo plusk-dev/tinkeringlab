@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Request, Depends
 from fastapi.middleware.cors import CORSMiddleware
-from models import session, Admin, User
+from models import Component, Machine, Workstation, session, Admin, User
 from fastapi.responses import JSONResponse
 from routes import bookings_router, inventory_router, landing_router, intern_router, remarks_router
 from utils import get_credential, object_as_dict, verify_jwt, verify_jwt_admin
@@ -35,8 +35,8 @@ async def on_startup():
     if admin is None:
         session.add(Admin(
             email="2022ucs0108@iitjammu.ac.in",
-            name="Satvic Dhawan",
-            admin=True, 
+            name="Satvic",
+            admin=True,
             created_at = datetime.datetime.now()
         )
         )
@@ -115,16 +115,34 @@ async def get_all():
     try:
         data = [{**object_as_dict(booking), "user": object_as_dict(session.query(User).filter(User.id == booking.user_id).first()), "type": "session"} for booking in session.query(MachineBooking)]+[{**object_as_dict(booking), "user": object_as_dict(session.query(User).filter(User.id == booking.user_id).first()), "type": "component"} for booking in session.query(ComponentBooking)]+[
             {**object_as_dict(booking), "user": object_as_dict(session.query(User).filter(User.id == booking.user_id).first()), "type": "workstation"} for booking in session.query(WorkstationBooking)]+[{**object_as_dict(booking), "user": object_as_dict(session.query(User).filter(User.id == booking.user_id).first()), "type": "other"} for booking in session.query(OtherRequest)]
+        n = len(data)
+        for i in range(n):
+            if (data[i].get("component_id")) != None:
+                data[i]["component"] = object_as_dict(session.query(Component).filter(Component.id == data[i]["component_id"]).first())
+            elif data[i].get("machine_id") != None:
+                data[i]["machine"] = object_as_dict(session.query(Machine).filter(Machine.id == data[i]["machine_id"]).first())
+            elif data[i].get("workstation_id") != None:
+                data[i]["workstation"] = object_as_dict(session.query(Workstation).filter(Workstation.id == data[i]["workstation_id"]).first())
+
+
         data = json.dumps(
             sorted(data, key=lambda x: x['created_at'], reverse=True), default=str)
+        print(data)
+        
         return JSONResponse(content=data, status_code=200)
     except Exception as e:
-        print("exception occured", e)
+        # print("exception occured", e)
+        raise e
         return {}
 @app.post("/change_hierarchy")
 async def change_hierarchy(user_id: int, user_type: str, change_to: str):
     if user_type == "user":
         user = session.query(User).filter(User.id == user_id).first()
+        admin = session.query(Admin).filter(Admin.email == user.email).first()
+        if admin is not None:
+            session.delete(user)
+            session.commit()
+            return object_as_dict(admin)
         new_admin = Admin(
             name = user.name,
             email = user.email,
@@ -137,6 +155,11 @@ async def change_hierarchy(user_id: int, user_type: str, change_to: str):
         return object_as_dict(new_admin)
     elif user_type == "admin":
         admin = session.query(Admin).filter(Admin.id == user_id).first()
+        user = session.query(User).filter(User.email == admin.email).first()
+        if user is not None:
+            session.delete(admin)
+            session.commit()
+            object_as_dict(user)
         new_user = User(
             name = admin.name,
             email = admin.email,

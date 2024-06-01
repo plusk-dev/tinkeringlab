@@ -21,6 +21,7 @@ export default function ReqComp() {
 
   useEffect(() => {
     getUrl("/requests/all", {}).then((response) => {
+      console.log(response.data);
       const data = JSON.parse(response.data);
       const beebop = data.filter((item: any) => item.type === "component");
       setData(beebop);
