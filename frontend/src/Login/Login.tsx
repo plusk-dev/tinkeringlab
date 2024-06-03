@@ -15,7 +15,7 @@ export default function Login() {
   useEffect(() => {
     if (getTokenFromStorage() != null) {
       console.log("not logged in");
-      let details = jwtDecode(getTokenFromStorage() as string);
+      let details: any = jwtDecode(getTokenFromStorage() as string);
       getUrl("/get_level", {
         email: details["email"],
         name: "",
