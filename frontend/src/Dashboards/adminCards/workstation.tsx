@@ -25,7 +25,6 @@ export default function Workstation() {
   useEffect(() => {
     getUrl("/requests/all", {}).then((response) => {
       let data: any = JSON.parse(response.data);
-      console.log(data);
       setWork(
         data.filter((item: any) => {
           return item.type === "workstation";
@@ -40,11 +39,11 @@ export default function Workstation() {
     <Dialog>
       <DialogTrigger asChild>
         <Button className="lg:h-[100px] w-full text-black font-semibold text-2xl hover:bg-white info-card flex justify-center items-center">
-          Session Overview
+          Workstation Overview
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[800px]">
-        <DialogHeader>Sessions</DialogHeader>
+        <DialogHeader>Workstation overview</DialogHeader>
 
         <div className="relative w-full overflow-auto">
           <Table>

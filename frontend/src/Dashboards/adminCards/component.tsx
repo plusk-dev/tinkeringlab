@@ -22,13 +22,11 @@ import { getUrl } from "@/utils";
 import { CloudFog } from "lucide-react";
 import { Card } from "@/components/ui/card";
 export default function Component() {
-  const [allreqs, setAllreqs] = useState<any>([]);
   const [comp, setComp] = useState<any>([]);
   const comps = useContext(compContext);
   useEffect(() => {
     getUrl("/requests/all", {}).then((response) => {
       let data: any = JSON.parse(response.data);
-      setAllreqs(data);
       setComp(
         data.filter((item: any) => {
           return item.type === "component";
@@ -62,7 +60,10 @@ export default function Component() {
                 let overdue = 0;
 
                 for (let i = 0; i < comp.length; i++) {
-                  if (comp[i].component.name == item.name) {
+                  if (
+                    comp[i].approved == true &&
+                    comp[i].component.name == item.name
+                  ) {
                     compNo++;
                     if (new Date(comp[i].returndate) < new Date()) {
                       overdue++;

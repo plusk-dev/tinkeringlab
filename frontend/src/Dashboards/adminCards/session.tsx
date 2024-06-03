@@ -25,7 +25,6 @@ export default function Session() {
   useEffect(() => {
     getUrl("/requests/all", {}).then((response) => {
       let data: any = JSON.parse(response.data);
-      console.log(data);
       setSess(
         data.filter((item: any) => {
           return item.type === "session";

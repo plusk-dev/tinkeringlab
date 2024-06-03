@@ -20,7 +20,11 @@ export default function ReqHandler() {
   useEffect(() => {
     getUrl("/requests/all", {}).then((response) => {
       const data = JSON.parse(response.data);
-      setData(data);
+      setData(
+        data.filter((item: any) => {
+          return item.approved === false;
+        })
+      );
     });
   }, []);
 

@@ -20,7 +20,7 @@ export default function Allreqs() {
   useEffect(() => {
     getUrl("/requests/all", {}).then((response) => {
       const data = JSON.parse(response.data);
-
+      console.log(data);
       setData(data);
     });
   }, []);
