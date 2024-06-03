@@ -155,9 +155,6 @@ export default function AdminDashboard() {
   return (
     <>
       <compContext.Provider value={compsTotal}>
-        <div className="hidden">
-          <UserComponent></UserComponent>
-        </div>
         <div
           className={`hover:rounded-lg ${isSmall ? "" : "flex"} max-h-screen`}
         >

@@ -7,3 +7,4 @@ __pycache__/
 database.db
 .flake8
 ./venv
+backend/static
