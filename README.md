@@ -62,6 +62,29 @@ This interface lets you control the events displayed on the landing page.
 
 This great feature allows you to manage access and roles of different users. 
 
+### User side
+#### Dashboard
+![Screenshot from 2024-06-03 22-28-30](https://github.com/plusk-dev/tinkeringlab/assets/119429863/dcfec33b-0be5-4bd5-b89d-db6cf2ccf8c8)
+
+This shows a basic overview of the resources in the lab.
+
+#### Your Bookings
+
+![Screenshot from 2024-06-03 22-28-37](https://github.com/plusk-dev/tinkeringlab/assets/119429863/c483125e-80a8-48ec-96c8-b5deebaabd27)
+
+
+#### Forms to book resources
+
+##### For sessions:
+![Screenshot from 2024-06-03 22-28-41](https://github.com/plusk-dev/tinkeringlab/assets/119429863/51565768-bc27-4b06-96cf-48f3cae49528)
+
+##### For components:
+
+![Screenshot from 2024-06-03 22-28-46](https://github.com/plusk-dev/tinkeringlab/assets/119429863/d53e29fa-fc2c-4d9c-9b93-6a21f90c7a38)
+
+##### For workstations:
+![Screenshot from 2024-06-03 22-28-52](https://github.com/plusk-dev/tinkeringlab/assets/119429863/7ea5a97f-1675-4062-a4b3-0409ab32af44)
+
 
 ## Setup instructions
 - Run `pip install -r requirements.txt`
